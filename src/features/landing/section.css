@@ -2,8 +2,6 @@
    Compartirlas evita que cada sección invente su propio ritmo vertical. */
 
 .section { padding: var(--space-9) var(--gutter); }
-/* Variante compacta para secciones de consulta (créditos): menos aire vertical. */
-.section--compact { padding-block: var(--space-8); }
 .section--alt { background: var(--surface); border-block: 1px solid var(--line); }
 .section__inner { max-width: 1100px; margin: 0 auto; }
 
@@ -19,7 +17,7 @@
 }
 .section__lead { margin: 0; max-width: 60ch; color: var(--muted); font-size: var(--text-md); line-height: 1.7; }
 
-/* La barra superior es sticky: sin este margen, al saltar a un ancla (#tres-mundos,
-   #reto…) el título quedaría tapado por ella. Va en TODAS las secciones y no solo
-   en las que ya tienen id, para que añadir un ancla nuevo no exija recordarlo. */
+/* La barra superior es sticky: sin este margen, al saltar a un ancla (#tres-mundos)
+   el título quedaría tapado por ella. Va en TODAS las secciones y no solo en las
+   que ya tienen id, para que añadir un ancla nuevo no exija recordarlo. */
 .section { scroll-margin-top: var(--topbar-h); }

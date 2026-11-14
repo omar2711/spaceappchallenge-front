@@ -1,7 +1,0 @@
-.targets__list {
-  list-style: none; margin: 0; padding: 0;
-  display: flex; flex-wrap: wrap; gap: var(--space-3);
-}
-/* Sobre --surface el botón fantasma (translúcido) se perdería: se rellena con --bg. */
-.targets__list .btn { background: var(--bg); }
-.targets__list .btn:hover { border-color: var(--amber); }

@@ -9,9 +9,13 @@ const initials = (full: string) => {
   return (p[0][0] + p[Math.floor(p.length / 2)][0]).toUpperCase()
 }
 
+// Sección sin --alt a propósito: sigue a "Por qué seguir el agua" (que sí es --alt)
+// y dos bandas iguales seguidas se fundirían en un solo bloque, perdiendo el ritmo
+// de fondos alternos. Sus tarjetas pasan a --surface para no desaparecer contra
+// el fondo base.
 export default function TeamSection() {
   return (
-    <section id="equipo" className="section section--alt" aria-labelledby="team-title">
+    <section id="equipo" className="section" aria-labelledby="team-title">
       <div className="section__inner">
         <h2 id="team-title" className="section__title">Equipo {teamName}</h2>
         <ul className="team__grid">
