@@ -2,6 +2,8 @@
    Compartirlas evita que cada sección invente su propio ritmo vertical. */
 
 .section { padding: var(--space-9) var(--gutter); }
+/* Variante compacta para secciones de consulta (créditos): menos aire vertical. */
+.section--compact { padding-block: var(--space-8); }
 .section--alt { background: var(--surface); border-block: 1px solid var(--line); }
 .section__inner { max-width: 1100px; margin: 0 auto; }
 

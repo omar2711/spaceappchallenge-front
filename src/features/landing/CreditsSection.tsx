@@ -7,14 +7,15 @@ import './CreditsSection.css'
 // así cada uno tiene un objetivo táctil de 44px en vez de 16px de texto en línea.
 export default function CreditsSection() {
   return (
-    <section className="section section--alt" aria-labelledby="credits-title">
+    <section id="creditos" className="section section--alt section--compact" aria-labelledby="credits-title">
       <div className="section__inner">
         <h2 id="credits-title" className="section__title">Créditos</h2>
+        {/* Tres columnas (Equipo / Datos / Texturas): los créditos son consulta,
+            no lectura; en columnas ocupan una fracción de la altura anterior. */}
         <dl className="credits__list">
           <div>
             <dt>Equipo</dt>
-            {/* PLACEHOLDER: reemplazar por el nombre real del equipo. */}
-            <dd>[NOMBRE DEL EQUIPO]</dd>
+            <dd>SPECTRIA</dd>
           </div>
           <div>
             <dt>Datos</dt>
@@ -24,9 +25,10 @@ export default function CreditsSection() {
                 <li>Gaia DR3</li>
                 <li>NASA Moon Trek y Mars Trek</li>
                 <li>
-                  <a href="https://ssd.jpl.nasa.gov/horizons/">NASA/JPL Horizons</a> · posiciones heliocéntricas, eclíptica J2000
+                  <a href="https://ssd.jpl.nasa.gov/horizons/">NASA/JPL Horizons</a>
                 </li>
               </ul>
+              <p className="credits__note">Posiciones heliocéntricas · eclíptica J2000.</p>
             </dd>
           </div>
           <div>
