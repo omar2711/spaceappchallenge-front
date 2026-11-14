@@ -1,44 +1,9 @@
-/* ===== Página ===== */
-.landing {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  background: var(--bg);
-  color: var(--text);
-}
-
-.landing main {
-  flex: 1;
-}
-
+/* ===== Utilidades de la página ===== */
 .landing-eyebrow {
   display: block;
   font: 11px var(--font-mono);
   letter-spacing: 1px;
   color: var(--accent);
-}
-
-/* ===== Cabecera ===== */
-.landing-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 5vw;
-  border-bottom: 1px solid var(--line);
-  background: var(--panel-glass);
-}
-
-.landing-brand {
-  font-size: 18px;
-  font-weight: 700;
-  color: inherit;
-  text-decoration: none;
-}
-
-.landing-nav-link {
-  font-size: 13px;
-  color: var(--link);
-  text-decoration: none;
 }
 
 /* ===== Hero ===== */
@@ -128,7 +93,7 @@
 
 .landing-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
   margin-top: 16px;
 }
@@ -143,12 +108,8 @@
   text-decoration: none;
 }
 
-.landing-card--link:hover {
+.landing-card:hover {
   border-color: var(--mint);
-}
-
-.landing-card--soon {
-  opacity: 0.7;
 }
 
 .landing-card-tag {
@@ -168,16 +129,6 @@
   color: var(--muted);
   font-size: 13px;
   line-height: 1.65;
-}
-
-/* ===== Pie ===== */
-.landing-footer {
-  padding: 20px 5vw;
-  border-top: 1px solid var(--line);
-  font: 11px var(--font-mono);
-  letter-spacing: 1px;
-  color: var(--accent);
-  text-align: center;
 }
 
 /* ===== Responsive ===== */
