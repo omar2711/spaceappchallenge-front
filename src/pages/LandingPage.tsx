@@ -6,6 +6,7 @@ import TargetsSection from '../features/landing/TargetsSection'
 import RouteSection from '../features/landing/RouteSection'
 import SourcesSection from '../features/landing/SourcesSection'
 import FaqSection from '../features/landing/FaqSection'
+import TeamSection from '../features/landing/TeamSection'
 import HowItWorksSection from '../features/landing/HowItWorksSection'
 import CreditsSection from '../features/landing/CreditsSection'
 
@@ -22,6 +23,7 @@ export default function LandingPage() {
       <RouteSection />
       <SourcesSection />
       <FaqSection />
+      <TeamSection />
       <HowItWorksSection />
       <CreditsSection />
     </>
