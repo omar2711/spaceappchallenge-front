@@ -2,6 +2,7 @@ import Hero from '../features/landing/Hero'
 import WorldsSection from '../features/landing/WorldsSection'
 import WhyWaterSection from '../features/landing/WhyWaterSection'
 import ChallengeSection from '../features/landing/ChallengeSection'
+import TargetsSection from '../features/landing/TargetsSection'
 import HowItWorksSection from '../features/landing/HowItWorksSection'
 import CreditsSection from '../features/landing/CreditsSection'
 
@@ -14,6 +15,7 @@ export default function LandingPage() {
       <WorldsSection />
       <WhyWaterSection />
       <ChallengeSection />
+      <TargetsSection />
       <HowItWorksSection />
       <CreditsSection />
     </>
