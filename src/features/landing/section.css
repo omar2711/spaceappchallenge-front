@@ -17,6 +17,7 @@
 }
 .section__lead { margin: 0; max-width: 60ch; color: var(--muted); font-size: var(--text-md); line-height: 1.7; }
 
-/* La barra superior es sticky: sin este margen, el ancla #tres-mundos
-   dejaría el título tapado por ella. */
-.section[id] { scroll-margin-top: var(--topbar-h); }
+/* La barra superior es sticky: sin este margen, al saltar a un ancla (#tres-mundos,
+   #reto…) el título quedaría tapado por ella. Va en TODAS las secciones y no solo
+   en las que ya tienen id, para que añadir un ancla nuevo no exija recordarlo. */
+.section { scroll-margin-top: var(--topbar-h); }
