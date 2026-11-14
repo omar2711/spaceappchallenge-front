@@ -43,6 +43,11 @@ export default function SolarSystemScene({ ref, onViewChange, onError, interacti
     try { renderer = new T.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true }) }
     catch { errorRef.current?.(); return }
     const scene = new T.Scene(), camera = new T.PerspectiveCamera(42, 1, 1, 3e10)
+    // El fondo del canvas lo pinta WebGL (negro por defecto), no el CSS: por eso
+    // se veía una franja negra distinta del --bg de la página. Se lee el token en
+    // vez de copiar el hex, así un cambio de paleta en index.css llega también aquí.
+    const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()
+    if (bg) renderer.setClearColor(new T.Color(bg))
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
     container.append(renderer.domElement)
     const controls = new OrbitControls(camera, renderer.domElement)
