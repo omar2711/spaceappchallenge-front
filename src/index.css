@@ -44,6 +44,7 @@
 
   /* Objetivo táctil mínimo (WCAG 2.5.5 / guías móviles). */
   --touch: 44px;
+  --topbar-h: 64px;
 
   /* Capa translúcida sobre el 3D: deja ver el espacio pero asegura contraste del texto. */
   --overlay: color-mix(in srgb, var(--bg) 85%, transparent);

@@ -1,0 +1,65 @@
+/* Estilos de la escena 3D y su HUD. Solo tokens de index.css.
+   Todo va con clases (no selectores de elemento) para no chocar con el resto de la web. */
+
+.space { position: absolute; inset: 0; background: var(--bg); }
+.space canvas { display: block; }
+
+/* Etiquetas de los cuerpos: las posiciona el bucle de render con transform,
+   por eso son compactas (un objetivo de 44px las solaparía entre sí). El clic
+   también funciona sobre el propio cuerpo 3D. */
+.marker {
+  position: absolute; top: 0; left: 0;
+  border: 0;
+  background: color-mix(in srgb, var(--surface) 87%, transparent);
+  color: var(--muted);
+  font: var(--text-xs) var(--font-body);
+  border-radius: var(--radius-md);
+  padding: var(--space-1) var(--space-2);
+  cursor: pointer;
+}
+.marker::before { content: '•'; color: var(--ice); margin-right: var(--space-1); }
+
+/* ---- HUD (controles del visor) ---- */
+.hud { position: absolute; inset: 0; pointer-events: none; }
+.hud > * { pointer-events: auto; }
+
+.hud__top {
+  position: absolute; top: var(--space-4); right: var(--gutter);
+}
+.hud__select {
+  min-height: var(--touch); padding: 0 var(--space-3);
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md);
+}
+
+.hud__bottom {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: var(--space-3) var(--gutter) var(--space-5);
+  background: linear-gradient(transparent, var(--bg));
+}
+.hud__nav {
+  display: flex; width: max-content; max-width: 100%; overflow: auto;
+  padding: var(--space-1); margin: auto;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md);
+}
+.hud__nav button {
+  min-height: var(--touch); padding: 0 var(--space-3);
+  background: transparent; border: 0; border-radius: var(--radius-sm);
+  white-space: nowrap; font-size: var(--text-sm);
+}
+/* Estado activo: --ice sobre texto --bg da 11.3:1 de contraste. */
+.hud__nav button[aria-pressed=true] { background: var(--ice); color: var(--bg); }
+
+.hud__meta {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  margin-top: var(--space-3);
+  font: var(--text-xs) var(--font-mono); letter-spacing: 1px; color: var(--ice);
+}
+
+.hud__error {
+  position: absolute; top: 48%; left: var(--gutter);
+  background: var(--surface-2); padding: var(--space-4); border-radius: var(--radius-md);
+}
+
+@media (max-width: 550px) { /* las media queries no admiten var() */
+  .hud__nav button { padding: 0 var(--space-2); font-size: var(--text-xs); }
+}

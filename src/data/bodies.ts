@@ -22,5 +22,14 @@ export const textures: Record<Body, string> = {
 // se piden bajo demanda para no cargar decenas de MB en la primera visita.
 export const detailFiles: Partial<Record<Body, string>> = { Tierra: '8k_earth_daymap', Marte: '8k_mars' }
 
+// Mundos con página propia (/body/:id). Una sola fuente para la barra superior,
+// las tarjetas de la landing y el panel del visor: añadir un mundo es una línea.
+export const worlds = {
+  moon: { name: 'Luna', path: '/body/moon' },
+  mars: { name: 'Marte', path: '/body/mars' },
+} as const
+export type WorldId = keyof typeof worlds
+export const isWorldId = (id: string | undefined): id is WorldId => id !== undefined && Object.hasOwn(worlds, id) // hasOwn: "toString" no debe contar como mundo
+
 // Formato numérico en es-BO, sin decimales (km).
 export const format = (n: number) => n.toLocaleString('es-BO', { maximumFractionDigits: 0 })
