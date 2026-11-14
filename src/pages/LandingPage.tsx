@@ -3,6 +3,7 @@ import WorldsSection from '../features/landing/WorldsSection'
 import WhyWaterSection from '../features/landing/WhyWaterSection'
 import ChallengeSection from '../features/landing/ChallengeSection'
 import TargetsSection from '../features/landing/TargetsSection'
+import RouteSection from '../features/landing/RouteSection'
 import HowItWorksSection from '../features/landing/HowItWorksSection'
 import CreditsSection from '../features/landing/CreditsSection'
 
@@ -16,6 +17,7 @@ export default function LandingPage() {
       <WhyWaterSection />
       <ChallengeSection />
       <TargetsSection />
+      <RouteSection />
       <HowItWorksSection />
       <CreditsSection />
     </>
