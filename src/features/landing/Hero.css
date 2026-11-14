@@ -48,6 +48,15 @@
 }
 .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
 
+/* Botón compacto anclado a la zona del globo (centro del hero, parte baja). En
+   escritorio el globo ocupa el centro y el texto la izquierda, por eso se ancla
+   al 50% y no a la esquina. Mantiene la altura táctil (--touch), solo reduce el ancho. */
+.hero__explore {
+  position: absolute; left: 50%; transform: translateX(-50%);
+  bottom: calc(var(--space-9) + var(--space-8));
+  padding: 0 var(--space-4); font-size: var(--text-xs);
+}
+
 .hero__exit { position: absolute; top: var(--space-4); left: var(--gutter); }
 
 @media (max-width: 550px) {
@@ -60,4 +69,6 @@
       transparent 100%);
   }
   .hero__actions .btn { flex: 1 1 100%; }
+  /* En móvil el globo queda arriba y el texto abajo: el botón va sobre el globo. */
+  .hero__explore { bottom: auto; top: var(--space-4); }
 }

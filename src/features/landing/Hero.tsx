@@ -67,11 +67,14 @@ export default function Hero() {
             <div className="hero__actions">
               <Link to="/sky" className="btn btn--primary">Abrir el visor del cielo</Link>
               <a href="#tres-mundos" className="btn btn--ghost">Ver los tres mundos</a>
-              <button ref={enterBtn} type="button" className="btn btn--ghost" onClick={() => setInteractive(true)}>
-                Explorar el sistema solar
-              </button>
             </div>
           </div>
+          {/* Fuera de la fila de CTAs: es una acción sobre el 3D, no una ruta de
+              la página. Así la fila queda con los dos destinos y no se parte en
+              dos líneas. Sigue siendo un <button> real de 44px de alto. */}
+          <button ref={enterBtn} type="button" className="btn btn--ghost hero__explore" onClick={() => setInteractive(true)}>
+            Explorar el sistema solar
+          </button>
           {error && <p className="hud__error" role="alert">El visor requiere WebGL. Activa la aceleración gráfica para abrir el mapa.</p>}
         </>
       )}
