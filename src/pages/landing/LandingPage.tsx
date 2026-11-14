@@ -44,8 +44,7 @@ export default function LandingPage() {
             video, sus imágenes sucesivas permiten detectar objetos que se mueven o cambian de brillo.
           </p>
           <div className="landing-actions">
-            {/* TODO: cambiar a /cielo cuando la herramienta SPHEREx esté lista */}
-            <Link to="/sistema-solar" className="landing-btn landing-btn--primary">Explorar cielo</Link>
+            <Link to="/cielo" className="landing-btn landing-btn--primary">Explorar cielo</Link>
             <a href="#como" className="landing-btn landing-btn--secondary">Cómo funciona</a>
           </div>
         </div>
