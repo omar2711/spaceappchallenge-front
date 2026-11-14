@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { worlds } from '../data/bodies'
+import Footer from './Footer'
 import './layout.css'
 
 // Layout común: barra superior + el contenido de la ruta en <Outlet/>.
@@ -25,6 +26,7 @@ export default function Layout() {
       <main>
         <Outlet />
       </main>
+      <Footer />
     </>
   )
 }
