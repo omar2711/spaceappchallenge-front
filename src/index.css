@@ -67,6 +67,27 @@ button, select {
   cursor: pointer;
 }
 
+/* El botón "Ver los tres mundos" es un ancla: el scroll suave ayuda a entender
+   a dónde va la página, salvo a quien pide menos movimiento en su sistema. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* Botones y enlaces-botón reutilizables (hero, tarjetas, paneles). Son <a> o
+   <button> reales; --touch garantiza 44px de alto en pantallas táctiles. */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: var(--touch); padding: 0 var(--space-5);
+  border: 1px solid transparent; border-radius: var(--radius-md);
+  font: 600 var(--text-sm) var(--font-body);
+  text-decoration: none; cursor: pointer;
+}
+/* Acción principal: --bg sobre --amber da 10.9:1. */
+.btn--primary { background: var(--amber); color: var(--bg); }
+.btn--primary:hover { filter: brightness(1.1); }
+.btn--ghost { background: color-mix(in srgb, var(--surface) 80%, transparent); border-color: var(--line); color: var(--text); }
+.btn--ghost:hover { border-color: var(--ice); }
+
 /* Foco visible en todo elemento interactivo: sin él, navegar con teclado es a ciegas. */
 :focus-visible {
   outline: 2px solid var(--amber);

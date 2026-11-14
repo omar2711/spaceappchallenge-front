@@ -15,11 +15,16 @@ type Props = {
   onViewChange?: (view: View) => void
   // Avisa si el navegador no puede crear un contexto WebGL.
   onError?: () => void
+  // false = modo "hero": sin zoom por rueda ni desplazamiento lateral, y el
+  // scroll de la página sigue funcionando sobre el 3D (ver efecto de abajo).
+  interactive?: boolean
 }
 
-export default function SolarSystemScene({ ref, onViewChange, onError }: Props) {
+export default function SolarSystemScene({ ref, onViewChange, onError, interactive = true }: Props) {
   const host = useRef<HTMLDivElement>(null)
-  const navigate = useRef<(v: View) => void>(() => {})
+  // notify=false se usa solo en la vista inicial: no es una acción del usuario.
+  const navigate = useRef<(v: View, notify?: boolean) => void>(() => {})
+  const rig = useRef<{ controls: OrbitControls; canvas: HTMLCanvasElement } | null>(null)
 
   // Los callbacks se guardan en refs para que el efecto de montaje (que crea
   // el renderer WebGL, costoso) corra una sola vez aunque el padre re-renderice.
@@ -43,6 +48,7 @@ export default function SolarSystemScene({ ref, onViewChange, onError }: Props) 
     const controls = new OrbitControls(camera, renderer.domElement)
     controls.enableDamping = true
     controls.maxDistance = 1.4e10
+    rig.current = { controls, canvas: renderer.domElement }
     const lamp = new T.PointLight(0xffffff, 2, 0, 0)
     scene.add(lamp, new T.AmbientLight(0xe6efff, 0.54))
     const loader = new T.TextureLoader()
@@ -80,9 +86,9 @@ export default function SolarSystemScene({ ref, onViewChange, onError }: Props) 
     let disposed = false
     let active: View = 'Tierra', flight = 1
     const from = new T.Vector3(), end = new T.Vector3(), startFocus = new T.Vector3(), focus = new T.Vector3()
-    navigate.current = (next) => {
-      active = next; viewChangeRef.current?.(next)
-      controls.enablePan = true
+    navigate.current = (next, notify = true) => {
+      active = next
+      if (notify) viewChangeRef.current?.(next)
       if (next === 'Vuelo libre') { flight = 1; return }
       const body = bodies.find(b => b.name === next)
       const detail = body && detailFiles[body.name]
@@ -103,7 +109,7 @@ export default function SolarSystemScene({ ref, onViewChange, onError }: Props) 
       end.copy(focus).addScaledVector(direction.normalize(), body ? body.r * (next === 'Saturno' ? 7.5 : 4.3) : 1.3e10)
       from.copy(camera.position); startFocus.copy(controls.target); flight = 0
     }
-    navigate.current('Tierra'); camera.position.copy(end); controls.target.copy(focus); flight = 1
+    navigate.current('Tierra', false); camera.position.copy(end); controls.target.copy(focus); flight = 1
     const resize = new ResizeObserver(() => {
       const w = container.clientWidth, h = container.clientHeight
       renderer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix()
@@ -154,6 +160,7 @@ export default function SolarSystemScene({ ref, onViewChange, onError }: Props) 
     // Limpieza completa: al cambiar de ruta (paso 3) el WebGL no debe quedar
     // vivo en segundo plano; el navegador limita los contextos simultáneos.
     return () => {
+      rig.current = null
       renderer.setAnimationLoop(null); disposed = true
       for (const texture of details.values()) texture.dispose()
       rings.dispose(); ringMaterial.dispose(); ringMap.dispose()
@@ -163,6 +170,22 @@ export default function SolarSystemScene({ ref, onViewChange, onError }: Props) 
       renderer.dispose(); renderer.domElement.remove()
     }
   }, [])
+
+  // Modo interactivo como flags de OrbitControls, sin recrear la escena: alternar
+  // entre hero y visor no debe reiniciar WebGL ni volver a descargar texturas.
+  // Declarado DESPUÉS del efecto de montaje para que `rig` ya exista.
+  useEffect(() => {
+    const r = rig.current
+    if (!r) return
+    // OrbitControls consume la rueda (preventDefault) solo si enableZoom es true:
+    // apagarlo devuelve el scroll a la página. El arrastre para rotar sigue activo.
+    r.controls.enableZoom = interactive
+    r.controls.enablePan = interactive
+    // OrbitControls fuerza touch-action:none al conectarse, lo que en móvil
+    // bloquea el scroll vertical con el dedo sobre el 3D. En el hero lo
+    // relajamos a pan-y: deslizar arriba/abajo hace scroll, horizontal rota.
+    r.canvas.style.touchAction = interactive ? 'none' : 'pan-y'
+  }, [interactive])
 
   return <div className="space" ref={host} aria-label="Mapa tridimensional del sistema solar" />
 }

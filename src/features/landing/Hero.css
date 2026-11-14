@@ -1,0 +1,59 @@
+.hero {
+  position: relative; /* ancla de la escena (.space) y del HUD, que son absolute */
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex; align-items: center;
+}
+
+/* Velo: el texto está sobre un fondo cambiante (planetas, estrellas), así que
+   un degradado a la izquierda garantiza contraste sin ocultar el 3D. */
+.hero__shade {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg,
+    color-mix(in srgb, var(--bg) 92%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 65%, transparent) 45%,
+    transparent 80%);
+}
+
+/* El contenedor deja pasar el puntero para que arrastrar sobre el texto siga
+   rotando el 3D; solo los botones lo recuperan. */
+.hero__content {
+  position: relative;
+  max-width: 640px;
+  padding: var(--space-8) var(--gutter);
+  pointer-events: none;
+}
+.hero__content .btn { pointer-events: auto; }
+
+.hero__eyebrow {
+  margin: 0 0 var(--space-4);
+  font: 500 var(--text-xs) var(--font-mono);
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--ice);
+}
+.hero__title {
+  margin: 0 0 var(--space-4);
+  font: 600 clamp(36px, 6vw, 72px) / 1.05 var(--font-display);
+  letter-spacing: -.03em;
+}
+.hero__lead {
+  margin: 0 0 var(--space-6);
+  max-width: 52ch;
+  color: var(--muted);
+  font-size: var(--text-md); line-height: 1.65;
+}
+.hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+
+.hero__exit { position: absolute; top: var(--space-4); left: var(--gutter); }
+
+@media (max-width: 550px) {
+  .hero { align-items: flex-end; }
+  /* En móvil el texto va abajo y el planeta queda visible arriba. */
+  .hero__shade {
+    background: linear-gradient(0deg,
+      color-mix(in srgb, var(--bg) 95%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 80%, transparent) 55%,
+      transparent 100%);
+  }
+  .hero__actions .btn { flex: 1 1 100%; }
+}

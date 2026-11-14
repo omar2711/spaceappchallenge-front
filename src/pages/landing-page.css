@@ -1,2 +1,0 @@
-/* Contenedor posicionado: la escena (.space) y el HUD se anclan a él. */
-.scene-host { position: relative; height: calc(100dvh - var(--topbar-h)); overflow: hidden; }

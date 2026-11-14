@@ -1,19 +1,11 @@
-import { useRef, useState } from 'react'
-import { type View } from '../data/bodies'
-import SolarSystemScene, { type SceneHandle } from '../features/solar-system/SolarSystemScene'
-import SceneHud from '../features/solar-system/SceneHud'
-import './landing-page.css'
+import Hero from '../features/landing/Hero'
 
-// Versión transitoria (paso 3): el visor ocupa la pantalla con su HUD.
-// El paso 4 lo convierte en el hero de la landing.
+// La landing es una sucesión de secciones; cada una es un componente en
+// features/landing/ para que varias personas trabajen en paralelo sin choques.
 export default function LandingPage() {
-  const scene = useRef<SceneHandle>(null)
-  const [view, setView] = useState<View>('Tierra')
-  const [error, setError] = useState(false)
   return (
-    <div className="scene-host">
-      <SolarSystemScene ref={scene} onViewChange={setView} onError={() => setError(true)} />
-      <SceneHud view={view} error={error} onGo={v => scene.current?.goTo(v)} />
-    </div>
+    <>
+      <Hero />
+    </>
   )
 }
