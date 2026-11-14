@@ -1,7 +1,9 @@
 .team__grid {
   list-style: none; margin: 0 0 var(--space-6); padding: 0;
   display: grid; gap: var(--space-4);
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* 3×2 en escritorio, 1 columna en móvil */
+  /* Mínimo de 300px: con 240px cabían 4 columnas y quedaba una fila huérfana de 2;
+     con 300px son 3×2 en escritorio y 1 columna en móvil. */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 }
 .team__card {
   display: flex; align-items: center; gap: var(--space-4);
