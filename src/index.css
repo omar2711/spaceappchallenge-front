@@ -26,6 +26,7 @@
   --space-6: 24px;
   --space-7: 32px;
   --space-8: 48px;
+  --space-9: 80px; /* separación vertical entre secciones de la landing */
   --gutter: 5vw; /* margen lateral fluido, igual que el diseño original */
 
   /* Radios */
