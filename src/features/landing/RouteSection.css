@@ -28,6 +28,6 @@
   .route__stop { padding: 0 0 0 var(--space-8); }
   .route__stop:not(:last-child)::before {
     top: var(--space-6); left: calc(var(--space-6) / 2 - 1px);
-    width: 2px; height: calc(100% + var(--space-6) - var(--space-6));
+    width: 2px; height: 100%;
   }
 }
