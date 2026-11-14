@@ -21,7 +21,8 @@
 @media (max-width: 550px) {
   .challenge__table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   .challenge__table tr, .challenge__table th, .challenge__table td { display: block; width: 100%; }
-  .challenge__table tbody th { border-bottom: 0; padding-bottom: var(--space-1); color: var(--amber); }
+  /* width:100% también aquí: la regla de escritorio (38%) tiene más especificidad. */
+  .challenge__table tbody th { width: 100%; border-bottom: 0; padding-bottom: var(--space-1); color: var(--amber); }
   .challenge__table td { padding-top: 0; }
   .challenge__table tbody tr:last-child td { border-bottom: 0; }
 }
