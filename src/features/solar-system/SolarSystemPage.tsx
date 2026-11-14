@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import * as T from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import positions from './positions.json'
-import './App.css'
+import positions from './data/positions.json'
+import './solar-system.css'
 
 type Body = keyof typeof positions
 type View = Body | 'Sistema solar' | 'Vuelo libre'
@@ -16,7 +17,7 @@ const textures: Record<Body,string> = {
 }
 const format = (n:number) => n.toLocaleString('es-BO',{maximumFractionDigits:0})
 
-export default function App(){
+export default function SolarSystemPage(){
   const host = useRef<HTMLDivElement>(null)
   const navigate = useRef<(v:View)=>void>(()=>{})
   const [view,setView] = useState<View>('Tierra')
@@ -140,7 +141,7 @@ export default function App(){
     return ()=>{renderer.setAnimationLoop(null);disposed=true;for(const texture of details.values())texture.dispose();rings.dispose();ringMaterial.dispose();ringMap.dispose();resize.disconnect();controls.dispose();window.removeEventListener('keydown',down);window.removeEventListener('keyup',up);window.removeEventListener('blur',blur);for(const b of bodies){b.mesh.geometry.dispose();b.mesh.material.dispose();b.map?.dispose();b.label.remove()}renderer.dispose();renderer.domElement.remove()}
   },[])
   const body=catalog.find(b=>b[0]===view)
-  return <main><div className="space" ref={host} aria-label="Mapa tridimensional del sistema solar"/><header><b>◉ &nbsp; Ruta del Agua</b><select aria-label="Ir a un destino" value="" onChange={e=>navigate.current(e.target.value as View)}><option value="" disabled>Ir a un destino ↓</option>{catalog.map(([n])=><option key={n}>{n}</option>)}</select></header>
+  return <main className="sky"><div className="space" ref={host} aria-label="Mapa tridimensional del sistema solar"/><header><Link to="/" className="brand">◉ &nbsp; Ruta del Agua</Link><select aria-label="Ir a un destino" value="" onChange={e=>navigate.current(e.target.value as View)}><option value="" disabled>Ir a un destino ↓</option>{catalog.map(([n])=><option key={n}>{n}</option>)}</select></header>
   <section><small>EXPLORADOR DEL SISTEMA SOLAR</small><h1>{view}</h1>{body?<p>Radio medio · {format(body[1])} km<br/>Distancia al Sol · {format(Math.hypot(...positions[body[0]]))} km</p>:<p>{view==='Vuelo libre'?'W/S para avanzar y retroceder · A/D para desplazarte':'Selecciona un cuerpo para acercarte'}</p>}</section>
   {error&&<aside>El visor requiere WebGL. Activa la aceleración gráfica para abrir el mapa.</aside>}
   <footer><nav>{(['Sistema solar','Tierra','Luna','Marte','Vuelo libre'] as View[]).map(n=><button key={n} aria-pressed={view===n} onClick={()=>navigate.current(n)}>{n}</button>)}</nav><div className="meta"><span>14 NOV 2026 · 00:00 TDB</span><button onClick={()=>setCredits(!credits)}>Datos y créditos {credits?'−':'+'}</button></div>{credits&&<div className="sources">Posiciones heliocéntricas · eclíptica J2000 · <a href="https://ssd.jpl.nasa.gov/horizons/">NASA/JPL Horizons</a>. Texturas: <a href="https://threejs.org/examples/textures/planets/">Tierra / Three.js</a>, <a href="https://svs.gsfc.nasa.gov/4720/">Luna / NASA</a>, <a href="https://www.solarsystemscope.com/textures/">Sol, planetas y anillos / Solar System Scope (CC BY 4.0)</a>. Orientación de las superficies ilustrativa.</div>}</footer></main>
