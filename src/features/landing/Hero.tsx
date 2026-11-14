@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { type View } from '../../data/bodies'
 import SolarSystemScene, { type SceneHandle } from '../solar-system/SolarSystemScene'
 import SceneHud from '../solar-system/SceneHud'
+import BodyPanel from '../solar-system/BodyPanel'
 import './Hero.css'
 
 // Hero de la landing: el visor 3D es el fondo y el texto va encima.
@@ -16,6 +17,10 @@ export default function Hero() {
   const [view, setView] = useState<View>('Tierra')
   const [error, setError] = useState(false)
   const [interactive, setInteractive] = useState(false)
+  // El panel solo aparece tras tocar un cuerpo: al cargar, el hero debe mostrar
+  // el titular y no datos de la Tierra que nadie pidió.
+  const [picked, setPicked] = useState(false)
+  const handleViewChange = (v: View) => { setView(v); setPicked(true) }
 
   const enterBtn = useRef<HTMLButtonElement>(null)
   const exitBtn = useRef<HTMLButtonElement>(null)
@@ -30,13 +35,18 @@ export default function Hero() {
 
   const exit = () => {
     setInteractive(false)
+    setPicked(false)
     // Volver restaura la vista inicial: el hero siempre se reabre igual de limpio.
     scene.current?.goTo('Tierra')
   }
 
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <SolarSystemScene ref={scene} interactive={interactive} onViewChange={setView} onError={() => setError(true)} />
+      <SolarSystemScene ref={scene} interactive={interactive} onViewChange={handleViewChange} onError={() => setError(true)} />
+
+      {/* En modo interactivo el panel siempre informa de la vista activa; en el
+          hero solo si el usuario tocó un cuerpo, y puede cerrarse. */}
+      {(interactive || picked) && <BodyPanel view={view} onClose={interactive ? undefined : () => setPicked(false)} />}
 
       {interactive ? (
         <>

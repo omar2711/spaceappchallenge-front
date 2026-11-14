@@ -31,5 +31,40 @@ export const worlds = {
 export type WorldId = keyof typeof worlds
 export const isWorldId = (id: string | undefined): id is WorldId => id !== undefined && Object.hasOwn(worlds, id) // hasOwn: "toString" no debe contar como mundo
 
+// Datos clave del panel que se abre al tocar un cuerpo. Solo Luna y Marte: son
+// los dos mundos con página propia. Se guardan aquí (y no dentro del componente)
+// para que quien redacte contenido edite datos, no JSX. Los valores son texto
+// ya formateado a propósito: incluyen unidades y aclaraciones ("≈1/6 de la Tierra").
+export type BodyFacts = {
+  facts: { label: string; value: string }[]
+  water: string
+  world: WorldId
+  cta: string
+}
+export const bodyFacts: Partial<Record<Body, BodyFacts>> = {
+  Luna: {
+    facts: [
+      { label: 'Diámetro', value: '3,474 km' },
+      { label: 'Gravedad', value: '1.62 m/s² (≈1/6 de la Tierra)' },
+      { label: 'Ciclo día-noche', value: '≈29.5 días terrestres' },
+      { label: 'Distancia media a la Tierra', value: '384,400 km' },
+    ],
+    water: 'Hielo en cráteres del polo sur que nunca reciben luz solar.',
+    world: 'moon',
+    cta: 'Explorar la Luna',
+  },
+  Marte: {
+    facts: [
+      { label: 'Diámetro', value: '6,779 km' },
+      { label: 'Gravedad', value: '3.71 m/s²' },
+      { label: 'Día marciano', value: '≈24 h 39 min' },
+      { label: 'Cráter Jezero', value: '≈45 km de ancho' },
+    ],
+    water: 'Depósitos de un delta donde un río desembocaba en un lago.',
+    world: 'mars',
+    cta: 'Explorar Marte',
+  },
+}
+
 // Formato numérico en es-BO, sin decimales (km).
 export const format = (n: number) => n.toLocaleString('es-BO', { maximumFractionDigits: 0 })
