@@ -32,6 +32,7 @@ export default function ArtifactCard({ artifact: a }: { artifact: Artifact }) {
         <Field label="Estado actual" value={a.status} />
         <Field label="Qué pasó" value={a.whatHappened} />
         <Field label="Fin" value={a.endDate} />
+        {a.endCause && <Field label="Causa del fin" value={a.endCause} />}
         {a.note && <Field label="Nota" value={a.note} />}
       </dl>
       <div className="abandoned-sources">

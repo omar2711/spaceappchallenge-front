@@ -24,6 +24,7 @@ export type Artifact = {
   status: string
   whatHappened: string
   endDate: string
+  endCause?: string
   note?: string
   sourceUrl: string
   extraSources?: ExtraSource[]
@@ -108,7 +109,8 @@ const list: Artifact[] = [
     whatHappened:
       'Llegó dentro de bolsas de aire que rebotaron por la superficie. Soltó a Sojourner, el primer rover en Marte.',
     endDate: 'Última transmisión: 27 de septiembre de 1997.',
-    note: 'Causa del fin: [por completar]. JPL dice que probablemente fue la batería, pero la causa real quizá nunca se sepa.',
+    endCause: TBD,
+    note: 'JPL dice que probablemente fue la batería, pero la causa real quizá nunca se sepa.',
     sourceUrl: 'https://science.nasa.gov/mission/mars-pathfinder/',
     extraSources: [
       {

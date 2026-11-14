@@ -32,7 +32,12 @@ export default function AbandonedFeature() {
         ))}
       </ul>
 
-      <p className="abandoned-credit">Datos: NASA (NSSDCA, science.nasa.gov, JPL). Fechas en UT.</p>
+      <p className="abandoned-credit">
+        Datos: NASA (NSSDCA, science.nasa.gov, JPL). Fechas en UT.
+        <br />
+        Desafío oficial: Abandoned but not Forgotten: Storytelling about NASA's Discarded Equipment
+        on the Moon and Mars
+      </p>
     </section>
   )
 }
