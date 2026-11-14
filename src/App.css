@@ -1,1 +1,96 @@
-*{box-sizing:border-box}body{margin:0;background:#05090e;color:#eaf2f4;font-family:Inter,system-ui,sans-serif}button,select{font:inherit;cursor:pointer;color:inherit}main{height:100dvh;position:relative;overflow:hidden}.space{position:absolute;inset:0;background:#070b10}.space canvas{display:block;touch-action:none}.marker{position:absolute;top:0;left:0;border:0;background:#0c1721bb;color:#bacdd5;font-size:11px;border-radius:10px;padding:4px 7px}.marker:before{content:'•';color:#9cebd4;margin-right:5px}header,footer,section,aside{position:absolute}header{top:0;left:0;right:0;padding:20px 5vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff19;background:#080e15d9}header b{font-size:18px}select,nav{background:#101920;border:1px solid #39434b;border-radius:12px}select{padding:8px}section{top:17%;left:5vw;pointer-events:none;text-shadow:0 2px 8px black}small,.meta{font:11px monospace;letter-spacing:1px;color:#9fcec6}h1{font-size:clamp(34px,5vw,74px);font-weight:450;letter-spacing:-.06em;margin:8px 0}p,.sources{color:#c1cdd4;font-size:13px;line-height:1.65}footer{bottom:0;padding:12px 5vw 18px;width:100%;background:linear-gradient(transparent,#080e15)}nav{display:flex;width:max-content;max-width:100%;overflow:auto;padding:5px;margin:auto}button{background:transparent;border:0}nav button{padding:10px 14px;white-space:nowrap;border-radius:8px;font-size:13px}button[aria-pressed=true]{background:#c1ebdf;color:#11271f}.meta{display:flex;align-items:center;justify-content:space-between;margin-top:14px}.sources{background:#101920;padding:10px}.sources a{color:#a8e8db}aside{top:48%;background:#24333d;padding:16px}@media(max-width:550px){section{top:14%}nav button{padding:9px 7px;font-size:11px}}
+/* HUD del visor 3D. Solo usa tokens de index.css (sin colores ni medidas sueltas). */
+
+main { height: 100dvh; position: relative; overflow: hidden; }
+
+.space { position: absolute; inset: 0; background: var(--bg); }
+.space canvas { display: block; touch-action: none; }
+
+/* Etiquetas de los cuerpos: las posiciona el bucle de render con transform,
+   por eso son compactas (un objetivo de 44px las solaparía entre sí). El clic
+   también funciona sobre el propio cuerpo 3D. */
+.marker {
+  position: absolute; top: 0; left: 0;
+  border: 0;
+  background: color-mix(in srgb, var(--surface) 87%, transparent);
+  color: var(--muted);
+  font-size: var(--text-xs);
+  border-radius: var(--radius-md);
+  padding: var(--space-1) var(--space-2);
+}
+.marker::before { content: '•'; color: var(--ice); margin-right: var(--space-1); }
+
+header, footer, section, aside { position: absolute; }
+
+header {
+  top: 0; left: 0; right: 0;
+  padding: var(--space-5) var(--gutter);
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  background: var(--overlay);
+}
+header b { font: 600 var(--text-lg) var(--font-display); }
+
+select, nav {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+select { padding: var(--space-2); min-height: var(--touch); }
+
+section {
+  top: 17%; left: var(--gutter);
+  pointer-events: none; /* el texto flota sobre el 3D sin bloquear el arrastre */
+  text-shadow: 0 2px 8px var(--bg);
+}
+
+small, .meta { font: var(--text-xs) var(--font-mono); letter-spacing: 1px; color: var(--ice); }
+
+h1 {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 5vw, 74px);
+  font-weight: 500;
+  letter-spacing: -.03em; /* Space Grotesk es más ancha que Inter: menos apretado que antes */
+  margin: var(--space-2) 0;
+}
+
+p, .sources { color: var(--muted); font-size: var(--text-sm); line-height: 1.65; }
+
+footer {
+  bottom: 0; width: 100%;
+  padding: var(--space-3) var(--gutter) var(--space-5);
+  background: linear-gradient(transparent, var(--bg));
+}
+
+nav {
+  display: flex; width: max-content; max-width: 100%;
+  overflow: auto;
+  padding: var(--space-1);
+  margin: auto;
+}
+
+button { background: transparent; border: 0; }
+
+nav button {
+  min-height: var(--touch);
+  padding: 0 var(--space-3);
+  white-space: nowrap;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+}
+
+/* Estado activo: --ice sobre texto --bg da 11.3:1 de contraste. */
+button[aria-pressed=true] { background: var(--ice); color: var(--bg); }
+
+.meta { display: flex; align-items: center; justify-content: space-between; margin-top: var(--space-3); }
+.meta button { min-height: var(--touch); padding: 0 var(--space-2); font: inherit; letter-spacing: inherit; }
+
+.sources { background: var(--surface); padding: var(--space-3); border-radius: var(--radius-sm); }
+.sources a { color: var(--ice); }
+
+aside { top: 48%; background: var(--surface-2); padding: var(--space-4); border-radius: var(--radius-md); }
+
+/* Móvil. (Las media queries no admiten var(): 550px es el único valor suelto.) */
+@media (max-width: 550px) {
+  section { top: 14%; }
+  nav button { padding: 0 var(--space-2); font-size: var(--text-xs); }
+}
