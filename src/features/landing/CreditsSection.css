@@ -4,5 +4,13 @@
   font: 500 var(--text-xs) var(--font-mono); letter-spacing: 1.5px; text-transform: uppercase; color: var(--ice);
 }
 .credits__list dd { margin: 0; max-width: 70ch; color: var(--muted); font-size: var(--text-sm); line-height: 1.7; }
-/* Los enlaces de texto necesitan algo más que el color para distinguirse: subrayado. */
-.credits__list a { color: var(--ice); text-decoration: underline; text-underline-offset: 3px; }
+
+.credits__links { list-style: none; margin: 0; padding: 0; }
+.credits__links li { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-1); min-height: var(--touch); }
+/* Los enlaces de texto necesitan algo más que el color para distinguirse: subrayado.
+   inline-flex + min-height da el objetivo táctil de 44px sin romper la línea. */
+.credits__links a {
+  display: inline-flex; align-items: center; min-height: var(--touch);
+  color: var(--ice); text-decoration: underline; text-underline-offset: 3px;
+}
+.credits__note { margin: var(--space-2) 0 0; }

@@ -41,7 +41,7 @@ export default function Hero() {
   }
 
   return (
-    <section className="hero" aria-labelledby="hero-title">
+    <section className={interactive ? 'hero hero--interactive' : 'hero'} aria-labelledby="hero-title">
       <SolarSystemScene ref={scene} interactive={interactive} onViewChange={handleViewChange} onError={() => setError(true)} />
 
       {/* En modo interactivo el panel siempre informa de la vista activa; en el

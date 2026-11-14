@@ -5,6 +5,10 @@
   display: flex; align-items: center;
 }
 
+/* En modo visor el hero mide exactamente lo que queda de pantalla bajo la barra
+   superior; con min-height:100vh el menú inferior del HUD quedaba fuera de vista. */
+.hero--interactive { min-height: 0; height: calc(100dvh - var(--topbar-h)); }
+
 /* Velo: el texto está sobre un fondo cambiante (planetas, estrellas), así que
    un degradado a la izquierda garantiza contraste sin ocultar el 3D. */
 .hero__shade {
