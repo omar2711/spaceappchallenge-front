@@ -5,6 +5,16 @@
   display: flex; align-items: center;
 }
 
+/* Fila de cifras: la cifra en ámbar (10.9:1 sobre --bg) y la etiqueta en --muted
+   (8.6:1). Con wrap, en móvil pasa a varias líneas en lugar de desbordar. */
+.hero__stats {
+  list-style: none; margin: var(--space-7) 0 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-7);
+}
+.hero__stats li { display: flex; flex-direction: column; gap: var(--space-1); }
+.hero__stats strong { font: 600 var(--text-lg) var(--font-display); color: var(--amber); }
+.hero__stats span { font-size: var(--text-xs); color: var(--muted); }
+
 /* En modo visor el hero mide exactamente lo que queda de pantalla bajo la barra
    superior; con min-height:100vh el menú inferior del HUD quedaba fuera de vista. */
 .hero--interactive { min-height: 0; height: calc(100dvh - var(--topbar-h)); }

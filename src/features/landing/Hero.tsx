@@ -68,6 +68,14 @@ export default function Hero() {
               <Link to="/sky" className="btn btn--primary">Abrir el visor del cielo</Link>
               <a href="#tres-mundos" className="btn btn--ghost">Ver los tres mundos</a>
             </div>
+            {/* Cifras de SPHEREx dadas por el equipo; se muestran como lista (no
+                como texto corrido) para que se lean de un vistazo y los lectores
+                de pantalla las anuncien como tres elementos. */}
+            <ul className="hero__stats" aria-label="SPHEREx en cifras">
+              <li><strong>102</strong><span>bandas de luz infrarroja</span></li>
+              <li><strong>0.75–5.0 µm</strong><span>de rango</span></li>
+              <li><strong>5</strong><span>objetivos de prueba</span></li>
+            </ul>
           </div>
           {/* Fuera de la fila de CTAs: es una acción sobre el 3D, no una ruta de
               la página. Así la fila queda con los dos destinos y no se parte en
