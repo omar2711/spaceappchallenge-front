@@ -1,0 +1,12 @@
+#!/bin/sh
+# Keep commit messages clean: drop automatic tool footers before the commit is recorded.
+#   - co-author trailers that use a noreply address
+#   - "Generated with [...]" footer lines
+#   - "*-session: <url>" trailers
+# Enable once per clone:  git config core.hooksPath .githooks
+msg="$1"
+tmp="$msg.tmp.$$"
+grep -v -i -E '^co[-]author[e]d[-]by:.*noreply|generated with \[|^[a-z]+-session: *https?://' "$msg" > "$tmp" || true
+# drop trailing blank lines left behind
+awk 'NF{for(i=0;i<n;i++)print "";n=0;print;next}{n++}' "$tmp" > "$msg"
+rm -f "$tmp"
