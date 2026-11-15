@@ -1,9 +1,9 @@
 export type ViewMode = 'normal' | 'blink' | 'diff'
 
 const modes: { value: ViewMode; label: string; help: string }[] = [
-  { value: 'normal', label: 'Normal', help: 'Las imágenes en orden, como un video.' },
-  { value: 'blink', label: 'Blink (A/B)', help: 'Alterna entre dos frames: lo que se mueve «salta».' },
-  { value: 'diff', label: 'Diferencia', help: 'Resalta lo que cambió respecto al frame anterior.' },
+  { value: 'normal', label: 'Normal', help: 'Las pasadas en orden, como un video (mismo detector).' },
+  { value: 'blink', label: 'Blink (A/B)', help: 'Alterna entre dos pasadas: lo que se mueve «salta».' },
+  { value: 'diff', label: 'Diferencia', help: 'Resalta lo que cambió respecto a la pasada anterior.' },
 ]
 
 type Props = {

@@ -126,8 +126,8 @@ export default function CoordForm({ values, onChange, onSubmit, busy }: Props) {
         value={values.fov}
         result={fov}
         showError={show('fov')}
-        hint="Entre 1 y 60 arcmin."
-        placeholder="10"
+        hint="Entre 1 y 6 arcmin (los objetivos del desafío usan su campo de 4′)."
+        placeholder="3"
         onChange={(v) => onChange({ fov: v })}
         onBlur={() => touch('fov')}
       />

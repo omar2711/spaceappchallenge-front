@@ -25,6 +25,12 @@ const cards: Card[] = [
     to: '/marte',
   },
   {
+    title: 'Hielo en el cielo',
+    label: 'RUTA DEL AGUA · SPLICES Y 3I/ATLAS',
+    text: 'Dónde busca SPHEREx hielo de agua, y el agua de un cometa de otra estrella.',
+    to: '/hielo',
+  },
+  {
     title: 'Abandonados',
     label: 'ABANDONED BUT NOT FORGOTTEN',
     text: 'Historias sobre el equipo que la NASA dejó en la Luna y Marte.',

@@ -2,26 +2,28 @@ import { useEffect, useRef, useState } from 'react'
 import type { SkyRequest } from '../../../api/sky'
 
 const HIPS = 'https://irsa.ipac.caltech.edu/data/hips/SPHEREx/spherex_allsky_cube'
-type Layer = { setSliceNumber: (n: number) => void }
+type Layer = { setSliceNumber: (n: number) => void; added?: boolean }
 type Atlas = {
   gotoRaDec: (ra: number, dec: number) => void
   newImageSurvey: (url: string, options?: object) => Layer
   setImageLayer: (layer: Layer) => void
 }
 type AladinAPI = { init: Promise<void>; aladin: (element: HTMLElement, options: object) => Atlas }
+// Aladin Lite 3.8.2 se publica solo como módulo ES (export default A): se carga con import() dinámico.
+// La URL anterior del CDS (/AladinLite/api/v3/latest/aladin.js) responde 404.
+const ALADIN = 'https://cdn.jsdelivr.net/npm/aladin-lite@3.8.2/dist/aladin.js'
+// Aladin 3.8.2: setSliceNumber(n) convierte n a longitud de onda lineal entre em_min y em_max, pero elige el
+// canal lineal en frecuencia. Este valor compensa esa diferencia para mostrar exactamente el canal n del cubo.
+const EM_MIN = 7.43e-7, EM_MAX = 5.009e-6, DEPTH = 102 // em_min, em_max y hips_cube_depth de /properties
+const sliceArg = (n: number) => {
+  const f = 1 / EM_MAX + ((n + 0.5) / DEPTH) * (1 / EM_MIN - 1 / EM_MAX)
+  return ((1 / f - EM_MIN) / (EM_MAX - EM_MIN)) * DEPTH
+}
 let loader: Promise<AladinAPI> | undefined
 function loadAtlas() {
-  if (!loader) loader = new Promise<AladinAPI>((resolve, reject) => {
-    const script = document.createElement('script')
-    script.src = 'https://aladin.cds.unistra.fr/AladinLite/api/v3/latest/aladin.js'
-    script.onload = () => {
-      const api = (window as unknown as { A: AladinAPI }).A
-      if (!api) { reject(new Error('Aladin no disponible')); return }
-      api.init.then(() => resolve(api), reject)
-    }
-    script.onerror = () => reject(new Error('No se pudo descargar Aladin'))
-    document.head.appendChild(script)
-  }).catch(error => { loader = undefined; throw error })
+  if (!loader) loader = (import(/* @vite-ignore */ ALADIN) as Promise<{ default: AladinAPI }>)
+    .then(async ({ default: api }) => { await api.init; return api })
+    .catch(error => { loader = undefined; throw error })
   return loader
 }
 
@@ -32,6 +34,7 @@ export default function SkyPanorama({ request }: { request: SkyRequest | null })
   const [status, setStatus] = useState('Cargando mapa del cielo…')
   const [retry, setRetry] = useState(0)
   const [slice, setSlice] = useState(62)
+  const sliceRef = useRef(62)
   const [wavelengths, setWavelengths] = useState<number[]>([])
   useEffect(() => {
     const controller = new AbortController()
@@ -46,6 +49,7 @@ export default function SkyPanorama({ request }: { request: SkyRequest | null })
   }, [])
   useEffect(() => {
     let active = true
+    let wait = 0
     const element = host.current
     const timer = window.setTimeout(() => { if (active) setStatus('El mapa está tardando en responder. Puedes continuar con las observaciones precalculadas.') }, 20000)
     loadAtlas().then(A => {
@@ -56,15 +60,21 @@ export default function SkyPanorama({ request }: { request: SkyRequest | null })
       })
       atlas.current = viewer
       const survey = viewer.newImageSurvey(HIPS)
-      survey.setSliceNumber(62)
       viewer.setImageLayer(survey)
       layer.current = survey
+      // Aladin ignora setSliceNumber hasta que la capa queda agregada (si no, muestra el canal 50, vacío).
+      wait = window.setInterval(() => {
+        if (!survey.added) return
+        window.clearInterval(wait)
+        survey.setSliceNumber(sliceArg(sliceRef.current))
+      }, 200)
       setStatus('')
       window.clearTimeout(timer)
     }).catch(() => { if (active) setStatus('No se pudo abrir el mapa. Revisa la conexión o abre el visor oficial de IRSA.') })
     return () => {
       active = false
       window.clearTimeout(timer)
+      window.clearInterval(wait)
       atlas.current = null
       layer.current = null
       element?.replaceChildren()
@@ -73,10 +83,11 @@ export default function SkyPanorama({ request }: { request: SkyRequest | null })
   useEffect(() => {
     if (request) atlas.current?.gotoRaDec(request.raDeg, request.decDeg)
   }, [request, status])
-  useEffect(() => { layer.current?.setSliceNumber(slice) }, [slice, status])
+  useEffect(() => { if (layer.current?.added) layer.current.setSliceNumber(sliceArg(slice)) }, [slice, status])
   const changeSlice = (value: number) => {
     setSlice(value)
-    layer.current?.setSliceNumber(value)
+    sliceRef.current = value
+    if (layer.current?.added) layer.current.setSliceNumber(sliceArg(value))
   }
   return <section className="skyviewer-panel skyviewer-panorama">
     <div className="skyviewer-panorama-heading">

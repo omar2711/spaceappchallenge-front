@@ -18,7 +18,8 @@ export const KIND_LABEL: Record<LayerKind, string> = {
   thermal: 'TÉRMICA',
 }
 
-export const MAX_ZOOM = 9
+// 12 permite ver la caminata de Jezero (~27 km); por encima de maxNativeZoom las teselas se amplían.
+export const MAX_ZOOM = 12
 const TILE_BASE = 'https://trek.nasa.gov/tiles/Mars/EQ'
 
 // Leaflet {y} = fila contando desde arriba (CRS.EPSG4326): coincide con TileRow de WMTS.
@@ -49,6 +50,18 @@ export const marsLayers: MarsLayer[] = [
     // Solo cubre entre 65°N y 65°S.
     id: 'THEMIS_DayIR_ControlledMosaics_100m_v2_oct2018',
     title: 'THEMIS · infrarrojo térmico (día)',
+    kind: 'thermal',
+    ext: 'png',
+    maxNativeZoom: 9,
+    bounds: [[-65, -180], [65, 180]],
+    defaultOn: false,
+    defaultOpacity: 0.6,
+  },
+  {
+    // De noche, lo cálido es roca expuesta (alta inercia térmica) y lo frío, polvo o arena fina.
+    // Verificada por el backend (GET /mars/marswalk, layers[].verified) y con curl: 200 image/png.
+    id: 'THEMIS_NightIR_ControlledMosaics_100m_v2_oct2018',
+    title: 'THEMIS · infrarrojo térmico (noche): cálido = roca',
     kind: 'thermal',
     ext: 'png',
     maxNativeZoom: 9,

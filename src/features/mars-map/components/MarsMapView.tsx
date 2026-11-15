@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { CRS, type Map as LeafletMap } from 'leaflet'
 import {
   AttributionControl,
@@ -12,7 +12,9 @@ import {
   useMapEvents,
 } from 'react-leaflet'
 import { MAX_ZOOM, marsLayers, tileUrl } from '../data/layers'
-import { OBSTACLES_LABEL, obstacles } from '../data/obstacles'
+import type { MarsWalk } from '../../../api/types'
+import type { Obstacle } from '../data/obstacles'
+import { stopEs } from '../data/marswalk'
 import { marsKmToLeafletMeters, type BlockedSegment, type LatLng } from '../lib/route'
 import type { LayerState } from './LayerPanel'
 
@@ -47,12 +49,21 @@ type Props = {
   layers: Record<string, LayerState>
   points: LatLng[]
   blocked: BlockedSegment[]
+  walk: MarsWalk | null
+  hazards: Obstacle[]
+  activeStop: string | null
+  onStop: (id: string) => void
   onMap: (m: LeafletMap | null) => void
   onAddPoint: (p: LatLng) => void
 }
 
-export default function MarsMapView({ layers, points, blocked, onMap, onAddPoint }: Props) {
+// react-leaflet aplica pathOptions con setStyle (sin className), así que los estilos van explícitos.
+// Mismos valores que --mint, --mint-ink y --sun de styles/index.css.
+const C = { route: '#c1ebdf', ink: '#11271f', perseverance: '#ffb36b', hazard: '#ff6b6b', blocked: '#ff6b6b' }
+
+export default function MarsMapView({ layers, points, blocked, walk, hazards, activeStop, onStop, onMap, onAddPoint }: Props) {
   const blockedIdx = new Set(blocked.map((b) => b.index))
+  const [tilesDown, setTilesDown] = useState(false)
   return (
     <div className="marsmap-mapwrap">
       <MapContainer
@@ -84,30 +95,73 @@ export default function MarsMapView({ layers, points, blocked, onMap, onAddPoint
                 maxZoom={MAX_ZOOM}
                 bounds={l.bounds}
                 noWrap
+                eventHandlers={{ tileerror: () => setTilesDown(true), tileload: () => setTilesDown(false) }}
               />
             ),
         )}
-        {obstacles.map((o) => (
-          <Circle
-            key={o.id}
-            center={o.center}
-            radius={marsKmToLeafletMeters(o.radiusKm)}
-            pathOptions={{ className: 'marsmap-obstacle' }}
+        {walk && (
+          <Polyline
+            positions={walk.route.points.map((p) => [p.lat, p.lon] as LatLng)}
+            pathOptions={{ color: C.perseverance, weight: 3, opacity: 0.9 }}
           >
-            <Tooltip>{OBSTACLES_LABEL}</Tooltip>
-          </Circle>
+            <Tooltip sticky>
+              Ruta real de Perseverance · {walk.route.length_km.toFixed(1)} km · soles {walk.route.sols[0]}–
+              {walk.route.sols[1]}
+            </Tooltip>
+          </Polyline>
+        )}
+        {walk &&
+          hazards.map((o, i) => (
+            <Circle
+              key={o.id}
+              center={o.center}
+              radius={marsKmToLeafletMeters(o.radiusKm)}
+              pathOptions={{ color: C.hazard, fillColor: C.hazard, fillOpacity: 0.3, weight: 1.5 }}
+            >
+              <Tooltip>
+                Pendiente fuerte: {Math.abs(walk.hazards.steep_segments[i].grade_percent).toFixed(1)} % en{' '}
+                {walk.hazards.steep_segments[i].segment_m.toFixed(0)} m (sol {walk.hazards.steep_segments[i].sol})
+              </Tooltip>
+            </Circle>
+          ))}
+        {walk?.stops.map((s, i) => (
+          <CircleMarker
+            key={s.id}
+            center={[s.lat, s.lon]}
+            radius={activeStop === s.id ? 10 : 7}
+            pathOptions={{
+              color: activeStop === s.id ? '#ffffff' : C.ink,
+              weight: activeStop === s.id ? 3 : 1.5,
+              fillColor: C.perseverance,
+              fillOpacity: 1,
+            }}
+            eventHandlers={{ click: () => onStop(s.id) }}
+            bubblingMouseEvents={false}
+          >
+            <Tooltip>
+              {i + 1}. {stopEs(s).title}
+            </Tooltip>
+          </CircleMarker>
         ))}
         {points.slice(1).map((p, i) => (
           <Polyline
             key={i}
             positions={[points[i], p]}
-            pathOptions={{
-              className: blockedIdx.has(i) ? 'marsmap-route marsmap-route--blocked' : 'marsmap-route',
-            }}
+            pathOptions={
+              blockedIdx.has(i)
+                ? { color: C.blocked, weight: 5, dashArray: '8 6' }
+                : { color: C.route, weight: 3, dashArray: undefined }
+            }
           />
         ))}
         {points.map((p, i) => (
-          <CircleMarker key={i} center={p} radius={6} pathOptions={{ className: 'marsmap-waypoint' }}>
+          <CircleMarker
+            key={i}
+            center={p}
+            radius={6}
+            pathOptions={{ color: C.ink, weight: 1.5, fillColor: C.route, fillOpacity: 1 }}
+            bubblingMouseEvents={false}
+          >
             <Tooltip>
               {i === 0 ? 'Inicio' : i === points.length - 1 ? 'Destino' : `Punto ${i + 1}`}
             </Tooltip>
@@ -115,7 +169,15 @@ export default function MarsMapView({ layers, points, blocked, onMap, onAddPoint
         ))}
         <ClickToAdd onAdd={onAddPoint} />
       </MapContainer>
-      <span className="marsmap-badge">{OBSTACLES_LABEL}</span>
+      {tilesDown && (
+        <p className="marsmap-badge marsmap-offline" role="status">
+          Sin conexión con Mars Trek: el mapa base no carga. La ruta, las paradas y las pendientes sí (datos de la API).
+        </p>
+      )}
+      <span className="marsmap-badge">
+        <span className="marsmap-key marsmap-key--walk" /> Perseverance · <span className="marsmap-key marsmap-key--hazard" />{' '}
+        pendiente &gt; {walk?.hazards.steep_threshold_percent ?? 15} % · <span className="marsmap-key" /> tu ruta
+      </span>
     </div>
   )
 }

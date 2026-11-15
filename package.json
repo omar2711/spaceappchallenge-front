@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dev:demo": "vite --mode demo",
+    "demo": "tsc -b && vite build --mode demo --outDir dist-demo && vite preview --mode demo --outDir dist-demo --port 5173 --strictPort"
   },
   "dependencies": {
     "@types/three": "^0.187.0",

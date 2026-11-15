@@ -1,8 +1,14 @@
-import { objectives, type Objective } from '../data/objectives'
+import type { MarsWalk } from '../../../api/types'
 
-type Props = { selected: Objective | null; onSelect: (o: Objective | null) => void }
+type Props = {
+  walk: MarsWalk | null
+  walkSelected: boolean
+  onWalk: () => void
+}
 
-export default function ObjectivePanel({ selected, onSelect }: Props) {
+const WALK = 'jezero'
+
+export default function ObjectivePanel({ walk, walkSelected, onWalk }: Props) {
   return (
     <div className="marsmap-panel">
       <label className="marsmap-panel-title" htmlFor="marsmap-objective">
@@ -11,22 +17,20 @@ export default function ObjectivePanel({ selected, onSelect }: Props) {
       <select
         id="marsmap-objective"
         className="marsmap-select"
-        value={selected?.id ?? ''}
-        onChange={(e) => onSelect(objectives.find((o) => o.id === e.target.value) ?? null)}
+        value={walkSelected ? WALK : ''}
+        disabled={!walk}
+        onChange={(e) => {
+          if (e.target.value === WALK) onWalk()
+        }}
       >
-        <option value="">Elige un objetivo…</option>
-        {objectives.map((o) => (
-          <option key={o.id} value={o.id}>
-            {o.name}
-          </option>
-        ))}
+        <option value="">{walk ? 'Elige un objetivo…' : 'Cargando la caminata…'}</option>
+        {walk && <option value={WALK}>Seguir el agua · cráter {walk.crater.name} (Perseverance)</option>}
       </select>
-      {selected && (
+      {walkSelected && walk && (
         <p className="marsmap-note">
-          <span className="marsmap-tag">DATOS DE EJEMPLO</span>
-          <br />
-          {selected.goal} · Lugar: {selected.place} · Lat {selected.center[0]}°, Lon{' '}
-          {selected.center[1]}°
+          Buscar rocas que el agua alteró o depositó, siguiendo la ruta real de Perseverance · Lugar: cráter{' '}
+          {walk.crater.name} ({walk.crater.diameter_km} km) · Lat {walk.crater.lat.toFixed(2)}°, Lon{' '}
+          {walk.crater.lon.toFixed(2)}°
         </p>
       )}
     </div>

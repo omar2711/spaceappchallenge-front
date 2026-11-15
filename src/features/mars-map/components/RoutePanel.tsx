@@ -47,8 +47,8 @@ export default function RoutePanel({
       {blockedCount > 0 && (
         <p className="marsmap-warning" role="alert">
           {blockedCount === 1
-            ? '⚠ 1 tramo de la ruta cruza formaciones rocosas (DATOS DE EJEMPLO). Se resaltan en rojo.'
-            : `⚠ ${blockedCount} tramos de la ruta cruzan formaciones rocosas (DATOS DE EJEMPLO). Se resaltan en rojo.`}
+            ? '⚠ 1 tramo de la ruta pasa por una pendiente fuerte medida en Jezero. Se resalta en rojo.'
+            : `⚠ ${blockedCount} tramos de la ruta pasan por pendientes fuertes medidas en Jezero. Se resaltan en rojo.`}
         </p>
       )}
       {points.length > 0 && (

@@ -1,58 +1,138 @@
-export type SkyRequest = { raDeg: number; decDeg: number; fovArcmin: number }
+import { ApiError, dataUrl, getData, getJson, postJson } from './client'
+import { loadFields, matchField, type KnownField } from './fields'
+import type { Analysis, CustomStatus, Manifest, Pair } from './types'
+
+// Contrato entre la UI de /cielo y los datos reales de SPHEREx (backend Ruta del Agua).
+// 1) Si las coordenadas corresponden a un campo ya calculado (objetivo o preset), se usa su manifest.
+// 2) Si no, POST /custom genera el campo (1–3 min la primera vez; la caché es instantánea) y se
+//    consulta GET /custom/{job_id} hasta que esté listo.
+
+export type SkyRequest = {
+  raDeg: number // Ascensión recta, grados decimales (0–360)
+  decDeg: number // Declinación, grados decimales (−90 a +90)
+  fovArcmin: number // Campo de visión, minutos de arco (campos nuevos: 1–6)
+}
+
 export type SkyFrame = {
-  id: string; epochUT: string; bandLabel: string; imageUrl: string
-  saturated?: number; contamination?: number; targetPx?: number[]
+  id: string
+  epoch: string // pasada: S1, S2…
+  epochUT: string // fecha media de la pasada en ese detector (ISO 8601, UT)
+  imageUrl: string
+  targetPx: Pair // posición esperada del objetivo (coordenadas WebP, origen arriba a la izquierda)
+  nImages: number // exposiciones combinadas
+  saturatedExposures: number
+  wavelengthAtTargetUm?: Pair
 }
-export type Detector = {
-  id: number; wavelength_um: number[]
-  frames: { epoch: string; file: string; date_mid: string; saturated_exposures: number; flags_fraction: number; target_px: number[] }[]
-}
-export type Manifest = {
-  name: string; fov_arcmin: number; image_size_px: number[]; pixel_scale_arcsec: number
-  detectors: Detector[]; ref_coord: { ra_deg: number; dec_deg: number; source: string }
-  source: { collections: string[]; generated_at: string }
-}
-export type Analysis = {
-  difference_images: { detector: number; from: string; to: string; file: string; caveats: string[] }[]
-  deep_images: { detector: number; file: string }[]
-  light_curves: { detector: number; usable: boolean; units: string; per_epoch: { epoch: string; mjd: number; flux: number | null; err: number | null; lower_limit: boolean }[] }[]
-  spectra: unknown[]
-}
+
+export type DetectorSeries = { id: number; wavelengthUm: Pair; frames: SkyFrame[] }
+
 export type SkySeries = {
-  request: SkyRequest; frames: SkyFrame[]; source: 'mock' | 'live'
-  manifest: Manifest; directory: string; analysis: Analysis | null
+  request: SkyRequest
+  source: 'live'
+  field: { id: string; name: string; kind: 'target' | 'preset' | 'custom'; known?: KnownField }
+  manifest: Manifest
+  imageSize: Pair
+  detectors: DetectorSeries[]
+  analysis: Analysis | null
+  analysisBase: string | null // carpeta (relativa a /data) de los archivos de analysis.json
 }
-export type SkyTarget = { id: string; name: string; ra: number; dec: number; fov: number; manifest: string }
-const root = import.meta.env.BASE_URL + 'data/'
-async function json<T>(path: string): Promise<T> {
-  const res = await fetch(root + path)
-  if (!res.ok) throw new Error('No se pudo cargar ' + path + ' (' + res.status + ').')
-  return res.json()
+
+/** El trabajo de /custom terminó con error (por ejemplo, SPHEREx no observó esa posición). */
+export class SkyJobError extends Error {
+  readonly status: CustomStatus
+  constructor(status: CustomStatus) {
+    super(status.message || status.error || 'Error al generar el campo')
+    this.name = 'SkyJobError'
+    this.status = status
+  }
 }
-export async function getSkyTargets(): Promise<SkyTarget[]> {
-  const [main, custom] = await Promise.all([
-    json<{ targets: { target_id: string; name: string; ra_deg: number; dec_deg: number; manifest: string }[] }>('targets/index.json'),
-    json<{ presets: { id: string; name: string; ra: number; dec: number; fov_arcmin: number; manifest: string }[] }>('custom/presets.json'),
-  ])
-  return [
-    ...main.targets.map(t => ({ id: t.target_id, name: t.name, ra: t.ra_deg, dec: t.dec_deg, fov: 3.998, manifest: 'targets/' + t.manifest })),
-    ...custom.presets.map(t => ({ id: t.id, name: t.name, ra: t.ra, dec: t.dec, fov: t.fov_arcmin, manifest: t.manifest })),
-  ]
+
+type Options = { onProgress?: (s: CustomStatus) => void; signal?: AbortSignal }
+
+const POLL_MS = 2000
+
+const sleep = (ms: number, signal?: AbortSignal) =>
+  new Promise<void>((resolve, reject) => {
+    const t = setTimeout(resolve, ms)
+    signal?.addEventListener('abort', () => {
+      clearTimeout(t)
+      reject(new DOMException('Aborted', 'AbortError'))
+    })
+  })
+
+const dirOf = (path: string) => path.replace(/[^/]+$/, '')
+
+async function loadAnalysis(path: string): Promise<Analysis | null> {
+  try {
+    return await getData<Analysis>(path)
+  } catch (e) {
+    if (e instanceof ApiError && e.status === 404) return null // no todos los campos tienen análisis
+    throw e
+  }
 }
-export function detectorFrames(manifest: Manifest, directory: string, detector: number): SkyFrame[] {
-  const band = manifest.detectors.find(d => d.id === detector)
-  return (band?.frames ?? []).map(f => ({
-    id: f.epoch, epochUT: f.date_mid, bandLabel: 'D' + detector + ' · ' + band!.wavelength_um.join('–') + ' µm',
-    imageUrl: directory + f.file, saturated: f.saturated_exposures, contamination: f.flags_fraction, targetPx: f.target_px,
-  })).sort((a, b) => a.epochUT.localeCompare(b.epochUT))
+
+function buildSeries(
+  request: SkyRequest,
+  field: SkySeries['field'],
+  manifestPath: string,
+  manifest: Manifest,
+  analysisPath: string,
+  analysis: Analysis | null,
+): SkySeries {
+  const base = dirOf(manifestPath)
+  const dateOf = (epoch: string) => manifest.epochs.find((e) => e.id === epoch)?.date_mid ?? ''
+  const detectors = manifest.detectors.map((d) => ({
+    id: d.id,
+    wavelengthUm: d.wavelength_um,
+    frames: d.frames.map((f) => ({
+      id: `${field.id}-${f.epoch}-D${d.id}`,
+      epoch: f.epoch,
+      epochUT: f.date_mid ?? dateOf(f.epoch),
+      imageUrl: dataUrl(`${base}${f.file}`),
+      targetPx: f.target_px,
+      nImages: f.n_images,
+      saturatedExposures: f.saturated_exposures ?? 0,
+      wavelengthAtTargetUm: f.wavelength_at_target_um,
+    })),
+  }))
+  return {
+    request,
+    source: 'live',
+    field,
+    manifest,
+    imageSize: manifest.image_size_px,
+    detectors,
+    analysis,
+    analysisBase: analysis ? dirOf(analysisPath) : null,
+  }
 }
-export async function getSkySeries(req: SkyRequest): Promise<SkySeries> {
-  const targets = await getSkyTargets()
-  const target = targets.find(t => Math.abs(t.ra - req.raDeg) < 0.00002 && Math.abs(t.dec - req.decDeg) < 0.00002 && Math.abs(t.fov - req.fovArcmin) < 0.01)
-  if (!target) throw new Error('No hay una serie precalculada para estas coordenadas y campo de visión. Elige un objetivo del catálogo; puedes explorar cualquier coordenada en el mapa panorámico.')
-  const manifest = await json<Manifest>(target.manifest)
-  const path = target.manifest.replace('manifest.json', '')
-  const directory = root + path
-  const analysis = target.manifest.startsWith('targets/') ? await json<Analysis>(path + 'analysis.json').catch(() => null) : null
-  return { request: req, source: 'live', manifest, directory, analysis, frames: detectorFrames(manifest, directory, 1) }
+
+export async function getSkySeries(req: SkyRequest, opts: Options = {}): Promise<SkySeries> {
+  const fields = await loadFields()
+  const known = matchField(fields, req.raDeg, req.decDeg)
+  if (known) {
+    const analysis = await loadAnalysis(known.analysisPath)
+    return buildSeries(req, { id: known.id, name: known.name, kind: known.kind, known }, known.manifestPath,
+      known.manifest, known.analysisPath, analysis)
+  }
+
+  // Campo nuevo: generar (o reutilizar de la caché del servidor) y esperar.
+  let status = await postJson<CustomStatus>(
+    '/custom',
+    { ra: req.raDeg, dec: req.decDeg, fov_arcmin: req.fovArcmin },
+    opts.signal,
+  )
+  while (status.state === 'pending' || status.state === 'processing') {
+    opts.onProgress?.(status)
+    await sleep(POLL_MS, opts.signal)
+    status = await getJson<CustomStatus>(`/custom/${status.job_id}`, undefined, opts.signal)
+  }
+  opts.onProgress?.(status)
+  if (status.state !== 'ready' || !status.manifest) throw new SkyJobError(status)
+  const manifestPath = status.manifest
+  const manifest = await getData<Manifest>(manifestPath)
+  const analysisPath = manifestPath.replace(/manifest\.json$/, 'analysis.json')
+  const analysis = await loadAnalysis(analysisPath)
+  return buildSeries(req, { id: status.job_id, name: manifest.name, kind: 'custom' }, manifestPath, manifest,
+    analysisPath, analysis)
 }

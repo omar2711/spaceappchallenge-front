@@ -21,6 +21,10 @@
   --accent-dot: #9cebd4;
   --link: #a8e8db;
 
+  /* Datos (gráficos y mapas): Sol / segunda serie y Tierra / estrellas de referencia */
+  --sun: #ffb36b;
+  --earth: #7fb3ff;
+
   /* Líneas */
   --border: #39434b;
   --line: #ffffff19;

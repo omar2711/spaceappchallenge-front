@@ -1,8 +1,8 @@
 // Valores de la interfaz para el campo de visión (FOV). NO son datos científicos:
 // solo el valor inicial y los límites del formulario.
-export const FOV_DEFAULT_ARCMIN = 4
+export const FOV_DEFAULT_ARCMIN = 3
 export const FOV_MIN_ARCMIN = 1
-export const FOV_MAX_ARCMIN = 60
+export const FOV_MAX_ARCMIN = 6 // límite del backend para campos nuevos (POST /custom)
 
 export type ParseResult = { ok: true; deg: number } | { ok: false; error: string }
 

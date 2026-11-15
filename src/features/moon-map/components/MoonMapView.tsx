@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { CRS, type Map as LeafletMap } from 'leaflet'
 import {
   AttributionControl,
@@ -9,7 +9,7 @@ import {
   useMap,
 } from 'react-leaflet'
 import { MAX_ZOOM, moonLayers, tileUrl } from '../data/layers'
-import { landingSites, type LandingSite } from '../data/sites'
+import type { MoonSite } from '../../../api/types'
 import type { LayerState } from './LayerPanel'
 
 // Con CRS.EPSG4326 el mundo mide 512 x 256 px en zoom 0 y se duplica en cada zoom.
@@ -35,14 +35,20 @@ function FitMinZoom() {
   return null
 }
 
+// Mismos valores que --mint, --sun y --bg de styles/index.css.
+const SITE_COLORS = { apollo: '#c1ebdf', artemis: '#ffb36b', selected: '#ffffff', outline: '#05090e' }
+
 type Props = {
   layers: Record<string, LayerState>
-  selected: LandingSite | null
+  sites: MoonSite[]
+  selected: MoonSite | null
+  compare: MoonSite | null
   onMap: (m: LeafletMap | null) => void
-  onSelect: (site: LandingSite) => void
+  onSelect: (site: MoonSite) => void
 }
 
-export default function MoonMapView({ layers, selected, onMap, onSelect }: Props) {
+export default function MoonMapView({ layers, sites, selected, compare, onMap, onSelect }: Props) {
+  const [tilesDown, setTilesDown] = useState(false)
   return (
     <div className="moonmap-mapwrap">
       <MapContainer
@@ -73,24 +79,42 @@ export default function MoonMapView({ layers, selected, onMap, onSelect }: Props
                 maxNativeZoom={l.maxNativeZoom}
                 maxZoom={MAX_ZOOM}
                 noWrap
+                eventHandlers={{ tileerror: () => setTilesDown(true), tileload: () => setTilesDown(false) }}
               />
             ),
         )}
-        {landingSites.map((s) => (
-          <CircleMarker
-            key={s.id}
-            center={s.center}
-            radius={selected?.id === s.id ? 9 : 6}
-            pathOptions={{
-              className: selected?.id === s.id ? 'moonmap-site moonmap-site--selected' : 'moonmap-site',
-            }}
-            eventHandlers={{ click: () => onSelect(s) }}
-          >
-            <Tooltip>{s.name}</Tooltip>
-          </CircleMarker>
-        ))}
+        {sites.map((s) => {
+          const fill = s.group === 'apollo' ? SITE_COLORS.apollo : SITE_COLORS.artemis
+          const isSel = selected?.id === s.id
+          const isCmp = compare?.id === s.id
+          return (
+            <CircleMarker
+              key={s.id}
+              center={[s.lat, s.lon]}
+              radius={isSel || isCmp ? 9 : 6}
+              // react-leaflet aplica pathOptions con setStyle (sin className): por eso colores explícitos.
+              pathOptions={{
+                color: isSel ? SITE_COLORS.selected : isCmp ? SITE_COLORS.artemis : SITE_COLORS.outline,
+                weight: isSel || isCmp ? 3 : 1.5,
+                fillColor: fill,
+                fillOpacity: 0.9,
+              }}
+              eventHandlers={{ click: () => onSelect(s) }}
+            >
+              <Tooltip>{s.name}</Tooltip>
+            </CircleMarker>
+          )
+        })}
       </MapContainer>
-      <span className="moonmap-badge">DATOS DE EJEMPLO: sitios</span>
+      {tilesDown && (
+        <p className="moonmap-badge moonmap-offline" role="status">
+          Sin conexión con Moon Trek: el mapa base no carga. Los sitios y el Sol y la Tierra sí (datos de la API).
+        </p>
+      )}
+      <span className="moonmap-badge">
+        <span className="moonmap-dot moonmap-dot--apollo" /> Apollo · <span className="moonmap-dot moonmap-dot--artemis" />{' '}
+        Artemis III
+      </span>
     </div>
   )
 }

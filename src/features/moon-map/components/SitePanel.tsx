@@ -1,23 +1,22 @@
-import { landingSites, type LandingSite } from '../data/sites'
+import { Link } from 'react-router-dom'
+import type { MoonSite } from '../../../api/types'
+import { ABANDONED_CARD, formatLatLon, GROUP_LABEL, historyEs, noteEs } from '../data/sites'
 
 type Props = {
-  selected: LandingSite | null
-  onSelect: (site: LandingSite) => void
+  sites: MoonSite[] | null
+  failed: boolean
+  onRetry: () => void
+  selected: MoonSite | null
+  onSelect: (site: MoonSite) => void
   onSouthPole: () => void
 }
 
-// La lista de sitios son <button> reales: es la alternativa por teclado a tocar
-// los marcadores del mapa, que un lector de pantalla o el teclado no alcanzan.
-export default function SitePanel({ selected, onSelect, onSouthPole }: Props) {
+function Group({ title, items, selected, onSelect }: { title: string; items: MoonSite[] } & Pick<Props, 'selected' | 'onSelect'>) {
   return (
-    <div className="moonmap-panel">
-      <h2 className="moonmap-panel-title">Sitios de aterrizaje</h2>
-      <p className="moonmap-note">
-        <span className="moonmap-tag">DATOS DE EJEMPLO</span>
-      </p>
-
+    <>
+      <h3 className="moonmap-subtitle">{title}</h3>
       <ul className="moonmap-sites">
-        {landingSites.map((s) => (
+        {items.map((s) => (
           <li key={s.id}>
             <button
               type="button"
@@ -26,11 +25,43 @@ export default function SitePanel({ selected, onSelect, onSouthPole }: Props) {
               onClick={() => onSelect(s)}
             >
               <span>{s.name}</span>
-              <span className="moonmap-site-region">{s.region}</span>
+              <span className="moonmap-site-region">{s.landing_date_utc?.slice(0, 4) ?? `±${s.position_uncertainty_km} km`}</span>
             </button>
           </li>
         ))}
       </ul>
+    </>
+  )
+}
+
+// La lista de sitios son <button> reales: es la alternativa por teclado a tocar
+// los marcadores del mapa, que un lector de pantalla o el teclado no alcanzan.
+export default function SitePanel({ sites, failed, onRetry, selected, onSelect, onSouthPole }: Props) {
+  return (
+    <div className="moonmap-panel">
+      <h2 className="moonmap-panel-title">Sitios de aterrizaje</h2>
+      {failed ? (
+        <div className="moonmap-error">
+          <p className="moonmap-note">No se pudieron cargar los sitios desde la API.</p>
+          <button type="button" className="moonmap-btn" onClick={onRetry}>
+            Reintentar
+          </button>
+        </div>
+      ) : !sites ? (
+        <p className="moonmap-note" role="status">
+          Cargando sitios… (si el servidor estaba dormido, puede tardar ~30 s)
+        </p>
+      ) : (
+        <>
+          <Group title="Alunizajes Apollo" items={sites.filter((s) => s.group === 'apollo')} selected={selected} onSelect={onSelect} />
+          <Group
+            title="Regiones candidatas de Artemis III"
+            items={sites.filter((s) => s.group === 'artemis3_candidate')}
+            selected={selected}
+            onSelect={onSelect}
+          />
+        </>
+      )}
 
       <button type="button" className="moonmap-btn" onClick={onSouthPole}>
         Ir al polo sur
@@ -39,14 +70,69 @@ export default function SitePanel({ selected, onSelect, onSouthPole }: Props) {
       {selected ? (
         <dl className="moonmap-detail" aria-live="polite">
           <h3 className="moonmap-subtitle">{selected.name}</h3>
-          <div><dt>Región</dt><dd>{selected.region}</dd></div>
-          <div><dt>Coordenadas</dt><dd>Lat {selected.center[0]}°, Lon {selected.center[1]}°</dd></div>
-          <div><dt>Agua</dt><dd>{selected.water}</dd></div>
-          <div><dt>Pendiente</dt><dd>{selected.slope}</dd></div>
-          <div><dt>Iluminación</dt><dd>{selected.light}</dd></div>
+          <div>
+            <dt>Tipo</dt>
+            <dd>{GROUP_LABEL[selected.group]}</dd>
+          </div>
+          {selected.place && (
+            <div>
+              <dt>Lugar</dt>
+              <dd>{selected.place}</dd>
+            </div>
+          )}
+          <div>
+            <dt>Coordenadas</dt>
+            <dd>
+              {formatLatLon(selected.lat, selected.lon)} (±{selected.position_uncertainty_km} km,{' '}
+              {selected.position_type === 'lunar_module' ? 'módulo lunar' : `centro de ${selected.reference_feature}`})
+            </dd>
+          </div>
+          {selected.landing_date_utc && (
+            <div>
+              <dt>Alunizaje</dt>
+              <dd>
+                {selected.landing_date_utc} (UT) · {selected.crew_on_surface}
+              </dd>
+            </div>
+          )}
+          {historyEs(selected) && (
+            <div>
+              <dt>Historia</dt>
+              <dd>{historyEs(selected)}</dd>
+            </div>
+          )}
+          {noteEs(selected) && (
+            <div>
+              <dt>Nota</dt>
+              <dd>{noteEs(selected)}</dd>
+            </div>
+          )}
+          {selected.group === 'apollo' && (
+            <div>
+              <dt>Lo que quedó allí</dt>
+              <dd>
+                <Link
+                  className="moonmap-link"
+                  to={ABANDONED_CARD[selected.id] ? `/abandonados#${ABANDONED_CARD[selected.id]}` : '/abandonados'}
+                >
+                  {ABANDONED_CARD[selected.id]
+                    ? 'Ver la ficha del equipo abandonado →'
+                    : 'Ver equipo abandonado en la Luna →'}
+                </Link>
+              </dd>
+            </div>
+          )}
+          <div>
+            <dt>Fuente</dt>
+            <dd>
+              <a className="moonmap-link" href={selected.source} target="_blank" rel="noopener noreferrer">
+                {new URL(selected.source).hostname}
+              </a>
+            </dd>
+          </div>
         </dl>
       ) : (
-        <p className="moonmap-note">Elige un sitio para verlo en el mapa.</p>
+        <p className="moonmap-note">Elige un sitio para verlo en el mapa y ver cuándo tiene Sol y Tierra a la vista.</p>
       )}
 
       {/* El mapa usa proyección global (no hay capas polares en Moon Trek): cerca

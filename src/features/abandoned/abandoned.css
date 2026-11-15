@@ -156,3 +156,9 @@
   letter-spacing: 1px;
   color: var(--accent);
 }
+
+/* Ficha enlazada desde el mapa de la Luna (/abandonados#id). */
+.abandoned-item--target .abandoned-card {
+  border-color: var(--mint);
+  box-shadow: 0 0 0 1px var(--mint);
+}
