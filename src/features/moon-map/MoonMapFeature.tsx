@@ -1,5 +1,6 @@
 import 'leaflet/dist/leaflet.css'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import type { Map as LeafletMap } from 'leaflet'
 import { getMoonSites } from '../../api/moon'
 import type { MoonSite } from '../../api/types'
@@ -19,6 +20,14 @@ export default function MoonMapFeature() {
     ),
   )
 
+  const [selected, setSelected] = useState<MoonSite | null>(null)
+  const [compare, setCompare] = useState<MoonSite | null>(null)
+
+  // /luna?sitio=<id>: entra con ese sitio ya elegido (lo usa el sistema solar). Sin el parámetro, nada cambia.
+  const [params] = useSearchParams()
+  const wanted = useRef(params.get('sitio'))
+  const pendingFly = useRef<MoonSite | null>(null)
+
   // Sitios reales del backend (GET /moon/sites).
   const [sites, setSites] = useState<MoonSite[] | null>(null)
   const [failed, setFailed] = useState(false)
@@ -26,15 +35,30 @@ export default function MoonMapFeature() {
   useEffect(() => {
     let cancelled = false
     getMoonSites()
-      .then((r) => !cancelled && (setSites(r.sites), setFailed(false)))
+      .then((r) => {
+        if (cancelled) return
+        setSites(r.sites)
+        setFailed(false)
+        const site = wanted.current ? r.sites.find((s) => s.id === wanted.current) : undefined
+        wanted.current = null
+        if (site) {
+          setSelected(site)
+          pendingFly.current = site
+        }
+      })
       .catch(() => !cancelled && setFailed(true))
     return () => {
       cancelled = true
     }
   }, [attempt])
 
-  const [selected, setSelected] = useState<MoonSite | null>(null)
-  const [compare, setCompare] = useState<MoonSite | null>(null)
+  // Lleva el mapa al sitio pedido por URL en cuanto el mapa y los sitios están listos.
+  useEffect(() => {
+    const site = pendingFly.current
+    if (!map || !site) return
+    pendingFly.current = null
+    map.setView([site.lat, site.lon], siteZoom(site))
+  }, [map, sites])
 
   // Elegir un sitio (desde la lista o tocando su marcador) lo selecciona y
   // mueve el mapa: así lista y mapa nunca muestran cosas distintas.

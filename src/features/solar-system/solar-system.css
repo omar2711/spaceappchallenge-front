@@ -179,3 +179,217 @@
     font-size: 11px;
   }
 }
+
+/* ===== Marcadores de superficie (Luna y Marte) ===== */
+.sky .sky-site {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+.sky .sky-site[hidden] {
+  display: none;
+}
+
+.sky-site-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #d0d0d0;
+  border: 1px solid #000;
+}
+
+.sky-site.is-accent .sky-site-dot {
+  background: var(--accent);
+}
+
+.sky-site-tip {
+  display: none;
+  position: absolute;
+  left: 16px;
+  top: -4px;
+  padding: 4px 8px;
+  text-align: left;
+  white-space: nowrap;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.sky-site-tip strong {
+  display: block;
+  font-size: 12px;
+  color: var(--text);
+}
+
+.sky-site-tip small {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.sky-site:hover .sky-site-tip,
+.sky-site:focus-visible .sky-site-tip {
+  display: block;
+}
+
+.sky-site:hover .sky-site-dot {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* ===== Lista de lugares (equivalente HTML de los marcadores) ===== */
+.sky .sky-places {
+  position: absolute;
+  top: 90px;
+  right: 5vw;
+  width: 260px;
+  max-height: calc(100dvh - 220px);
+  overflow: auto;
+  padding: 12px;
+  margin: 0;
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.sky-places h2 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.sky-places p {
+  margin: 0;
+}
+
+.sky-places ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 2px;
+}
+
+.sky-places a {
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  column-gap: 6px;
+  align-items: center;
+  padding: 5px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.sky-places a:hover,
+.sky-places a:focus-visible {
+  background: #1c1c1c;
+}
+
+.sky-places small {
+  grid-column: 2;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.sky-places-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d0d0d0;
+}
+
+.sky-places a.is-accent .sky-places-dot {
+  background: var(--accent);
+}
+
+/* Móvil: marcadores más grandes y la lista abajo, sobre la navegación */
+@media (max-width: 767px) {
+  .sky .sky-site {
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+  }
+
+  .sky-site-dot {
+    width: 14px;
+    height: 14px;
+  }
+
+  .sky .sky-places {
+    top: auto;
+    right: 12px;
+    left: 12px;
+    bottom: 130px;
+    width: auto;
+    max-height: 28dvh;
+  }
+}
+
+.sky-places button {
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  column-gap: 6px;
+  align-items: center;
+  width: 100%;
+  padding: 5px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  text-align: left;
+}
+
+.sky-places button:hover,
+.sky-places button[aria-expanded='true'] {
+  background: #1c1c1c;
+}
+
+.sky-places button.is-accent .sky-places-dot {
+  background: var(--accent);
+}
+
+/* Panel de Cochabamba */
+.sky .sky-cbba p {
+  margin: 10px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.sky-cbba dl {
+  display: grid;
+  gap: 8px;
+  margin: 10px 0 0;
+}
+
+.sky-cbba dt {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.sky-cbba dd {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.sky .sky-cbba a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 0;
+  color: var(--text);
+  text-decoration: underline;
+}
+
+.sky .sky-cbba a:hover {
+  background: none;
+}
