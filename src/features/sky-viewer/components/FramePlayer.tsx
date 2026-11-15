@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
+import { sig } from '../../../components/charts/ticks'
+import { useEffect, useRef, useState, type KeyboardEvent, type MouseEvent } from 'react'
 import type { SkyFrame } from '../../../api/sky'
-import type { DiffCaveat, Pair } from '../../../api/types'
+import type { DiffCaveat, GaiaSource, Pair } from '../../../api/types'
 import { drawDifference } from '../lib/frameDiff'
+import GaiaOverlay from './GaiaOverlay'
 import type { ViewMode } from './ViewModeBar'
 
 const SPEEDS = [0.5, 1, 2]
@@ -18,6 +20,13 @@ type Props = {
   blinkA: number
   blinkB: number
   diffs: CalibratedDiff[]
+  /** Clic sobre la imagen: píxel web (base 0, origen arriba a la izquierda). */
+  onPickPixel?: (px: Pair) => void
+  pickedPx?: Pair | null
+  /** El objetivo tiene movimiento propio conocido (cambia el texto de la nota de saturación). */
+  movingTarget?: boolean
+  /** Estrellas Gaia DR3 del campo (ya filtradas) para dibujar sobre la imagen. */
+  gaia?: GaiaSource[] | null
 }
 
 const CAVEAT_TEXT: Record<DiffCaveat, string> = {
@@ -34,9 +43,17 @@ const prefersReducedMotion = () =>
 const formatDate = (iso: string) => (iso ? `${iso.slice(0, 10)} UT` : '')
 
 /** Marca de la posición esperada del objetivo (coordenadas WebP: centro del píxel en x + 0.5). */
-function TargetMarker({ px, size }: { px: Pair; size: Pair }) {
+function TargetMarker({ px, size, pick }: { px: Pair; size: Pair; pick?: boolean }) {
   const [x, y] = [px[0] + 0.5, px[1] + 0.5]
   const r = Math.max(1.6, size[0] / 18)
+  if (pick) {
+    const h = r * 0.8
+    return (
+      <svg className="skyviewer-overlay skyviewer-overlay--pick" viewBox={`0 0 ${size[0]} ${size[1]}`} aria-hidden="true">
+        <rect x={x - h} y={y - h} width={h * 2} height={h * 2} />
+      </svg>
+    )
+  }
   return (
     <svg className="skyviewer-overlay" viewBox={`0 0 ${size[0]} ${size[1]}`} aria-hidden="true">
       <circle cx={x} cy={y} r={r} />
@@ -49,7 +66,19 @@ function TargetMarker({ px, size }: { px: Pair; size: Pair }) {
 }
 
 // Este componente se monta de nuevo (key) con cada serie o detector, así que su estado parte limpio.
-export default function FramePlayer({ frames, imageSize, detectorLabel, mode, blinkA, blinkB, diffs }: Props) {
+export default function FramePlayer({
+  frames,
+  imageSize,
+  detectorLabel,
+  mode,
+  blinkA,
+  blinkB,
+  diffs,
+  onPickPixel,
+  pickedPx,
+  movingTarget,
+  gaia,
+}: Props) {
   const count = frames.length
   const [reduced] = useState(prefersReducedMotion)
   const [index, setIndex] = useState(0)
@@ -59,6 +88,7 @@ export default function FramePlayer({ frames, imageSize, detectorLabel, mode, bl
   const [loop, setLoop] = useState(true)
   const [blinkOn, setBlinkOn] = useState(false)
   const [showTarget, setShowTarget] = useState(true)
+  const [showGaia, setShowGaia] = useState(true)
   const [diffError, setDiffError] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const images = useRef(new Map<string, Promise<HTMLImageElement>>())
@@ -150,6 +180,14 @@ export default function FramePlayer({ frames, imageSize, detectorLabel, mode, bl
     }
   }
 
+  const pick = (e: MouseEvent<HTMLDivElement>) => {
+    if (!onPickPixel) return
+    const r = e.currentTarget.getBoundingClientRect()
+    const x = ((e.clientX - r.left) / r.width) * imageSize[0] - 0.5
+    const y = ((e.clientY - r.top) / r.height) * imageSize[1] - 0.5
+    onPickPixel([Math.round(x * 100) / 100, Math.round(y * 100) / 100])
+  }
+
   const prev = index > 0 ? frames[index - 1] : null
   const saturated = frame.saturatedExposures > 0
 
@@ -161,7 +199,7 @@ export default function FramePlayer({ frames, imageSize, detectorLabel, mode, bl
       tabIndex={0}
       onKeyDown={onKeyDown}
     >
-      <div className="skyviewer-stage">
+      <div className={`skyviewer-stage${onPickPixel ? ' skyviewer-stage--pick' : ''}`} onClick={pick}>
         {mode === 'diff' ? (
           calibrated ? (
             <img
@@ -185,6 +223,10 @@ export default function FramePlayer({ frames, imageSize, detectorLabel, mode, bl
           />
         )}
         {showTarget && !(mode === 'diff' && index === 0) && <TargetMarker px={frame.targetPx} size={imageSize} />}
+        {gaia && showGaia && mode !== 'diff' && (
+          <GaiaOverlay sources={gaia} epoch={frame.epoch} epochs={frames.map((f) => f.epoch)} size={imageSize} />
+        )}
+        {pickedPx && <TargetMarker px={pickedPx} size={imageSize} pick />}
         {mode === 'diff' && index === 0 && (
           <p className="skyviewer-stage-note">
             Pasada 1: todavía no hay una pasada anterior con la que comparar. Avanza a la pasada 2.
@@ -212,7 +254,7 @@ export default function FramePlayer({ frames, imageSize, detectorLabel, mode, bl
                 <span className="skyviewer-legend skyviewer-legend--neg" /> más débil / posición anterior ·{' '}
                 <span className="skyviewer-legend skyviewer-legend--zero" /> sin cambio ·{' '}
                 <span className="skyviewer-legend skyviewer-legend--pos" /> más brillante / posición nueva · rango ±
-                {calibrated.range[1].toPrecision(3)} MJy/sr. Diferencia calibrada por el backend (escala de brillo
+                {sig(calibrated.range[1], 3)} MJy/sr. Diferencia calibrada por el backend (escala de brillo
                 ajustada con estrellas del campo).
               </p>
               {calibrated.caveats.length > 0 && (
@@ -232,8 +274,9 @@ export default function FramePlayer({ frames, imageSize, detectorLabel, mode, bl
       )}
       {saturated && mode !== 'diff' && (
         <p className="skyviewer-note">
-          El objetivo está saturado en {frame.saturatedExposures} de {frame.nImages} exposiciones de esta pasada: su
-          núcleo es una cota inferior (el movimiento sigue siendo válido).
+          {movingTarget ? 'El objetivo' : 'La posición marcada'} está saturada en {frame.saturatedExposures} de{' '}
+          {frame.nImages} exposiciones de esta pasada: su brillo es una cota inferior
+          {movingTarget ? ' (el movimiento sigue siendo válido)' : ''}.
         </p>
       )}
 
@@ -282,6 +325,12 @@ export default function FramePlayer({ frames, imageSize, detectorLabel, mode, bl
           <input type="checkbox" checked={showTarget} onChange={(e) => setShowTarget(e.target.checked)} />
           Marcar objetivo
         </label>
+        {gaia && (
+          <label className="skyviewer-inline">
+            <input type="checkbox" checked={showGaia} onChange={(e) => setShowGaia(e.target.checked)} />
+            Estrellas Gaia
+          </label>
+        )}
       </div>
 
       <input

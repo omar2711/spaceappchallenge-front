@@ -274,6 +274,139 @@
   filter: drop-shadow(0 0 2px rgb(0 0 0 / 0.9));
 }
 
+/* Posición elegida con un clic para medir su espectro. */
+.skyviewer-stage--pick {
+  cursor: crosshair;
+}
+
+.skyviewer-overlay--pick rect {
+  fill: none;
+  stroke: #ffb36b;
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 2px rgb(0 0 0 / 0.9));
+}
+
+/* Estrellas Gaia DR3 y flechas de movimiento propio. */
+.skyviewer-gaia .skyviewer-gaia-star {
+  fill: none;
+  stroke: #7fb3ff;
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.75;
+}
+
+.skyviewer-gaia-mover line,
+.skyviewer-gaia-mover circle {
+  fill: none;
+  stroke: #ffd36b;
+  stroke-width: 1.6px;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 2px rgb(0 0 0 / 0.9));
+}
+
+.skyviewer-gaia-mover.is-scaled line {
+  stroke-dasharray: 3 2;
+}
+
+.skyviewer-gaia marker path {
+  fill: #ffd36b;
+}
+
+.skyviewer-key {
+  display: inline-block;
+  width: 14px;
+  height: 0;
+  margin-right: 4px;
+  vertical-align: middle;
+  border-top: 2px solid #ffd36b;
+}
+
+.skyviewer-key--dashed {
+  border-top-style: dashed;
+}
+
+.skyviewer-key--star {
+  width: 9px;
+  height: 9px;
+  border: 1px solid #7fb3ff;
+  border-radius: 50%;
+}
+
+/* ===== Cochabamba ===== */
+.skyviewer-date {
+  margin-bottom: 10px;
+}
+
+.skyviewer-date .skyviewer-input {
+  width: auto;
+}
+
+/* ===== Espectro y curva de luz ===== */
+.skyviewer-spectrum {
+  display: grid;
+  gap: 10px;
+}
+
+.skyviewer-chip {
+  padding: 5px 12px;
+  font-size: 13px;
+}
+
+.skyviewer-lc-dets {
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.skyviewer-lc-dets .skyviewer-note {
+  margin: 0;
+}
+
+.skyviewer-callout--hit {
+  border-left-color: var(--mint);
+}
+
+.skyviewer-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.skyviewer-table caption {
+  text-align: left;
+  padding-bottom: 6px;
+  font: 11px var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+
+.skyviewer-table th,
+.skyviewer-table td {
+  padding: 6px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+
+.skyviewer-table th {
+  color: var(--label);
+  font-weight: 600;
+}
+
+.skyviewer-table tr.is-hit td {
+  color: var(--mint);
+  font-weight: 600;
+}
+
+.plot-band-key {
+  border: 1px solid #5b8fd6;
+  background: #5b8fd633;
+}
+
+.plot-band-key--hit {
+  border-color: var(--mint);
+  background: #c1ebdf55;
+}
+
 /* ===== Detectores ===== */
 .skyviewer-detbar {
   display: grid;

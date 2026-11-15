@@ -75,13 +75,23 @@ async function buildCatalog(): Promise<KnownField[]> {
   return [...targets, ...demo]
 }
 
+// Traducción de las descripciones de presets.json (el backend las escribe en inglés); si no hay, se usa la original.
+const PRESET_DESCRIPTION_ES: Record<string, string> = {
+  'Young star with a protoplanetary disk (Taurus); XZ Tau is the companion to the east':
+    'Estrella joven con disco protoplanetario (Tauro); XZ Tau es la compañera al este.',
+  'Young cluster lighting up the Orion Nebula; BN/KL infrared source appears at 2.5-5 µm (D4-D6)':
+    'Cúmulo joven que ilumina la Nebulosa de Orión; la fuente infrarroja BN/KL aparece a 2.5–5 µm (D4–D6).',
+  'Star-forming region; nebular emission and the embedded BN/KL object':
+    'Región de formación estelar: emisión de la nebulosa y el objeto embebido BN/KL.',
+}
+
 async function presetField(p: CustomPreset): Promise<KnownField> {
   const m = await getData<Manifest>(p.manifest)
   return {
     id: p.id,
     kind: 'preset',
     name: p.name,
-    description: p.description,
+    description: PRESET_DESCRIPTION_ES[p.description] ?? p.description,
     manifestPath: p.manifest,
     analysisPath: p.manifest.replace(/manifest\.json$/, 'analysis.json'),
     manifest: m,

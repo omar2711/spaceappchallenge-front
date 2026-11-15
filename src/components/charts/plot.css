@@ -1,0 +1,106 @@
+.plot {
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.plot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--space);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: visible;
+}
+
+.plot svg text {
+  font: 11px var(--font-mono);
+  fill: var(--muted);
+}
+
+.plot .plot-label {
+  font: 12px var(--font-sans);
+  fill: var(--label);
+}
+
+.plot-axis line {
+  stroke: var(--border);
+}
+
+.plot-grid line {
+  stroke: var(--line);
+}
+
+.plot-band rect {
+  fill: #5b8fd61f;
+  stroke: #5b8fd666;
+}
+
+.plot-band--ice rect {
+  fill: #b48ad61f;
+  stroke: #b48ad666;
+}
+
+.plot-band--hit rect {
+  fill: #c1ebdf33;
+  stroke: var(--mint);
+}
+
+.plot-band--dashed rect {
+  stroke-dasharray: 3 3;
+}
+
+.plot .plot-band text {
+  font-size: 10px;
+  fill: var(--label);
+}
+
+.plot .plot-band--hit text {
+  fill: var(--mint);
+  font-weight: 700;
+}
+
+.plot-series .plot-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  opacity: 0.55;
+}
+
+.plot-series .plot-err {
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: 0.7;
+}
+
+.plot-series .plot-mark {
+  fill: currentColor;
+  stroke: var(--space);
+  stroke-width: 0.8;
+}
+
+.plot-pt--faint {
+  opacity: 0.35;
+}
+
+.plot-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.plot-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.plot-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
