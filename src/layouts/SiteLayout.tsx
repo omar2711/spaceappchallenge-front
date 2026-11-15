@@ -3,6 +3,7 @@ import './site-layout.css'
 
 const links = [
   { to: '/cielo', label: 'Cielo' },
+  { to: '/luna', label: 'Luna' },
   { to: '/marte', label: 'Marte' },
   { to: '/abandonados', label: 'Abandonados' },
   { to: '/sistema-solar', label: 'Sistema solar' },

@@ -4,6 +4,7 @@ import SiteLayout from '../layouts/SiteLayout'
 import LandingPage from '../pages/landing/LandingPage'
 
 const SkyPage = lazy(() => import('../pages/sky/SkyPage'))
+const MoonPage = lazy(() => import('../pages/moon/MoonPage'))
 const MarsPage = lazy(() => import('../pages/mars/MarsPage'))
 const AbandonedPage = lazy(() => import('../pages/abandoned/AbandonedPage'))
 const SolarSystemPage = lazy(() => import('../features/solar-system/SolarSystemPage'))
@@ -15,6 +16,7 @@ export default function App() {
         <Route element={<SiteLayout />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/cielo" element={<SkyPage />} />
+          <Route path="/luna" element={<MoonPage />} />
           <Route path="/marte" element={<MarsPage />} />
           <Route path="/abandonados" element={<AbandonedPage />} />
         </Route>
