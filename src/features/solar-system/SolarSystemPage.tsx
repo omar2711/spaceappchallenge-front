@@ -60,7 +60,9 @@ export default function SolarSystemPage(){
     renderer.setPixelRatio(Math.min(devicePixelRatio,2))
     container.append(renderer.domElement)
     const controls=new OrbitControls(camera,renderer.domElement)
-    controls.enableDamping=true
+    // Con movimiento reducido: sin inercia y con cortes directos entre vistas.
+    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    controls.enableDamping=!reduced
     controls.maxDistance=1.4e10
     const lamp=new T.PointLight(0xffffff,2,0,0)
     scene.add(lamp,new T.AmbientLight(0xe6efff,0.54))
@@ -198,6 +200,7 @@ export default function SolarSystemPage(){
       const direction=body && next!=='Sol'?body.mesh.position.clone().negate().normalize():new T.Vector3(0,0,1)
       direction.y+=0.52
       end.copy(focus).addScaledVector(direction.normalize(),body?body.r*(next==='Saturno'?7.5:4.3):1.3e10)
+      if(reduced){camera.position.copy(end);controls.target.copy(focus);flight=1;return}
       from.copy(camera.position);startFocus.copy(controls.target);flight=0
     }
     navigate.current('Tierra');camera.position.copy(end);controls.target.copy(focus);flight=1
