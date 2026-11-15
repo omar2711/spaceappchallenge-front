@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import './abandoned.css'
 import { artifacts } from './data/artifacts'
 import ArtifactCard from './components/ArtifactCard'
@@ -6,6 +7,13 @@ import FilterBar, { type Filter } from './components/FilterBar'
 
 export default function AbandonedFeature() {
   const [filter, setFilter] = useState<Filter>('all')
+  // Enlaces desde /luna (p. ej. /abandonados#apollo-12-lm): lleva la ficha a la vista y la resalta.
+  const { hash } = useLocation()
+  const target = decodeURIComponent(hash.slice(1))
+  useEffect(() => {
+    if (!target) return
+    document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }, [target])
   const shown = useMemo(
     () => (filter === 'all' ? artifacts : artifacts.filter((a) => a.body === filter)),
     [filter],
@@ -26,7 +34,7 @@ export default function AbandonedFeature() {
 
       <ul className="abandoned-list">
         {shown.map((a) => (
-          <li key={a.id}>
+          <li key={a.id} id={a.id} className={a.id === target ? 'abandoned-item--target' : undefined}>
             <ArtifactCard artifact={a} />
           </li>
         ))}
