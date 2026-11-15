@@ -2,15 +2,9 @@ import { useEffect, useState } from 'react'
 import { getVisibility } from '../../../api/b3'
 import type { Visibility } from '../../../api/types'
 import Plot from '../../../components/charts/Plot'
+import { todayCbba, when } from '../lib/cbba'
 
 // ¿Se ve desde Cochabamba? GET /visibility para el centro del campo, con la noche elegida.
-
-const hhmm = (iso?: string | null) => (iso ? iso.slice(11, 16) : '—')
-const dayLabel = (iso?: string | null) => (iso ? `${iso.slice(8, 10)}/${iso.slice(5, 7)}` : '')
-const when = (iso?: string | null) => (iso ? `${hhmm(iso)} (${dayLabel(iso)})` : '—')
-
-/** Fecha de hoy en Cochabamba (UTC−4), YYYY-MM-DD. */
-const todayCbba = () => new Date(Date.now() - 4 * 3600000).toISOString().slice(0, 10)
 
 const toMinutes = (iso: string, t0: number) => (Date.parse(`${iso}:00Z`) - t0) / 60000
 

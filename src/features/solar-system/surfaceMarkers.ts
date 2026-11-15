@@ -2,9 +2,9 @@ import * as T from 'three'
 import type { MarsWalk, MoonSite } from '../../api/types'
 import { GROUP_LABEL } from '../moon-map/data/sites'
 
-// Marcadores sobre la superficie de la Luna y Marte, con los datos que ya usan /luna y /marte.
+// Marcadores sobre la superficie de la Tierra, la Luna y Marte, con los datos que ya usan /cielo, /luna y /marte.
 
-export type SurfaceBody = 'Luna' | 'Marte'
+export type SurfaceBody = 'Tierra' | 'Luna' | 'Marte'
 
 export type SurfaceMarker = {
   id: string
@@ -14,14 +14,29 @@ export type SurfaceMarker = {
   name: string
   kind: string
   accent: boolean
-  to: string
+  /** Página a la que lleva el clic; null abre un panel en el propio visor. */
+  to: string | null
 }
 
 // Jezero según la consigna (centro del cráter); se usa si la API de /marte no responde.
 const JEZERO = { lat: 18.38, lon: 77.58 }
 
+// Cochabamba, el mismo lugar que usa /visibility (17.39° S, 66.16° O).
+const COCHABAMBA = { lat: -17.39, lon: -66.16 }
+
 export function buildMarkers(sites: MoonSite[] | null, walk: MarsWalk | null): SurfaceMarker[] {
-  const out: SurfaceMarker[] = (sites ?? []).map((s) => ({
+  const out: SurfaceMarker[] = [
+    {
+      id: 'cochabamba',
+      body: 'Tierra',
+      ...COCHABAMBA,
+      name: 'Cochabamba',
+      kind: 'Epsilon Indi B esta noche',
+      accent: true,
+      to: null,
+    },
+  ]
+  out.push(...(sites ?? []).map((s): SurfaceMarker => ({
     id: s.id,
     body: 'Luna',
     lat: s.lat,
@@ -30,7 +45,7 @@ export function buildMarkers(sites: MoonSite[] | null, walk: MarsWalk | null): S
     kind: s.group === 'apollo' ? `${GROUP_LABEL[s.group]}, alunizaje de ${s.landing_date_utc?.slice(0, 4) ?? ''}` : GROUP_LABEL[s.group],
     accent: s.group !== 'apollo',
     to: `/luna?sitio=${encodeURIComponent(s.id)}`,
-  }))
+  })))
   out.push({
     id: 'jezero',
     body: 'Marte',

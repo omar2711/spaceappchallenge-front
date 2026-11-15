@@ -5,6 +5,7 @@ import { getMarsWalk } from '../../api/mars'
 import { getMoonSites } from '../../api/moon'
 import type { MarsWalk, MoonSite } from '../../api/types'
 import { buildMarkers, routeLine, surfacePoint, type SurfaceMarker } from './surfaceMarkers'
+import CochabambaPanel from './CochabambaPanel'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import positions from './data/positions.json'
 import './solar-system.css'
@@ -38,6 +39,8 @@ export default function SolarSystemPage(){
   const markers = useMemo(()=>buildMarkers(moonSites,walk),[moonSites,walk])
   const latest = useRef<{markers:SurfaceMarker[];walk:MarsWalk|null}>({markers,walk})
   const applyData = useRef<()=>void>(()=>{})
+  const [cbbaOpen,setCbbaOpen] = useState(false)
+  const openPanel = useRef(()=>setCbbaOpen(true))
   useEffect(()=>{latest.current={markers,walk};applyData.current()},[markers,walk])
   const navigate = useRef<(v:View)=>void>(()=>{})
   const [view,setView] = useState<View>('Tierra')
@@ -108,7 +111,7 @@ export default function SolarSystemPage(){
         const strong=document.createElement('strong');strong.textContent=m.name
         const small=document.createElement('small');small.textContent=m.kind
         tip.append(strong,small);el.append(dot,tip)
-        el.onclick=()=>go.current(m.to)
+        el.onclick=()=>{if(m.to)go.current(m.to);else openPanel.current()}
         el.hidden=true
         container.append(el)
         pins.push({m,el,local:surfacePoint(m.lat,m.lon,body.r),mesh:body.mesh})
@@ -215,10 +218,15 @@ export default function SolarSystemPage(){
   const body=catalog.find(b=>b[0]===view)
   return <main className="sky"><div className="space" ref={host} aria-label="Mapa tridimensional del sistema solar"/><header><Link to="/" className="brand">Ruta del Agua</Link><select aria-label="Ir a un destino" value="" onChange={e=>navigate.current(e.target.value as View)}><option value="" disabled>Ir a…</option>{catalog.map(([n])=><option key={n}>{n}</option>)}</select></header>
   <section><h1>{view}</h1>{body?<p>Radio medio <span className="num">{format(body[1])} km</span><br/>Distancia al Sol <span className="num">{format(Math.hypot(...positions[body[0]]))} km</span></p>:<p>{view==='Vuelo libre'?'Usa W y S para avanzar o retroceder, y A y D para moverte de lado.':'Elige un planeta abajo para acercarte.'}</p>}</section>
+  {view==='Tierra'&&<nav className="sky-places" aria-label="Lugares en la Tierra">
+    <h2>Tierra</h2>
+    <ul><li><button type="button" className="is-accent" aria-expanded={cbbaOpen} onClick={()=>setCbbaOpen(o=>!o)}><span className="sky-places-dot"/>Cochabamba<small>Epsilon Indi B esta noche</small></button></li></ul>
+    {cbbaOpen&&<CochabambaPanel/>}
+  </nav>}
   {(view==='Luna'||view==='Marte')&&<nav className="sky-places" aria-label={'Lugares en '+view}>
     <h2>{view==='Luna'?'Sitios de alunizaje':'Marte'}</h2>
     {view==='Luna'&&!moonSites?<p>Cargando los sitios…</p>:null}
-    <ul>{markers.filter(m=>m.body===view).map(m=><li key={m.id}><Link to={m.to} className={m.accent?'is-accent':undefined}><span className="sky-places-dot"/>{m.name}<small>{m.kind}</small></Link></li>)}</ul>
+    <ul>{markers.filter(m=>m.body===view&&m.to).map(m=><li key={m.id}><Link to={m.to as string} className={m.accent?'is-accent':undefined}><span className="sky-places-dot"/>{m.name}<small>{m.kind}</small></Link></li>)}</ul>
   </nav>}
   {error&&<aside>Este visor necesita WebGL. Activa la aceleración gráfica del navegador para verlo.</aside>}
   <footer><nav>{(['Sistema solar','Tierra','Luna','Marte','Vuelo libre'] as View[]).map(n=><button key={n} aria-pressed={view===n} onClick={()=>navigate.current(n)}>{n}</button>)}</nav><div className="meta"><span>Posiciones del <span className="num">2026-11-14 00:00 TDB</span></span><button onClick={()=>setCredits(!credits)}>Datos y créditos {credits?'−':'+'}</button></div>{credits&&<div className="sources">Posiciones heliocéntricas · eclíptica J2000 · <a href="https://ssd.jpl.nasa.gov/horizons/">NASA/JPL Horizons</a>. Texturas: <a href="https://threejs.org/examples/textures/planets/">Tierra / Three.js</a>, <a href="https://svs.gsfc.nasa.gov/4720/">Luna / NASA</a>, <a href="https://www.solarsystemscope.com/textures/">Sol, planetas y anillos / Solar System Scope (CC BY 4.0)</a>. La orientación de las superficies es aproximada.</div>}</footer></main>
