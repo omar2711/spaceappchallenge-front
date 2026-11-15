@@ -180,3 +180,24 @@
     font-size: 11px;
   }
 }
+.sky .surface-pin {
+  position:absolute; width:14px; height:14px; padding:0;
+  transform:translate(-50%,-50%); border:2px solid #c6f5ff; border-radius:50%;
+  background:#227e97; box-shadow:0 0 0 2px #102027;
+}
+.sky .surface-pin.route { width:10px; height:10px; background:#ffae5f; border-color:#452711; }
+.sky .surface-pin:focus-visible { outline:3px solid white; }
+.sky .mission-inspector {
+  position:absolute; top:16%; right:3vw; width:min(290px,34vw);
+  max-height:55%; overflow:auto; display:grid; gap:.65rem;
+  background:#0b1622ed; color:#e6eef4; border:1px solid #455462;
+  border-radius:12px; padding:14px; font-size:14px;
+}
+.sky .mission-inspector select { display:block; margin-top:6px; width:100%; background:#182733; }
+.sky .mission-inspector p { margin:.4em 0; color:#cbd8df; }
+.sky .mission-inspector a,.sky .trail-link { color:#a8e6e3; }
+.sky .trail-link { text-align:left; padding:4px 0; text-decoration:underline; }
+@media(max-width:640px) {
+  .sky .mission-inspector { top:auto; bottom:115px; left:3vw; width:94vw; max-height:25dvh; padding:10px; }
+}
+

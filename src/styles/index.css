@@ -51,3 +51,7 @@ body {
   outline: 2px solid var(--mint);
   outline-offset: 3px;
 }
+.marsmap-panel table { width: 100%; margin-block: 1rem; border-collapse: collapse; text-align: left; }
+.marsmap-panel th, .marsmap-panel td { padding: .35rem; border-bottom: 1px solid currentColor; }
+.marsmap-panel th small { display: block; font-weight: normal; }
+.marsmap-panel select, .moonmap-panel select { display: block; width: 100%; margin-block: .5rem; padding: .4rem; }

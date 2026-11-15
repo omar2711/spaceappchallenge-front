@@ -1,3 +1,4 @@
+import { surfaceData } from './surfaceData'
 import { getJson } from './client'
 import type { MoonSites, MoonVisibility } from './types'
 
@@ -8,7 +9,7 @@ let sites: Promise<MoonSites> | null = null
 /** GET /moon/sites (se guarda en memoria; un fallo se puede reintentar). */
 export function getMoonSites(): Promise<MoonSites> {
   if (!sites) {
-    sites = getJson<MoonSites>('/moon/sites')
+    sites = surfaceData('moon-sites.json', () => getJson<MoonSites>('/moon/sites'))
     sites.catch(() => (sites = null))
   }
   return sites

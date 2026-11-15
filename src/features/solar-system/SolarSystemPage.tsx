@@ -1,3 +1,7 @@
+import { createStarfield, starCount } from './starfield'
+import { apolloSites, missionSites, normalAt, roverPath, roverSites, type SurfaceSite } from './surfaceScene'
+import { getMoonSites } from '../../api/moon'
+import { getMarsWalk } from '../../api/mars'
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import * as T from 'three'
@@ -21,6 +25,11 @@ export default function SolarSystemPage(){
   const host = useRef<HTMLDivElement>(null)
   const navigate = useRef<(v:View)=>void>(()=>{})
   const [view,setView] = useState<View>('Tierra')
+  const [sites,setSites] = useState<SurfaceSite[]>(missionSites)
+  const [site,setSite] = useState<SurfaceSite | null>(null)
+  const [pathKm,setPathKm] = useState<number | null>(null)
+  const [loadError,setLoadError] = useState('')
+  const visit = useRef<(s:SurfaceSite)=>void>(()=>{})
   const [credits,setCredits] = useState(false)
   const [error,setError] = useState(false)
   useEffect(()=>{
@@ -29,6 +38,8 @@ export default function SolarSystemPage(){
     try { renderer=new T.WebGLRenderer({antialias:true,logarithmicDepthBuffer:true}) }
     catch {setError(true); return}
     const scene=new T.Scene(), camera=new T.PerspectiveCamera(42,1,1,3e10)
+    const stars=createStarfield()
+    scene.add(stars)
     renderer.setPixelRatio(Math.min(devicePixelRatio,2))
     container.append(renderer.domElement)
     const controls=new OrbitControls(camera,renderer.domElement)
@@ -42,7 +53,7 @@ export default function SolarSystemPage(){
       const map=file ? loader.load(import.meta.env.BASE_URL+'textures/'+file+'.jpg') : null
       if(map){map.colorSpace=T.SRGBColorSpace; map.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy())}
       const material=name==='Sol'?new T.MeshBasicMaterial({color:0xffffff,map}):new T.MeshStandardMaterial({color:map?'white':color,map,roughness:1})
-      const mesh=new T.Mesh(new T.SphereGeometry(r,80,48),material)
+      const mesh=new T.Mesh(new T.SphereGeometry(r,name==='Marte'||name==='Luna'?256:80,name==='Marte'||name==='Luna'?160:48),material)
       const [x,y,z]=positions[name]
       mesh.position.set(x,z,-y)
       scene.add(mesh)
@@ -71,7 +82,7 @@ export default function SolarSystemPage(){
     let active:View='Tierra', flight=1
     const from=new T.Vector3(), end=new T.Vector3(), startFocus=new T.Vector3(), focus=new T.Vector3()
     navigate.current=(next)=>{
-      active=next; setView(next)
+      active=next; setView(next); setSite(null)
       controls.enablePan=true
       if(next==='Vuelo libre'){flight=1;return}
       const body=bodies.find(b=>b.name===next)
@@ -92,6 +103,45 @@ export default function SolarSystemPage(){
       direction.y+=0.52
       end.copy(focus).addScaledVector(direction.normalize(),body?body.r*(next==='Saturno'?7.5:4.3):1.3e10)
       from.copy(camera.position);startFocus.copy(controls.target);flight=0
+    }
+    const pins: {site: SurfaceSite; button: HTMLButtonElement; normal:T.Vector3}[]=[]
+    const allSites=missionSites()
+    let trail: ReturnType<typeof roverPath> | undefined
+    const addPins=(items: SurfaceSite[])=>{
+      for (const item of items) {
+        const button=document.createElement('button')
+        button.className='surface-pin '+item.kind
+        button.title=item.name
+        button.setAttribute('aria-label',item.name)
+        button.hidden=true
+        button.onclick=()=>visit.current(item)
+        container.append(button)
+        pins.push({site:item,button,normal:normalAt(item.lat,item.lon)})
+      }
+    }
+    const loadSites=(extra: SurfaceSite[])=>{
+      addPins(extra)
+      allSites.push(...extra)
+      setSites([...allSites])
+    }
+    addPins(allSites)
+    getMoonSites().then(data=>{if(!disposed)loadSites(apolloSites(data))})
+      .catch(()=>{if(!disposed)setLoadError('No se pudo cargar el catálogo Apollo.')})
+    getMarsWalk().then(walk=>{
+      if(disposed)return
+      const mars=bodies.find(b=>b.name==='Marte')!
+      trail=roverPath(walk,mars.r)
+      mars.mesh.add(trail)
+      setPathKm(walk.route.length_km)
+      loadSites(roverSites(walk))
+    }).catch(()=>{if(!disposed)setLoadError('No se pudo cargar el recorrido de Jezero.')})
+    visit.current=item=>{
+      navigate.current(item.body)
+      setSite(item)
+      const body=bodies.find(b=>b.name===item.body)!
+      controls.minDistance=body.r+1
+      const altitude=item.kind==='route'?65:body.r*0.14
+      end.copy(body.mesh.position).addScaledVector(normalAt(item.lat,item.lon),body.r+altitude)
     }
     navigate.current('Tierra');camera.position.copy(end);controls.target.copy(focus);flight=1
     const resize=new ResizeObserver(()=>{
@@ -128,7 +178,22 @@ export default function SolarSystemPage(){
         shift.multiplyScalar(camera.position.distanceTo(controls.target)*dt)
         camera.position.add(shift); controls.target.add(shift)
       }
-      controls.update();renderer.render(scene,camera)
+      controls.update()
+      stars.position.copy(camera.position)
+      renderer.render(scene,camera)
+      const selectedBody=bodies.find(b=>b.name===active)
+      for(const pin of pins){
+        const match=selectedBody && pin.site.body===active
+        if(!match){pin.button.hidden=true;continue}
+        const world=pin.normal.clone().multiplyScalar(selectedBody.r).add(selectedBody.mesh.position)
+        const facing=camera.position.clone().sub(world).dot(pin.normal)>0
+        const projected=world.project(camera)
+        pin.button.hidden=!facing || projected.z<=-1 || projected.z>=1 || Math.abs(projected.x)>1 || Math.abs(projected.y)>1
+        if(!pin.button.hidden){
+          pin.button.style.left=(50+50*projected.x)+'%'
+          pin.button.style.top=(50-50*projected.y)+'%'
+        }
+      }
       const occupied:number[][]=[]
       for(const b of bodies){
         const p=b.mesh.position.clone().project(camera)
@@ -138,13 +203,26 @@ export default function SolarSystemPage(){
         if(visible){occupied.push([x,y]);b.label.style.transform='translate('+x+'px,'+y+'px)'}
       }
     })
-    return ()=>{renderer.setAnimationLoop(null);disposed=true;for(const texture of details.values())texture.dispose();rings.dispose();ringMaterial.dispose();ringMap.dispose();resize.disconnect();controls.dispose();window.removeEventListener('keydown',down);window.removeEventListener('keyup',up);window.removeEventListener('blur',blur);for(const b of bodies){b.mesh.geometry.dispose();b.mesh.material.dispose();b.map?.dispose();b.label.remove()}renderer.dispose();renderer.domElement.remove()}
+    return ()=>{renderer.setAnimationLoop(null);disposed=true;for(const pin of pins)pin.button.remove();trail?.geometry.dispose();trail?.material.dispose();for(const child of stars.children){const points=child as T.Points<T.BufferGeometry,T.PointsMaterial>;points.geometry.dispose();points.material.dispose()}for(const texture of details.values())texture.dispose();rings.dispose();ringMaterial.dispose();ringMap.dispose();resize.disconnect();controls.dispose();window.removeEventListener('keydown',down);window.removeEventListener('keyup',up);window.removeEventListener('blur',blur);for(const b of bodies){b.mesh.geometry.dispose();b.mesh.material.dispose();b.map?.dispose();b.label.remove()}renderer.dispose();renderer.domElement.remove()}
   },[])
   const body=catalog.find(b=>b[0]===view)
   return <main className="sky"><div className="space" ref={host} aria-label="Mapa tridimensional del sistema solar"/><header><Link to="/" className="brand">◉ &nbsp; Ruta del Agua</Link><select aria-label="Ir a un destino" value="" onChange={e=>navigate.current(e.target.value as View)}><option value="" disabled>Ir a un destino ↓</option>{catalog.map(([n])=><option key={n}>{n}</option>)}</select></header>
   <section><small>EXPLORADOR DEL SISTEMA SOLAR</small><h1>{view}</h1>{body?<p>Radio medio · {format(body[1])} km<br/>Distancia al Sol · {format(Math.hypot(...positions[body[0]]))} km</p>:<p>{view==='Vuelo libre'?'W/S para avanzar y retroceder · A/D para desplazarte':'Selecciona un cuerpo para acercarte'}</p>}</section>
+  {(view==='Marte' || view==='Luna') && <div className="mission-inspector">
+    <label>Misiones en {view}
+      <select value={site?.id??''} onChange={e=>{const item=sites.find(s=>s.id===e.target.value);if(item)visit.current(item)}}>
+        <option value="" disabled>Explorar un lugar</option>
+        {sites.filter(s=>s.body===view).map(s=><option key={s.id} value={s.id}>{s.name}</option>)}
+      </select>
+    </label>
+    {site && <div aria-live="polite"><strong>{site.name}</strong><p>{site.story}</p>
+      <a href={site.source} target="_blank" rel="noreferrer">Fuente de la misión</a></div>}
+    {view==='Marte' && pathKm!==null && <button className="trail-link" onClick={()=>{const start=sites.find(s=>s.id==='landing');if(start)visit.current(start)}}>Ver ruta de Perseverance · {pathKm.toFixed(1)} km</button>}
+    <Link to={view==='Marte'?'/marte':'/luna'}>Abrir mapa de superficie →</Link>
+    {loadError && <p>{loadError}</p>}
+  </div>}
   {error&&<aside>El visor requiere WebGL. Activa la aceleración gráfica para abrir el mapa.</aside>}
-  <footer><nav>{(['Sistema solar','Tierra','Luna','Marte','Vuelo libre'] as View[]).map(n=><button key={n} aria-pressed={view===n} onClick={()=>navigate.current(n)}>{n}</button>)}</nav><div className="meta"><span>14 NOV 2026 · 00:00 TDB</span><button onClick={()=>setCredits(!credits)}>Datos y créditos {credits?'−':'+'}</button></div>{credits&&<div className="sources">Posiciones heliocéntricas · eclíptica J2000 · <a href="https://ssd.jpl.nasa.gov/horizons/">NASA/JPL Horizons</a>. Texturas: <a href="https://threejs.org/examples/textures/planets/">Tierra / Three.js</a>, <a href="https://svs.gsfc.nasa.gov/4720/">Luna / NASA</a>, <a href="https://www.solarsystemscope.com/textures/">Sol, planetas y anillos / Solar System Scope (CC BY 4.0)</a>. Orientación de las superficies ilustrativa.</div>}</footer></main>
+  <footer><nav>{(['Sistema solar','Tierra','Luna','Marte','Vuelo libre'] as View[]).map(n=><button key={n} aria-pressed={view===n} onClick={()=>navigate.current(n)}>{n}</button>)}</nav><div className="meta"><span>14 NOV 2026 · 00:00 TDB</span><button onClick={()=>setCredits(!credits)}>Datos y créditos {credits?'−':'+'}</button></div>{credits&&<div className="sources">Fondo estelar · {starCount.hipparcos.toLocaleString('es')} estrellas de <a href="https://vizier.cfa.harvard.edu/viz-bin/VizieR?-source=I/239">Hipparcos</a> (V &lt; 6,5) y {starCount.gaia.toLocaleString('es')} fuentes de los campos locales de <a href="https://gea.esac.esa.int/archive/">Gaia DR3</a>. Se representan direcciones celestes. Posiciones heliocéntricas · eclíptica J2000 · <a href="https://ssd.jpl.nasa.gov/horizons/">NASA/JPL Horizons</a>. Texturas: <a href="https://threejs.org/examples/textures/planets/">Tierra / Three.js</a>, <a href="https://svs.gsfc.nasa.gov/4720/">Luna / NASA</a>, <a href="https://www.solarsystemscope.com/textures/">Sol, planetas y anillos / Solar System Scope (CC BY 4.0)</a>. Orientación de las superficies ilustrativa.</div>}</footer></main>
 }
 
 

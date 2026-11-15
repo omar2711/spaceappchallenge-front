@@ -1,3 +1,4 @@
+import { surfaceData } from './surfaceData'
 import { getJson } from './client'
 import type { MarsWalk } from './types'
 
@@ -8,7 +9,7 @@ let walk: Promise<MarsWalk> | null = null
 /** GET /mars/marswalk (se guarda en memoria; un fallo se puede reintentar). */
 export function getMarsWalk(): Promise<MarsWalk> {
   if (!walk) {
-    walk = getJson<MarsWalk>('/mars/marswalk')
+    walk = surfaceData('marswalk.json', () => getJson<MarsWalk>('/mars/marswalk'))
     walk.catch(() => (walk = null))
   }
   return walk
