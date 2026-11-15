@@ -23,6 +23,9 @@
 }
 
 .site-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-size: 18px;
   font-weight: 700;
   color: inherit;
@@ -86,4 +89,12 @@
     width: 100%;
     overflow-x: auto;
   }
+}
+
+/* Logo de Spectria en la cabecera */
+.site-logo {
+  display: block;
+  height: 28px;
+  width: auto;
+  flex: none;
 }
