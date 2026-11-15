@@ -1,0 +1,49 @@
+/* ===== Variables de diseño ===== */
+:root {
+  /* Fondos */
+  --bg: #05090e;
+  --space: #070b10;
+  --panel: #080e15;
+  --panel-glass: #080e15d9;
+  --surface: #101920;
+  --surface-alert: #24333d;
+  --marker-bg: #0c1721bb;
+
+  /* Texto */
+  --text: #eaf2f4;
+  --muted: #c1cdd4;
+  --label: #bacdd5;
+
+  /* Menta (acento) */
+  --mint: #c1ebdf;
+  --mint-ink: #11271f;
+  --accent: #9fcec6;
+  --accent-dot: #9cebd4;
+  --link: #a8e8db;
+
+  /* Líneas */
+  --border: #39434b;
+  --line: #ffffff19;
+
+  /* Tipografía */
+  --font-sans: Inter, system-ui, sans-serif;
+  --font-mono: monospace;
+}
+
+/* ===== Reset ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+/* ===== Accesibilidad: foco visible con teclado ===== */
+:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 3px;
+}

@@ -1,0 +1,144 @@
+/* ===== Utilidades de la página ===== */
+.landing-eyebrow {
+  display: block;
+  font: 11px var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+
+/* ===== Hero ===== */
+.landing-hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 48px;
+  padding: 72px 5vw;
+}
+
+.landing-title {
+  font-size: clamp(34px, 5vw, 74px);
+  font-weight: 450;
+  letter-spacing: -0.06em;
+  line-height: 1.02;
+  margin: 12px 0 18px;
+}
+
+.landing-lead {
+  max-width: 52ch;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0 0 28px;
+}
+
+.landing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.landing-btn {
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.landing-btn--primary {
+  background: var(--mint);
+  color: var(--mint-ink);
+}
+
+.landing-btn--secondary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+/* ===== Globo (sin WebGL: la textura se desplaza en bucle) ===== */
+.landing-globe-wrap {
+  --globe: clamp(220px, 34vw, 440px);
+  display: grid;
+  place-items: center;
+}
+
+.landing-globe {
+  width: var(--globe);
+  height: var(--globe);
+  border-radius: 50%;
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+  box-shadow:
+    inset -40px -20px 80px #000000cc,
+    inset 10px 6px 30px #ffffff22,
+    0 0 80px #86c4ed33;
+  animation: landing-spin 60s linear infinite;
+}
+
+@keyframes landing-spin {
+  from { background-position-x: 0; }
+  to   { background-position-x: calc(var(--globe) * -2); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-globe {
+    animation: none;
+  }
+}
+
+/* ===== Cómo funciona ===== */
+.landing-how {
+  padding: 24px 5vw 72px;
+}
+
+.landing-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.landing-card {
+  display: block;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.landing-card:hover {
+  border-color: var(--mint);
+}
+
+.landing-card-tag {
+  font: 11px var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+
+.landing-card-title {
+  font-size: 22px;
+  font-weight: 450;
+  margin: 10px 0 6px;
+}
+
+.landing-card-text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 800px) {
+  .landing-hero {
+    grid-template-columns: 1fr;
+    padding: 40px 5vw;
+  }
+
+  .landing-globe-wrap {
+    order: -1;
+  }
+}
