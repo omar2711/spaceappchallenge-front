@@ -324,7 +324,12 @@ export default function SkyViewerFeature() {
           <LightCurvePanel curves={analysis.light_curves} detector={detector} onDetector={setDetector} />
         )}
         <FalseColor key={current?.key} series={series} />
-        <VisibilityCard ra={series.manifest.grid_wcs.CRVAL1} dec={series.manifest.grid_wcs.CRVAL2} name={series.field.name} />
+        <VisibilityCard
+          ra={series.manifest.grid_wcs.CRVAL1}
+          dec={series.manifest.grid_wcs.CRVAL2}
+          name={series.field.name}
+          fieldId={series.field.id}
+        />
       </>
     )
   }

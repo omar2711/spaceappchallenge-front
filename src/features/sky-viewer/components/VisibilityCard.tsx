@@ -14,7 +14,17 @@ const todayCbba = () => new Date(Date.now() - 4 * 3600000).toISOString().slice(0
 
 const toMinutes = (iso: string, t0: number) => (Date.parse(`${iso}:00Z`) - t0) / 60000
 
-export default function VisibilityCard({ ra, dec, name }: { ra: number; dec: number; name: string }) {
+// Enanas marrones: están sobre el horizonte, pero no se pueden ver con un telescopio de aficionado.
+const BROWN_DWARF_NOTE: Record<string, string> = {
+  eps_ind_b:
+    'Una enana marrón es demasiado débil en luz visible para verla con un telescopio de aficionado. En el caso de Epsilon Indi B, su estrella Epsilon Indi A está a unos 24′ y se ve a simple vista en un cielo oscuro.',
+  wise0855: 'Una enana marrón es demasiado débil en luz visible para verla con un telescopio de aficionado.',
+}
+
+type Props = { ra: number; dec: number; name: string; fieldId?: string }
+
+export default function VisibilityCard({ ra, dec, name, fieldId }: Props) {
+  const brownDwarf = fieldId ? BROWN_DWARF_NOTE[fieldId] : undefined
   const [date, setDate] = useState(todayCbba)
   const [state, setState] = useState<{ key: string; data?: Visibility; error?: boolean } | null>(null)
   const [attempt, setAttempt] = useState(0)
@@ -55,7 +65,7 @@ export default function VisibilityCard({ ra, dec, name }: { ra: number; dec: num
         <p className={`skyviewer-callout${v.observable ? ' skyviewer-callout--hit' : ''}`}>
           {v.observable ? (
             <>
-              <strong>Sí se ve.</strong> Pasa <span className="num">{v.observable_hours.toFixed(1)} h</span> a más de{' '}
+              <strong>{brownDwarf ? 'Está sobre el horizonte.' : 'Sí se ve.'}</strong> Pasa <span className="num">{v.observable_hours.toFixed(1)} h</span> a más de{' '}
               <span className="num">20°</span> de altura con el cielo oscuro. El mejor momento es a las{' '}
               <strong className="num">{when(v.best_time?.time)}</strong>, a{' '}
               <span className="num">{v.best_time?.alt_deg.toFixed(0)}°</span> de altura y acimut{' '}
@@ -125,8 +135,8 @@ export default function VisibilityCard({ ra, dec, name }: { ra: number; dec: num
           <span className="num">
             {Math.abs(v.site.lat).toFixed(2)}°S {Math.abs(v.site.lon).toFixed(2)}°O, {v.site.elevation_m} m
           </span>
-          ) sin contar la refracción. SPHEREx observa desde el espacio; esto sirve para buscarlo con un telescopio
-          desde aquí.
+          ) sin contar la refracción.{' '}
+          {brownDwarf ?? 'SPHEREx observa desde el espacio; esto sirve para buscarlo con un telescopio desde aquí.'}
         </p>
       </>
     )
