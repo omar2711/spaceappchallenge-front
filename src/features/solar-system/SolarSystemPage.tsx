@@ -1,6 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import * as T from 'three'
+import { getMarsWalk } from '../../api/mars'
+import { getMoonSites } from '../../api/moon'
+import type { MarsWalk, MoonSite } from '../../api/types'
+import { buildMarkers, routeLine, surfacePoint, type SurfaceMarker } from './surfaceMarkers'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import positions from './data/positions.json'
 import './solar-system.css'
@@ -19,6 +23,22 @@ const format = (n:number) => n.toLocaleString('es-BO',{maximumFractionDigits:0})
 
 export default function SolarSystemPage(){
   const host = useRef<HTMLDivElement>(null)
+  const routerNavigate = useNavigate()
+  const go = useRef(routerNavigate)
+  useEffect(()=>{go.current=routerNavigate},[routerNavigate])
+  // Sitios de /luna y recorrido de /marte (mismos endpoints que esas páginas).
+  const [moonSites,setMoonSites] = useState<MoonSite[]|null>(null)
+  const [walk,setWalk] = useState<MarsWalk|null>(null)
+  useEffect(()=>{
+    let alive=true
+    getMoonSites().then(r=>{if(alive)setMoonSites(r.sites)}).catch(()=>{})
+    getMarsWalk().then(w=>{if(alive)setWalk(w)}).catch(()=>{})
+    return ()=>{alive=false}
+  },[])
+  const markers = useMemo(()=>buildMarkers(moonSites,walk),[moonSites,walk])
+  const latest = useRef<{markers:SurfaceMarker[];walk:MarsWalk|null}>({markers,walk})
+  const applyData = useRef<()=>void>(()=>{})
+  useEffect(()=>{latest.current={markers,walk};applyData.current()},[markers,walk])
   const navigate = useRef<(v:View)=>void>(()=>{})
   const [view,setView] = useState<View>('Tierra')
   const [credits,setCredits] = useState(false)
@@ -65,6 +85,58 @@ export default function SolarSystemPage(){
     const ring=new T.Mesh(rings,ringMaterial)
     ring.rotation.x=Math.PI/2-0.47
     saturn.mesh.add(ring)
+    // Marcadores de superficie (HTML) y ruta de Perseverance. El botón no entra en el orden de tabulación:
+    // la lista HTML de lugares es la alternativa navegable con teclado.
+    let pins:{m:SurfaceMarker;el:HTMLButtonElement;local:T.Vector3;mesh:T.Mesh}[]=[]
+    let route:T.Line|null=null
+    const clearData=()=>{
+      for(const p of pins)p.el.remove()
+      pins=[]
+      if(route){route.removeFromParent();route.geometry.dispose();(route.material as T.Material).dispose();route=null}
+    }
+    applyData.current=()=>{
+      clearData()
+      for(const m of latest.current.markers){
+        const body=bodies.find(b=>b.name===m.body)
+        if(!body)continue
+        const el=document.createElement('button')
+        el.className='sky-site'+(m.accent?' is-accent':'')
+        el.tabIndex=-1
+        el.setAttribute('aria-label',m.name+', '+m.kind)
+        const dot=document.createElement('span');dot.className='sky-site-dot'
+        const tip=document.createElement('span');tip.className='sky-site-tip'
+        const strong=document.createElement('strong');strong.textContent=m.name
+        const small=document.createElement('small');small.textContent=m.kind
+        tip.append(strong,small);el.append(dot,tip)
+        el.onclick=()=>go.current(m.to)
+        el.hidden=true
+        container.append(el)
+        pins.push({m,el,local:surfacePoint(m.lat,m.lon,body.r),mesh:body.mesh})
+      }
+      const mars=bodies.find(b=>b.name==='Marte')
+      if(latest.current.walk&&mars){route=routeLine(latest.current.walk,mars.r);mars.mesh.add(route)}
+    }
+    applyData.current()
+    const pinWorld=new T.Vector3(), pinNormal=new T.Vector3(), toCam=new T.Vector3(), center=new T.Vector3()
+    const updatePins=()=>{
+      const w=container.clientWidth,h=container.clientHeight
+      for(const p of pins){
+        let show=active===p.m.body
+        if(show){
+          pinWorld.copy(p.local).applyMatrix4(p.mesh.matrixWorld)
+          p.mesh.getWorldPosition(center)
+          pinNormal.subVectors(pinWorld,center)
+          toCam.subVectors(camera.position,pinWorld)
+          show=pinNormal.dot(toCam)>0 // lado oculto: no se muestra
+        }
+        if(show){
+          const q=pinWorld.project(camera)
+          show=q.z>-1&&q.z<1&&Math.abs(q.x)<1&&Math.abs(q.y)<1
+          if(show)p.el.style.transform='translate('+((q.x+1)*w/2)+'px,'+((1-q.y)*h/2)+'px)'
+        }
+        p.el.hidden=!show
+      }
+    }
     const detailFiles: Partial<Record<Body,string>>={Tierra:'8k_earth_daymap',Marte:'8k_mars'}
     const details=new Map<Body,T.Texture>()
     let disposed=false
@@ -128,7 +200,7 @@ export default function SolarSystemPage(){
         shift.multiplyScalar(camera.position.distanceTo(controls.target)*dt)
         camera.position.add(shift); controls.target.add(shift)
       }
-      controls.update();renderer.render(scene,camera)
+      controls.update();renderer.render(scene,camera);updatePins()
       const occupied:number[][]=[]
       for(const b of bodies){
         const p=b.mesh.position.clone().project(camera)
@@ -138,11 +210,16 @@ export default function SolarSystemPage(){
         if(visible){occupied.push([x,y]);b.label.style.transform='translate('+x+'px,'+y+'px)'}
       }
     })
-    return ()=>{renderer.setAnimationLoop(null);disposed=true;for(const texture of details.values())texture.dispose();rings.dispose();ringMaterial.dispose();ringMap.dispose();resize.disconnect();controls.dispose();window.removeEventListener('keydown',down);window.removeEventListener('keyup',up);window.removeEventListener('blur',blur);for(const b of bodies){b.mesh.geometry.dispose();b.mesh.material.dispose();b.map?.dispose();b.label.remove()}renderer.dispose();renderer.domElement.remove()}
+    return ()=>{renderer.setAnimationLoop(null);disposed=true;clearData();applyData.current=()=>{};for(const texture of details.values())texture.dispose();rings.dispose();ringMaterial.dispose();ringMap.dispose();resize.disconnect();controls.dispose();window.removeEventListener('keydown',down);window.removeEventListener('keyup',up);window.removeEventListener('blur',blur);for(const b of bodies){b.mesh.geometry.dispose();b.mesh.material.dispose();b.map?.dispose();b.label.remove()}renderer.dispose();renderer.domElement.remove()}
   },[])
   const body=catalog.find(b=>b[0]===view)
   return <main className="sky"><div className="space" ref={host} aria-label="Mapa tridimensional del sistema solar"/><header><Link to="/" className="brand">Ruta del Agua</Link><select aria-label="Ir a un destino" value="" onChange={e=>navigate.current(e.target.value as View)}><option value="" disabled>Ir a…</option>{catalog.map(([n])=><option key={n}>{n}</option>)}</select></header>
   <section><h1>{view}</h1>{body?<p>Radio medio <span className="num">{format(body[1])} km</span><br/>Distancia al Sol <span className="num">{format(Math.hypot(...positions[body[0]]))} km</span></p>:<p>{view==='Vuelo libre'?'Usa W y S para avanzar o retroceder, y A y D para moverte de lado.':'Elige un planeta abajo para acercarte.'}</p>}</section>
+  {(view==='Luna'||view==='Marte')&&<nav className="sky-places" aria-label={'Lugares en '+view}>
+    <h2>{view==='Luna'?'Sitios de alunizaje':'Marte'}</h2>
+    {view==='Luna'&&!moonSites?<p>Cargando los sitios…</p>:null}
+    <ul>{markers.filter(m=>m.body===view).map(m=><li key={m.id}><Link to={m.to} className={m.accent?'is-accent':undefined}><span className="sky-places-dot"/>{m.name}<small>{m.kind}</small></Link></li>)}</ul>
+  </nav>}
   {error&&<aside>Este visor necesita WebGL. Activa la aceleración gráfica del navegador para verlo.</aside>}
   <footer><nav>{(['Sistema solar','Tierra','Luna','Marte','Vuelo libre'] as View[]).map(n=><button key={n} aria-pressed={view===n} onClick={()=>navigate.current(n)}>{n}</button>)}</nav><div className="meta"><span>Posiciones del <span className="num">2026-11-14 00:00 TDB</span></span><button onClick={()=>setCredits(!credits)}>Datos y créditos {credits?'−':'+'}</button></div>{credits&&<div className="sources">Posiciones heliocéntricas · eclíptica J2000 · <a href="https://ssd.jpl.nasa.gov/horizons/">NASA/JPL Horizons</a>. Texturas: <a href="https://threejs.org/examples/textures/planets/">Tierra / Three.js</a>, <a href="https://svs.gsfc.nasa.gov/4720/">Luna / NASA</a>, <a href="https://www.solarsystemscope.com/textures/">Sol, planetas y anillos / Solar System Scope (CC BY 4.0)</a>. La orientación de las superficies es aproximada.</div>}</footer></main>
 }
