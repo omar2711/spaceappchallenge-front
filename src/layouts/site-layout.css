@@ -64,6 +64,16 @@
   text-align: center;
 }
 
+.site-credits {
+  margin: 0 auto 8px;
+  max-width: 70ch;
+  font-family: system-ui, sans-serif; /* texto legible, no el monoespaciado del resto del pie */
+  font-size: 11px;
+  line-height: 1.7;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+
 /* ===== Móvil: la navegación pasa a una segunda fila con scroll horizontal ===== */
 @media (max-width: 700px) {
   .site-header {

@@ -1,0 +1,255 @@
+/* Estilos de /luna. Mismo lenguaje visual que /marte; los colores salen solo de
+   las variables de styles/index.css (sin hex sueltos). */
+
+/* ===== Página ===== */
+.moonmap {
+  padding: 40px 5vw 64px;
+}
+
+.moonmap-eyebrow {
+  display: block;
+  font: 11px var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+
+.moonmap-title {
+  font-size: clamp(34px, 5vw, 64px);
+  font-weight: 450;
+  letter-spacing: -0.06em;
+  line-height: 1.02;
+  margin: 12px 0 18px;
+}
+
+.moonmap-lead {
+  max-width: 60ch;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0 0 28px;
+}
+
+/* ===== Mapa + panel (en móvil el panel va debajo) ===== */
+.moonmap-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 20px;
+  align-items: start;
+}
+
+.moonmap-mapwrap {
+  position: relative;
+  min-height: 560px;
+  height: 70vh;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.moonmap-map {
+  position: absolute;
+  inset: 0;
+  background: var(--space);
+}
+
+.moonmap-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  max-width: calc(100% - 20px);
+  z-index: 1000;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--marker-bg);
+  font: 11px var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--accent);
+  pointer-events: none;
+}
+
+.moonmap-side {
+  display: grid;
+  gap: 16px;
+}
+
+/* ===== Paneles ===== */
+.moonmap-panel {
+  margin: 0;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-width: 0;
+}
+
+.moonmap-panel-title {
+  display: block;
+  padding: 0;
+  margin: 0 0 10px;
+  font: 11px var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+
+.moonmap-subtitle {
+  margin: 12px 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.moonmap-note {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.moonmap-tag {
+  font: 11px var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+
+/* ===== Lista de sitios ===== */
+.moonmap-sites {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.moonmap-site-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+}
+
+.moonmap-site-region {
+  font: 11px var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+
+/* Estado seleccionado: --mint-ink sobre --mint da contraste alto. */
+.moonmap-btn[aria-pressed='true'] {
+  background: var(--mint);
+  color: var(--mint-ink);
+  border-color: var(--mint);
+}
+.moonmap-btn[aria-pressed='true'] .moonmap-site-region {
+  color: var(--mint-ink);
+}
+
+.moonmap-detail {
+  margin: 12px 0 0;
+  display: grid;
+  gap: 8px;
+}
+.moonmap-detail dt {
+  font: 11px var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+.moonmap-detail dd {
+  margin: 2px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ===== Controles ===== */
+.moonmap-layer {
+  display: grid;
+  gap: 6px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+/* Objetivo táctil de 44px también en las casillas. */
+.moonmap-check {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+}
+
+.moonmap-range {
+  display: grid;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.moonmap-range input {
+  width: 100%;
+  min-height: 44px;
+}
+
+.moonmap-btn {
+  min-height: 44px;
+  padding: 8px 12px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ===== Capas de Leaflet (las clases llegan por pathOptions.className) ===== */
+/* Evita las líneas finas (costuras) entre teselas */
+.moonmap .leaflet-tile {
+  outline: 1px solid transparent;
+}
+
+.moonmap-site {
+  stroke: var(--bg);
+  fill: var(--mint);
+  fill-opacity: 0.9;
+}
+
+.moonmap-site--selected {
+  stroke: var(--mint);
+  stroke-width: 3;
+  fill: var(--mint);
+}
+
+.moonmap .leaflet-container {
+  font-family: var(--font-sans);
+  background: var(--space);
+}
+
+.moonmap .leaflet-control-attribution {
+  background: var(--panel-glass);
+  color: var(--muted);
+}
+
+.moonmap .leaflet-control-attribution a {
+  color: var(--link);
+}
+
+/* ===== Escritorio: el mapa queda fijo mientras se desplaza el panel lateral ===== */
+@media (min-width: 901px) {
+  .moonmap-mapwrap {
+    position: sticky;
+    top: 16px;
+    height: min(70vh, calc(100vh - 32px));
+  }
+}
+
+/* ===== Móvil ===== */
+@media (max-width: 900px) {
+  .moonmap-body {
+    grid-template-columns: 1fr;
+  }
+
+  .moonmap-mapwrap {
+    min-height: 380px;
+    height: 60vh;
+  }
+}

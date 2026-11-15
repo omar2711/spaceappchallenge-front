@@ -13,6 +13,12 @@ const cards: Card[] = [
     to: '/cielo',
   },
   {
+    title: 'Mapa de la Luna',
+    label: 'LUNAR LANDING SITE NAVIGATOR',
+    text: 'Un mapa para elegir dónde aterrizar siguiendo el hielo del polo sur.',
+    to: '/luna',
+  },
+  {
     title: 'Mapa de Marte',
     label: 'INTERPLANETARY SURVIVAL GUIDE: MARTIAN MAP',
     text: 'Un mapa con capas de datos y una ruta segura para un astronauta.',
