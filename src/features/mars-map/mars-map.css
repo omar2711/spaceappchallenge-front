@@ -196,27 +196,76 @@
   outline: 1px solid transparent;
 }
 
-.marsmap-obstacle {
-  stroke: #e8a35a;
-  fill: #e8a35a;
-  fill-opacity: 0.25;
+/* Leyenda del mapa y caminata de Jezero */
+.marsmap-key {
+  display: inline-block;
+  width: 12px;
+  height: 0;
+  vertical-align: middle;
+  border-top: 3px solid var(--mint);
 }
 
-.marsmap-route {
-  stroke: var(--mint);
-  stroke-width: 3;
+.marsmap-key--walk {
+  border-top-color: var(--sun);
 }
 
-.marsmap-route--blocked {
-  stroke: #ff6b6b;
-  stroke-width: 5;
-  stroke-dasharray: 8 6;
+.marsmap-key--hazard {
+  width: 10px;
+  height: 10px;
+  border: 0;
+  border-radius: 50%;
+  background: #ff6b6b;
 }
 
-.marsmap-waypoint {
-  stroke: var(--mint-ink);
-  fill: var(--mint);
-  fill-opacity: 1;
+.marsmap-stops {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.marsmap-stop-btn {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  text-align: left;
+}
+
+.marsmap-stop-btn[aria-pressed='true'] {
+  border-color: var(--sun);
+}
+
+.marsmap-stop-n {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--sun);
+  color: var(--mint-ink);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.marsmap-stop-meta {
+  display: block;
+  font: 11px var(--font-mono);
+  color: var(--accent);
+}
+
+.marsmap-stop-why {
+  margin: 6px 0 0 34px;
+}
+
+.marsmap-hazards {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
 }
 
 .marsmap .leaflet-container {
@@ -252,4 +301,14 @@
     min-height: 380px;
     height: 60vh;
   }
+}
+
+.marsmap-offline {
+  top: auto;
+  bottom: 28px;
+  left: 10px;
+  right: auto;
+  margin: 0;
+  max-width: min(360px, calc(100% - 20px));
+  line-height: 1.4;
 }
