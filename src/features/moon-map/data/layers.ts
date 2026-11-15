@@ -14,8 +14,8 @@ export type MoonLayer = {
 }
 
 export const KIND_LABEL: Record<LayerKind, string> = {
-  optical: 'ÓPTICA',
-  topographic: 'TOPOGRÁFICA',
+  optical: 'imagen óptica',
+  topographic: 'relieve',
 }
 
 // Zoom máximo del mapa: el de la capa más detallada (WAC = 8). Por encima de

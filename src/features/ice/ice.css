@@ -7,17 +7,10 @@
   gap: 24px;
 }
 
-.ice-eyebrow {
-  display: block;
-  font: 11px var(--font-mono);
-  letter-spacing: 1px;
-  color: var(--accent);
-}
-
 .ice-title {
   font-size: clamp(34px, 5vw, 64px);
   font-weight: 450;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.02em;
   line-height: 1.02;
   margin: 12px 0 18px;
 }
@@ -36,7 +29,7 @@
   padding: 20px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 4px;
   min-width: 0;
 }
 
@@ -44,7 +37,7 @@
   margin: 0;
   font-size: 26px;
   font-weight: 500;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.01em;
 }
 
 .ice-h3 {
@@ -65,9 +58,9 @@
   padding: 10px 12px;
   font-size: 13px;
   line-height: 1.6;
-  border-left: 3px solid var(--sun);
+  border-left: 3px solid #555;
   background: var(--bg);
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 4px 4px 0;
 }
 
 .ice-link {
@@ -87,14 +80,14 @@
   gap: 8px;
   justify-items: start;
   padding: 14px;
-  background: #3a1a1a;
-  border: 1px solid #ff6b6b;
-  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
 }
 
 .ice-error p {
   margin: 0;
-  color: #ffb3b3;
+  color: var(--text);
 }
 
 .ice-btn,
@@ -105,14 +98,14 @@
   color: var(--text);
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
 .ice-chip[aria-pressed='true'] {
-  background: var(--mint);
-  color: var(--mint-ink);
-  border-color: var(--mint);
+  background: var(--text);
+  color: var(--bg);
+  border-color: var(--text);
 }
 
 .ice-regions {
@@ -133,7 +126,7 @@
   width: 100%;
   height: auto;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 4px;
 }
 
 .ice-map-bg {
@@ -159,12 +152,12 @@
 
 .ice-map-region circle {
   fill: none;
-  stroke: var(--sun);
+  stroke: #f2f2f2;
   stroke-width: 1.5;
 }
 
 .ice-map-region.is-active circle {
-  stroke: #ffffff;
+  stroke: var(--accent);
   stroke-width: 2.5;
 }
 
@@ -185,7 +178,7 @@
 }
 
 .ice-dot--ring {
-  border: 1.5px solid var(--sun);
+  border: 1.5px solid #f2f2f2;
 }
 
 /* ===== Tabla ===== */
@@ -223,19 +216,19 @@
   padding: 10px 12px;
   background: var(--bg);
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 4px;
 }
 
 .ice-stats dt {
-  font: 10px var(--font-mono);
-  letter-spacing: 1px;
-  color: var(--accent);
+  font: 12px var(--font-sans);
+  color: var(--muted);
 }
 
 .ice-stats dd {
   margin: 2px 0 0;
   font-size: 15px;
   font-weight: 600;
+  font: 600 15px var(--font-sans);
 }
 
 .ice-result ul {
@@ -247,6 +240,6 @@
 
 .ice-ref {
   margin: 2px 0 0;
-  font: 12px var(--font-mono);
-  color: var(--accent);
+  font: 12px var(--font-sans);
+  color: var(--muted);
 }

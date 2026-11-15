@@ -67,13 +67,10 @@ export default function MarsMapFeature() {
   return (
     <section className="marsmap">
       <header className="marsmap-intro">
-        <small className="marsmap-eyebrow">
-          DESAFÍO · INTERPLANETARY SURVIVAL GUIDE: MARTIAN MAP
-        </small>
         <h1 className="marsmap-title">Mapa de Marte</h1>
         <p className="marsmap-lead">
-          Un mapa para un astronauta en una misión de superficie, con varias capas de datos y una
-          ruta segura. La Ruta del Agua sigue a Perseverance por el cráter Jezero, un antiguo lago.
+          El cráter Jezero fue un lago. Perseverance lleva años recorriéndolo y aquí está su camino real, con las
+          paradas donde encontró rastros de agua y las pendientes que un astronauta tendría que evitar.
         </p>
       </header>
 

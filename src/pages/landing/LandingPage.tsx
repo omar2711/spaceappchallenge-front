@@ -3,43 +3,44 @@ import './landing.css'
 
 const earthTexture = `${import.meta.env.BASE_URL}textures/tierra.jpg`
 
+// label: nombre del reto de Space Apps al que responde cada sección.
 type Card = { title: string; label: string; text: string; to: string }
 
 const cards: Card[] = [
   {
     title: 'Cielo SPHEREx',
-    label: 'PLANET X AND SPHEREX',
-    text: 'Mira un parche de cielo como un video y detecta objetos en movimiento.',
+    label: 'Planet X and SPHEREx',
+    text: 'Elige un objeto o unas coordenadas y pasa sus imágenes de SPHEREx una tras otra para ver qué se mueve. También puedes ver su espectro.',
     to: '/cielo',
   },
   {
     title: 'Mapa de la Luna',
-    label: 'LUNAR LANDING SITE NAVIGATOR',
-    text: 'Un mapa para elegir dónde aterrizar siguiendo el hielo del polo sur.',
+    label: 'Lunar Landing Site Navigator',
+    text: 'Compara los sitios de aterrizaje del polo sur con los de Apollo: cuántas horas tienen Sol y cuántas ven la Tierra.',
     to: '/luna',
   },
   {
     title: 'Mapa de Marte',
-    label: 'INTERPLANETARY SURVIVAL GUIDE: MARTIAN MAP',
-    text: 'Un mapa con capas de datos y una ruta segura para un astronauta.',
+    label: 'Interplanetary Survival Guide: Martian Map',
+    text: 'Sigue el recorrido de Perseverance por el cráter Jezero, con sus paradas y las pendientes más fuertes.',
     to: '/marte',
   },
   {
     title: 'Hielo en el cielo',
-    label: 'RUTA DEL AGUA · SPLICES Y 3I/ATLAS',
-    text: 'Dónde busca SPHEREx hielo de agua, y el agua de un cometa de otra estrella.',
+    label: 'SPLICES y 3I/ATLAS',
+    text: 'Dónde busca SPHEREx hielo de agua y qué vio en el cometa interestelar 3I/ATLAS.',
     to: '/hielo',
   },
   {
     title: 'Abandonados',
-    label: 'ABANDONED BUT NOT FORGOTTEN',
-    text: 'Historias sobre el equipo que la NASA dejó en la Luna y Marte.',
+    label: 'Abandoned but Not Forgotten',
+    text: 'El equipo que la NASA dejó en la Luna y en Marte, y qué pasó con cada pieza.',
     to: '/abandonados',
   },
   {
     title: 'Sistema solar 3D',
-    label: 'EXPLORADOR 3D',
-    text: 'Recorre el sistema solar con posiciones reales de NASA/JPL Horizons.',
+    label: 'Posiciones de JPL Horizons',
+    text: 'Los planetas en el lugar donde están el 14 de noviembre de 2026.',
     to: '/sistema-solar',
   },
 ]
@@ -49,15 +50,15 @@ export default function LandingPage() {
     <div className="landing">
       <section className="landing-hero">
         <div className="landing-hero-text">
-          <small className="landing-eyebrow">HERRAMIENTA WEB PÚBLICA · NASA SPACE APPS 2026</small>
-          <h1 className="landing-title">Seguimos el agua, del cielo a la Luna y a Marte</h1>
+          <h1 className="landing-title">Ruta del Agua</h1>
           <p className="landing-lead">
-            El telescopio espacial SPHEREx recorre el cielo completo una y otra vez. Visto como un
-            video, sus imágenes sucesivas permiten detectar objetos que se mueven o cambian de brillo.
+            SPHEREx fotografía todo el cielo cada seis meses. Aquí puedes pasar esas fotos una tras otra para
+            encontrar lo que se movió o cambió de brillo, y ver en el espectro de qué está hecho cada objeto.
+            Después seguimos el agua hasta la Luna y Marte.
           </p>
           <div className="landing-actions">
-            <Link to="/cielo" className="landing-btn landing-btn--primary">Explorar cielo</Link>
-            <a href="#como" className="landing-btn landing-btn--secondary">Cómo funciona</a>
+            <Link to="/cielo" className="landing-btn landing-btn--primary">Abrir el visor del cielo</Link>
+            <a href="#como" className="landing-btn landing-btn--secondary">Ver las secciones</a>
           </div>
         </div>
         <div className="landing-globe-wrap" aria-hidden="true">
@@ -66,13 +67,13 @@ export default function LandingPage() {
       </section>
 
       <section id="como" className="landing-how">
-        <small className="landing-eyebrow">CÓMO FUNCIONA</small>
+        <h2 className="landing-section-title">Secciones</h2>
         <div className="landing-cards">
           {cards.map(({ title, label, text, to }) => (
             <Link key={to} to={to} className="landing-card">
-              <span className="landing-card-tag">{label}</span>
-              <h2 className="landing-card-title">{title}</h2>
+              <h3 className="landing-card-title">{title}</h3>
               <p className="landing-card-text">{text}</p>
+              <span className="landing-card-tag">Reto: {label}</span>
             </Link>
           ))}
         </div>

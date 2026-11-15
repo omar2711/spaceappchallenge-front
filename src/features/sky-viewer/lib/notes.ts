@@ -9,15 +9,15 @@ const NOTES: Record<string, string> = {
   'M dwarf: no methane expected (control).': 'Enana M: no se espera metano (control).',
   'Stellar photosphere: no ice expected (control).': 'Fotosfera estelar: no se espera hielo (control).',
   'Brown-dwarf indices: for a star or young stellar object they mostly trace the continuum slope (e.g. warm dust), not CH4/H2O gas.':
-    'Índices de enana marrón: en una estrella o un objeto joven miden sobre todo la pendiente del continuo (p. ej., polvo tibio), no gas de CH₄/H₂O.',
+    'Estos índices están pensados para enanas marrones. En una estrella o un objeto joven miden sobre todo la inclinación del continuo, por ejemplo por polvo tibio, y no gas de CH₄ o H₂O.',
   'Ice absorption depth against a log-log continuum; significant only if >= 3 sigma.':
-    'Profundidad de absorción de hielo contra un continuo log-log; significativa solo si ≥ 3σ.',
+    'Mide cuánto baja el espectro en la banda del hielo respecto al continuo. Solo cuenta si llega a 3σ.',
   'Not a brown dwarf: indices are reported for completeness only.':
-    'No es una enana marrón: los índices se muestran solo para completar.',
+    'No es una enana marrón. Mostramos los índices solo para que estén completos.',
   'Circumstellar dust/ice possible in young stars; check per-epoch spectra.':
-    'Polvo/hielo circunestelar posible en estrellas jóvenes; mira los espectros de cada pasada.',
+    'Las estrellas jóvenes pueden tener polvo o hielo alrededor. Conviene mirar el espectro de cada pasada.',
   'Combines epochs of a variable target: use the per-epoch spectra for shapes.':
-    'Combina pasadas de un objeto variable: para la forma del espectro usa cada pasada por separado.',
+    'Este objeto cambia de brillo y aquí se suman sus pasadas. Para ver la forma del espectro, mira cada pasada por separado.',
   'constant within errors': 'constante dentro de los errores',
   'significant variability': 'variabilidad significativa',
   'fewer than 2 epochs': 'menos de 2 pasadas',

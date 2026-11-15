@@ -31,7 +31,7 @@ export default function SkyPanorama({ request }: { request: SkyRequest | null })
   const host = useRef<HTMLDivElement>(null)
   const atlas = useRef<Atlas | null>(null)
   const layer = useRef<Layer | null>(null)
-  const [status, setStatus] = useState('Cargando mapa del cielo…')
+  const [status, setStatus] = useState('Cargando el mosaico…')
   const [retry, setRetry] = useState(0)
   const [slice, setSlice] = useState(62)
   const sliceRef = useRef(62)
@@ -51,7 +51,7 @@ export default function SkyPanorama({ request }: { request: SkyRequest | null })
     let active = true
     let wait = 0
     const element = host.current
-    const timer = window.setTimeout(() => { if (active) setStatus('El mapa está tardando en responder. Puedes continuar con las observaciones precalculadas.') }, 20000)
+    const timer = window.setTimeout(() => { if (active) setStatus('El mosaico está tardando. El resto de la página funciona sin él.') }, 20000)
     loadAtlas().then(A => {
       if (!active || !element) return
       const viewer = A.aladin(element, {
@@ -70,7 +70,7 @@ export default function SkyPanorama({ request }: { request: SkyRequest | null })
       }, 200)
       setStatus('')
       window.clearTimeout(timer)
-    }).catch(() => { if (active) setStatus('No se pudo abrir el mapa. Revisa la conexión o abre el visor oficial de IRSA.') })
+    }).catch(() => { if (active) setStatus('No se pudo abrir el mosaico. Revisa la conexión o usa el visor de IRSA.') })
     return () => {
       active = false
       window.clearTimeout(timer)
@@ -91,16 +91,17 @@ export default function SkyPanorama({ request }: { request: SkyRequest | null })
   }
   return <section className="skyviewer-panel skyviewer-panorama">
     <div className="skyviewer-panorama-heading">
-      <div><h2>Explora la ruta del agua</h2><p className="skyviewer-note">Arrastra el cielo y acerca regiones de formación estelar. Mosaico infrarrojo SPHEREx · IRSA.</p></div>
-      <a href="https://irsa.ipac.caltech.edu/irsaviewer/" target="_blank" rel="noreferrer">Visor oficial ↗</a>
+      <div><h2 className="skyviewer-panel-title">Todo el cielo</h2><p className="skyviewer-note">Arrastra para moverte y usa la rueda para acercarte. Es el mosaico infrarrojo de SPHEREx que publica IRSA.</p></div>
+      <a href="https://irsa.ipac.caltech.edu/irsaviewer/" target="_blank" rel="noreferrer">Visor de IRSA</a>
     </div>
     <div ref={host} className="skyviewer-atlas" aria-label="Mapa panorámico infrarrojo SPHEREx" />
-    {status && <p role="status" className="skyviewer-note">{status} <button className="skyviewer-btn" onClick={() => { setStatus('Cargando mapa…'); setRetry(n => n + 1) }}>Reintentar mapa</button></p>}
+    {status && <p role="status" className="skyviewer-note">{status} <button className="skyviewer-btn" onClick={() => { setStatus('Cargando el mosaico…'); setRetry(n => n + 1) }}>Reintentar</button></p>}
+    <p className="fig-caption">Fig. · Mosaico SPHEREx DR1 (IRSA), canal <span className="num">{slice + 1}</span> de <span className="num">102</span>{Number.isFinite(wavelengths[slice]) && <>, <span className="num">{wavelengths[slice].toFixed(3)} µm</span></>}</p>
     <label className="skyviewer-field">
-      <span>Canal espectral {slice + 1}/102 {Number.isFinite(wavelengths[slice]) && ' · ' + wavelengths[slice].toFixed(3) + ' µm'}</span>
+      <span>Canal (longitud de onda)</span>
       <input type="range" min="0" max="101" value={slice} aria-label="Canal espectral del mosaico" onChange={e => changeSlice(Number(e.target.value))} />
     </label>
-    <p className="skyviewer-note">{slice === 50 || slice === 51 ? 'Este canal está vacío en el mosaico publicado por IRSA. Selecciona otro.' : 'Cada canal muestra una longitud de onda distinta. Este mosaico combina observaciones; no representa una fecha individual.'}</p>
-    <p className="skyviewer-note">Agua helada: banda de referencia alrededor de 3,0 µm. CO₂: 4,27 µm. CO: 4,67 µm. Estas referencias orientan la exploración; una imagen por sí sola no confirma ninguna molécula.</p>
+    <p className="skyviewer-note">{slice === 50 || slice === 51 ? 'IRSA publicó este canal vacío. Prueba con otro.' : 'Cada canal es una longitud de onda distinta. El mosaico junta observaciones de varias fechas.'}</p>
+    <p className="skyviewer-note">El hielo de agua absorbe cerca de <span className="num">3.0 µm</span>, el CO₂ en <span className="num">4.27 µm</span> y el CO en <span className="num">4.67 µm</span>. Una imagen sola no confirma ninguna molécula; para eso está el espectro.</p>
   </section>
 }

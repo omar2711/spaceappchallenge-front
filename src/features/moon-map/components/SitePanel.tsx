@@ -42,14 +42,14 @@ export default function SitePanel({ sites, failed, onRetry, selected, onSelect, 
       <h2 className="moonmap-panel-title">Sitios de aterrizaje</h2>
       {failed ? (
         <div className="moonmap-error">
-          <p className="moonmap-note">No se pudieron cargar los sitios desde la API.</p>
+          <p className="moonmap-note">No se pudieron cargar los sitios.</p>
           <button type="button" className="moonmap-btn" onClick={onRetry}>
             Reintentar
           </button>
         </div>
       ) : !sites ? (
         <p className="moonmap-note" role="status">
-          Cargando sitios… (si el servidor estaba dormido, puede tardar ~30 s)
+          Cargando los sitios… Si el servidor estaba dormido, tarda unos 30 s.
         </p>
       ) : (
         <>
@@ -83,7 +83,8 @@ export default function SitePanel({ sites, failed, onRetry, selected, onSelect, 
           <div>
             <dt>Coordenadas</dt>
             <dd>
-              {formatLatLon(selected.lat, selected.lon)} (±{selected.position_uncertainty_km} km,{' '}
+              <span className="num">{formatLatLon(selected.lat, selected.lon)}</span> (
+              <span className="num">±{selected.position_uncertainty_km} km</span>,{' '}
               {selected.position_type === 'lunar_module' ? 'módulo lunar' : `centro de ${selected.reference_feature}`})
             </dd>
           </div>
@@ -91,7 +92,7 @@ export default function SitePanel({ sites, failed, onRetry, selected, onSelect, 
             <div>
               <dt>Alunizaje</dt>
               <dd>
-                {selected.landing_date_utc} (UT) · {selected.crew_on_surface}
+                <span className="num">{selected.landing_date_utc} UT</span> · {selected.crew_on_surface}
               </dd>
             </div>
           )}
@@ -116,8 +117,8 @@ export default function SitePanel({ sites, failed, onRetry, selected, onSelect, 
                   to={ABANDONED_CARD[selected.id] ? `/abandonados#${ABANDONED_CARD[selected.id]}` : '/abandonados'}
                 >
                   {ABANDONED_CARD[selected.id]
-                    ? 'Ver la ficha del equipo abandonado →'
-                    : 'Ver equipo abandonado en la Luna →'}
+                    ? 'Ver lo que dejaron en este sitio'
+                    : 'Ver lo que quedó en la Luna'}
                 </Link>
               </dd>
             </div>
@@ -132,13 +133,13 @@ export default function SitePanel({ sites, failed, onRetry, selected, onSelect, 
           </div>
         </dl>
       ) : (
-        <p className="moonmap-note">Elige un sitio para verlo en el mapa y ver cuándo tiene Sol y Tierra a la vista.</p>
+        <p className="moonmap-note">Elige un sitio para verlo en el mapa y saber cuándo tiene Sol y Tierra a la vista.</p>
       )}
 
       {/* El mapa usa proyección global (no hay capas polares en Moon Trek): cerca
           de los polos la imagen se ve estirada, y conviene decirlo. */}
       <p className="moonmap-note">
-        Cerca de los polos el mapa se ve estirado: es un efecto de la proyección, no del terreno.
+        Cerca de los polos el mapa se ve estirado. Es por la proyección, no por el terreno.
       </p>
     </div>
   )

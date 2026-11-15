@@ -24,26 +24,29 @@ export default function GaiaPanel({ gaia, failed, pixelScale, epochs, targetMove
   return (
     <section className="skyviewer-panel" aria-labelledby="gaia-title">
       <h2 id="gaia-title" className="skyviewer-panel-title">
-        ESTRELLAS QUE SE MUEVEN · GAIA DR3
+        Estrellas que se mueven (Gaia DR3)
       </h2>
       <p className="skyviewer-note">
-        <span className="skyviewer-key skyviewer-key--star" /> {gaia.n_sources} estrellas de Gaia (G &lt;{' '}
-        {gaia.g_limit}) en su posición de cada pasada · <span className="skyviewer-key" /> flecha = recorrido real
-        entre la primera y la última pasada · <span className="skyviewer-key skyviewer-key--dashed" /> flecha punteada
-        = solo dirección (el desplazamiento real es menor que un píxel).
+        <span className="skyviewer-key skyviewer-key--star" /> <span className="num">{gaia.n_sources}</span>{' '}
+        estrellas de Gaia más brillantes que <span className="num">G {gaia.g_limit}</span>, dibujadas donde estaban
+        en cada pasada. <span className="skyviewer-key" /> La flecha es lo que avanzaron entre la primera y la última
+        pasada. <span className="skyviewer-key skyviewer-key--dashed" /> Si es punteada, solo indica hacia dónde: el
+        avance real es menor que un píxel.
       </p>
       {movers.length === 0 ? (
-        <p className="skyviewer-note">Ninguna estrella del campo se mueve ≥ 20 mas/año: todo el campo está quieto.</p>
+        <p className="skyviewer-note">
+          Ninguna estrella del campo se mueve <span className="num">20 mas</span> o más por año.
+        </p>
       ) : (
         <table className="skyviewer-table">
-          <caption>Movimiento propio ≥ 20 mas/año ({movers.length})</caption>
+          <caption>Se mueven 20 mas o más por año ({movers.length})</caption>
           <thead>
             <tr>
               <th scope="col">Gaia DR3</th>
               <th scope="col">Brillo G</th>
-              <th scope="col">Mov. propio</th>
+              <th scope="col">Por año</th>
               <th scope="col">
-                Recorrido {epochs[0]}→{epochs[epochs.length - 1]}
+                De {epochs[0]} a {epochs[epochs.length - 1]}
               </th>
             </tr>
           </thead>
@@ -66,12 +69,12 @@ export default function GaiaPanel({ gaia, failed, pixelScale, epochs, targetMove
       )}
       {targetMovesFast && !fastInGaia && (
         <p className="skyviewer-note">
-          El objetivo no está en Gaia DR3: es demasiado débil en luz visible. Su movimiento solo se ve en el
+          El objetivo no aparece en Gaia DR3 porque casi no emite luz visible. Su movimiento solo se ve en el
           infrarrojo de SPHEREx.
         </p>
       )}
       <p className="skyviewer-note">
-        Posiciones propagadas desde 2016.0 solo con movimiento propio (sin paralaje). Fuente: ESA/Gaia/DPAC.
+        Las posiciones se calculan desde 2016 con el movimiento propio, sin contar el paralaje. Fuente: ESA/Gaia/DPAC.
       </p>
     </section>
   )

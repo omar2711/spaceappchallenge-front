@@ -1,10 +1,11 @@
 import { BODY_LABEL, TBD, type Artifact } from '../data/artifacts'
 
-function Field({ label, value }: { label: string; value: string }) {
+function Field({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
+  const cls = ['abandoned-field-value', value === TBD && 'abandoned-tbd', mono && value !== TBD && 'num'].filter(Boolean)
   return (
     <div className="abandoned-field">
       <dt className="abandoned-field-label">{label}</dt>
-      <dd className={value === TBD ? 'abandoned-field-value abandoned-tbd' : 'abandoned-field-value'}>
+      <dd className={cls.join(' ')}>
         {value}
       </dd>
     </div>
@@ -23,12 +24,12 @@ function SourceLink({ href, children }: { href: string; children: string }) {
 export default function ArtifactCard({ artifact: a }: { artifact: Artifact }) {
   return (
     <article className="abandoned-card">
-      <span className="abandoned-tag">{BODY_LABEL[a.body].toUpperCase()}</span>
+      <span className="abandoned-tag">{BODY_LABEL[a.body]}</span>
       <h2 className="abandoned-card-title">{a.name}</h2>
       <dl className="abandoned-fields">
         <Field label={a.arrivalLabel} value={a.arrival} />
         <Field label="Lugar" value={a.place} />
-        <Field label="Coordenadas" value={a.coords} />
+        <Field label="Coordenadas" value={a.coords} mono />
         <Field label="Estado actual" value={a.status} />
         <Field label="Qué pasó" value={a.whatHappened} />
         <Field label="Fin" value={a.endDate} />

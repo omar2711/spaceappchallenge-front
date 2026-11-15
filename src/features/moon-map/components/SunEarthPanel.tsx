@@ -82,13 +82,13 @@ function SiteColumn({ site, load }: { site: MoonSite; load: Load | null }) {
         <div>
           <dt>Sol a la vista</dt>
           <dd>
-            {hours(s.sunlit_hours)} · {(s.sunlit_fraction * 100).toFixed(0)}%
+            {hours(s.sunlit_hours)} · {(s.sunlit_fraction * 100).toFixed(0)} %
           </dd>
         </div>
         <div>
           <dt>Tierra a la vista</dt>
           <dd>
-            {hours(s.earth_visible_hours)} · {(s.earth_visible_fraction * 100).toFixed(0)}%
+            {hours(s.earth_visible_hours)} · {(s.earth_visible_fraction * 100).toFixed(0)} %
           </dd>
         </div>
         <div>
@@ -96,19 +96,21 @@ function SiteColumn({ site, load }: { site: MoonSite; load: Load | null }) {
           <dd>{hours(s.sun_and_earth_hours)}</dd>
         </div>
         <div>
-          <dt>Altura máx. del Sol</dt>
+          <dt>Altura máxima del Sol</dt>
           <dd>{s.max_sun_elevation_deg.toFixed(1)}°</dd>
         </div>
       </dl>
       <p className="moonmap-note">
-        Al inicio: Sol {s.sun_up_at_start ? 'arriba' : 'abajo'}, Tierra {s.earth_up_at_start ? 'arriba' : 'abajo'}
+        Al empezar, el Sol está {s.sun_up_at_start ? 'arriba' : 'abajo'} y la Tierra{' '}
+        {s.earth_up_at_start ? 'arriba' : 'abajo'}
         {next.length > 0 && ` · ${next.join(' · ')}`}. La Tierra se mueve entre{' '}
-        {s.earth_elevation_range_deg[0].toFixed(1)}° y {s.earth_elevation_range_deg[1].toFixed(1)}° de altura.
+        <span className="num">{s.earth_elevation_range_deg[0].toFixed(1)}°</span> y{' '}
+        <span className="num">{s.earth_elevation_range_deg[1].toFixed(1)}°</span> de altura.
       </p>
       <Plot
         series={[
           { id: 'sun', label: 'Sol', color: '#ffb36b', line: true, size: 0, points: xs.map((x, i) => ({ x, y: v.series.sun_elevation_deg[i] })) },
-          { id: 'earth', label: 'Tierra', color: '#7fb3ff', line: true, size: 0, points: xs.map((x, i) => ({ x, y: v.series.earth_elevation_deg[i] })) },
+          { id: 'earth', label: 'Tierra', color: '#d0d0d0', line: true, size: 0, points: xs.map((x, i) => ({ x, y: v.series.earth_elevation_deg[i] })) },
         ]}
         xLabel="Fecha (UT)"
         yLabel="Altura sobre el horizonte (°)"
@@ -123,6 +125,7 @@ function SiteColumn({ site, load }: { site: MoonSite; load: Load | null }) {
         }}
         height={240}
         ariaLabel={`Altura del Sol y de la Tierra vistas desde ${site.name}`}
+        caption={`Fig. · Altura del Sol y de la Tierra desde ${site.name}, ${v.start_utc.slice(0, 10)} a ${v.end_utc.slice(0, 10)} UTC`}
       />
       <WindowStrip v={v} />
     </div>
@@ -140,7 +143,7 @@ export default function SunEarthPanel({ sites, selected, compare, onCompare }: P
   return (
     <section className="moonmap-panel moonmap-sunearth" aria-labelledby="sunearth-title">
       <h2 id="sunearth-title" className="moonmap-panel-title">
-        SOL Y TIERRA DESDE EL SITIO · ENERGÍA Y COMUNICACIÓN
+        Sol y Tierra vistos desde el sitio
       </h2>
       <div className="moonmap-controls">
         <label className="moonmap-field">
@@ -164,7 +167,7 @@ export default function SunEarthPanel({ sites, selected, compare, onCompare }: P
             value={compare?.id ?? ''}
             onChange={(e) => onCompare(sites.find((s) => s.id === e.target.value) ?? null)}
           >
-            <option value="">— ninguno —</option>
+            <option value="">Ninguno</option>
             {sites
               .filter((s) => s.id !== selected?.id)
               .map((s) => (
@@ -177,7 +180,7 @@ export default function SunEarthPanel({ sites, selected, compare, onCompare }: P
       </div>
 
       {!selected ? (
-        <p className="moonmap-note">Elige un sitio en el mapa o en la lista para ver cuándo tiene Sol y Tierra a la vista.</p>
+        <p className="moonmap-note">Elige un sitio en el mapa o en la lista.</p>
       ) : (
         <div className={compare ? 'moonmap-cols moonmap-cols--2' : 'moonmap-cols'}>
           <SiteColumn site={selected} load={a} />
@@ -186,10 +189,10 @@ export default function SunEarthPanel({ sites, selected, compare, onCompare }: P
       )}
 
       <p className="moonmap-callout">
-        <strong>Limitación: horizonte liso.</strong> El cálculo usa una Luna esférica sin relieve (sin el modelo LOLA).
-        En el polo sur, montañas y bordes de cráteres pueden tapar el Sol o la Tierra aunque aquí aparezcan sobre el
-        horizonte, y al revés en las cumbres. Efemérides JPL DE421; validado contra JPL Horizons (&lt; 0.001°) en el
-        sitio del Apollo 11.
+        <strong>Ojo: el cálculo supone un horizonte liso.</strong> Tratamos la Luna como una esfera sin montañas. En
+        el polo sur, un borde de cráter puede tapar el Sol o la Tierra aunque aquí salgan sobre el horizonte, y en
+        una cumbre pasa lo contrario. Usamos las efemérides JPL DE421 y comprobamos el resultado con JPL Horizons en
+        el sitio del Apollo 11: la diferencia es menor a <span className="num">0.001°</span>.
       </p>
     </section>
   )

@@ -36,7 +36,7 @@ export default function LightCurvePanel({ curves, detector, onDetector }: Props)
   } else if (lc.usable === false || lc.per_epoch.length === 0) {
     body = (
       <p className="skyviewer-note">
-        D{detector}: curva no utilizable — {translateNote(lc.variability.note) || 'sin datos suficientes'}.
+        No se puede usar la curva de D{detector}: {translateNote(lc.variability.note) || 'faltan datos'}.
       </p>
     )
   } else {
@@ -48,7 +48,7 @@ export default function LightCurvePanel({ curves, detector, onDetector }: Props)
       {
         id: 'exp',
         label: 'cada exposición (corregida por la forma del espectro)',
-        color: '#7fb3ff',
+        color: '#8a8a8a',
         size: 2.2,
         points: used.map((p) => ({
           x: p.mjd,
@@ -63,7 +63,7 @@ export default function LightCurvePanel({ curves, detector, onDetector }: Props)
       {
         id: 'epoch',
         label: 'media por pasada',
-        color: '#c1ebdf',
+        color: '#ffb36b',
         marker: 'diamond',
         size: 5,
         line: true,
@@ -82,15 +82,25 @@ export default function LightCurvePanel({ curves, detector, onDetector }: Props)
       <>
         <p className={`skyviewer-callout${v.significant && !lower ? ' skyviewer-callout--hit' : ''}`}>
           <strong>
-            {v.significant ? 'Variabilidad significativa' : 'Sin variabilidad significativa'} en D{detector}
+            {v.significant ? 'Cambia de brillo' : 'No cambia de brillo de forma clara'} en D{detector}
           </strong>
-          {v.amplitude_mag != null && <> · amplitud {v.amplitude_mag.toFixed(2)} mag</>}
-          {v.p_value != null && <> · p = {v.p_value.toPrecision(2)}</>}
+          {v.amplitude_mag != null && (
+            <>
+              {' '}
+              · amplitud <span className="num">{v.amplitude_mag.toFixed(2)} mag</span>
+            </>
+          )}
+          {v.p_value != null && (
+            <>
+              {' '}
+              · <span className="num">p = {v.p_value.toPrecision(2)}</span>
+            </>
+          )}
           {lower && (
             <>
               <br />
-              El objetivo está <strong>saturado</strong>: cada flujo es una <strong>cota inferior</strong> (▲). El
-              cambio entre pasadas es real como tendencia, pero la amplitud no es una medida fiable.
+              El objetivo está saturado, así que cada valor (▲) es menor que el real. Que el brillo sube o baja entre
+              pasadas sí es fiable; cuánto, no.
             </>
           )}
         </p>
@@ -101,12 +111,21 @@ export default function LightCurvePanel({ curves, detector, onDetector }: Props)
           xTicks={dateTicks}
           height={260}
           ariaLabel={`Curva de luz en D${detector}`}
+          caption={`Fig. · Curva de luz en D${detector}, ${lc.per_epoch.map((e) => e.epoch).join(', ')}`}
         />
         <p className="skyviewer-note">
-          {lc.per_epoch.map((e) => `${e.epoch}: ${sig(e.flux, 4)} ± ${sig(e.err, 2)} mJy`).join(' · ')}.
-          {excluded > 0 && ` ${excluded} exposiciones excluidas (contaminadas o mezcladas).`} Cada exposición cae en
-          otra longitud de onda dentro del detector ({lc.wavelength_um[0].toFixed(2)}–{lc.wavelength_um[1].toFixed(2)}{' '}
-          µm); el backend las lleva a una misma referencia con la forma del espectro antes de comparar.
+          {lc.per_epoch.map((e, i) => (
+            <span key={e.epoch}>
+              {i > 0 && ' · '}
+              {e.epoch}: <span className="num">{sig(e.flux, 4)} ± {sig(e.err, 2)} mJy</span>
+            </span>
+          ))}
+          .{excluded > 0 && ` Dejamos fuera ${excluded} exposiciones contaminadas o mezcladas con otra fuente.`} Cada
+          exposición mide una longitud de onda algo distinta dentro del detector (
+          <span className="num">
+            {lc.wavelength_um[0].toFixed(2)}–{lc.wavelength_um[1].toFixed(2)} µm
+          </span>
+          ), así que el servidor las corrige con la forma del espectro antes de compararlas.
         </p>
       </>
     )
@@ -115,11 +134,11 @@ export default function LightCurvePanel({ curves, detector, onDetector }: Props)
   return (
     <section className="skyviewer-panel" aria-labelledby="lc-title">
       <h2 id="lc-title" className="skyviewer-panel-title">
-        CURVA DE LUZ · ¿CAMBIA DE BRILLO?
+        Curva de luz
       </h2>
       {variableIn.length > 0 && (
         <div className="skyviewer-modes skyviewer-lc-dets">
-          <span className="skyviewer-note">Variable en:</span>
+          <span className="skyviewer-note">Cambia de brillo en:</span>
           {variableIn.map((d) => (
             <button
               key={d}

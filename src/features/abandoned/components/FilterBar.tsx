@@ -28,7 +28,7 @@ export default function FilterBar({ value, onChange, shown, total }: Props) {
         ))}
       </div>
       <p className="abandoned-count" aria-live="polite">
-        Mostrando {shown} de {total} fichas
+        {shown} de {total} fichas
       </p>
     </div>
   )

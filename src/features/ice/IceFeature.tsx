@@ -52,7 +52,7 @@ export default function IceFeature() {
         <span className="ice-dot" style={{ background: PRIORITY[r[10]].color }} /> {r[3] ?? r[0]}
       </td>
       <td>{r[5] ? (CLASS_ES[r[5]] ?? r[5]) : '—'}</td>
-      <td>{r[7] != null ? r[7].toFixed(1) : '—'}</td>
+      <td className="num">{r[7] != null ? r[7].toFixed(1) : '—'}</td>
       <td>
         <Link className="ice-link" to={skyLink(r[1], r[2], 3)}>
           Ver en SPHEREx
@@ -64,18 +64,18 @@ export default function IceFeature() {
   return (
     <section className="ice">
       <header>
-        <small className="ice-eyebrow">RUTA DEL AGUA · HIELO EN EL CIELO</small>
         <h1 className="ice-title">Hielo en el cielo</h1>
         <p className="ice-lead">
-          Antes de llegar a lagos, cometas y planetas, el agua viaja congelada sobre granos de polvo frío alrededor de
-          estrellas que nacen. SPHEREx busca la huella de ese hielo (agua, CO₂ y CO a 3.05, 4.27 y 4.67 µm) en millones
-          de fuentes.
+          Alrededor de las estrellas que se están formando, el agua está congelada sobre granos de polvo. SPHEREx busca
+          la marca que deja ese hielo en la luz de millones de fuentes. El agua absorbe en{' '}
+          <span className="num">3.05 µm</span>, el CO₂ en <span className="num">4.27 µm</span> y el CO en{' '}
+          <span className="num">4.67 µm</span>.
         </p>
       </header>
 
       {(splices.failed || atlas.failed) && (
         <div className="ice-error" role="alert">
-          <p>No se pudieron cargar los catálogos desde la API.</p>
+          <p>No se pudieron cargar los catálogos.</p>
           <button type="button" className="ice-btn" onClick={() => setAttempt((n) => n + 1)}>
             Reintentar
           </button>
@@ -83,25 +83,27 @@ export default function IceFeature() {
       )}
 
       <section className="ice-panel" aria-labelledby="splices-title">
-        <small className="ice-eyebrow">CATÁLOGO SPLICES</small>
         <h2 id="splices-title" className="ice-h2">
-          ¿Dónde mira SPHEREx para encontrar hielo?
+          Dónde busca SPHEREx el hielo
         </h2>
         {!cat ? (
-          !splices.failed && <p className="ice-note">Cargando el catálogo (~250 kB)…</p>
+          !splices.failed && <p className="ice-note">Cargando el catálogo SPLICES…</p>
         ) : (
           <>
             <p className="ice-callout">
-              <strong>Ojo:</strong> SPLICES lista fuentes donde es <strong>probable</strong> ver absorción de hielo en
-              los espectros de SPHEREx; no contiene hielo medido. La prioridad de colores es nuestra: 1 = protoestrella
-              embebida, 2 = otro objeto estelar joven, 3 = otra fuente. En los espectros que medimos en nuestros campos
-              ninguna banda de hielo llega a 3σ: puedes comprobarlo en el espectro de cada campo del visor.
+              <strong>Ojo:</strong> SPLICES es una lista de fuentes donde probablemente se vea hielo en los espectros
+              de SPHEREx. No es hielo medido. Los colores son nuestra prioridad: naranja para las protoestrellas
+              envueltas en polvo, gris claro para otros objetos estelares jóvenes y gris oscuro para el resto. En
+              nuestros campos ninguna banda de hielo llega a <span className="num">3σ</span>; lo puedes ver en el
+              espectro de cada campo del visor.
             </p>
             <SplicesMap catalog={cat} active={region} onRegion={setRegion} />
             <p className="ice-note">
-              {cat.n_sources} fuentes: las del catálogo dentro de 30′ de cada uno de nuestros campos y las{' '}
-              {cat.rows.filter((r) => r[11].includes(ALLSKY)).length} protoestrellas embebidas más brillantes de todo el
-              cielo (K &lt; 9). Catálogo completo: ~8.9 millones de fuentes. Fuente: {cat.citation}.
+              Fig. · Catálogo SPLICES en todo el cielo, <span className="num">{cat.n_sources}</span> fuentes. Son las
+              que están a menos de <span className="num">30′</span> de nuestros campos y las{' '}
+              <span className="num">{cat.rows.filter((r) => r[11].includes(ALLSKY)).length}</span> protoestrellas más
+              brillantes del cielo (<span className="num">K &lt; 9</span>). El catálogo completo tiene unos 8.9
+              millones. Fuente: {cat.citation}.
             </p>
 
             <div className="ice-regions" role="group" aria-label="Región">
@@ -117,24 +119,24 @@ export default function IceFeature() {
                 </button>
               ))}
               <button type="button" className="ice-chip" aria-pressed={region === ALLSKY} onClick={() => setRegion(ALLSKY)}>
-                Todo el cielo: protoestrellas brillantes
+                Protoestrellas brillantes de todo el cielo
               </button>
             </div>
 
             <h3 className="ice-h3">
-              {reg ? `${reg.name}: ${reg.n_sources} fuentes a menos de ${reg.radius_arcmin}′` : 'Protoestrellas embebidas brillantes'}
+              {reg ? `${reg.name}: ${reg.n_sources} fuentes a menos de ${reg.radius_arcmin}′` : 'Protoestrellas brillantes'}
             </h3>
             {field && (
               <p className="ice-note">
                 <Link className="ice-link" to={skyLink(field.request.raDeg, field.request.decDeg, field.request.fovArcmin)}>
-                  Abrir el campo de {field.name} en el visor →
+                  Abrir el campo de {field.name} en el visor
                 </Link>{' '}
-                (cubre solo los {field.fovArcmin.toFixed(0)}′ centrales).
+                Solo cubre los <span className="num">{field.fovArcmin.toFixed(0)}′</span> del centro.
               </p>
             )}
             {rows.length === 0 ? (
               <p className="ice-note">
-                Ninguna fuente de SPLICES cerca: un buen control, este campo no es una región de formación estelar.
+                No hay fuentes de SPLICES cerca. Tiene sentido: aquí no se están formando estrellas.
               </p>
             ) : (
               <>
@@ -152,9 +154,9 @@ export default function IceFeature() {
                   </table>
                 </div>
                 <p className="ice-note">
-                  {rows.length > MAX_ROWS && `Se muestran las ${MAX_ROWS} de mayor prioridad (de ${rows.length}). `}
-                  «Ver en SPHEREx» abre el visor en esa posición: si no es uno de nuestros campos, el servidor genera
-                  uno nuevo con imágenes reales (1–3 min la primera vez).
+                  {rows.length > MAX_ROWS && `Mostramos las ${MAX_ROWS} de mayor prioridad de ${rows.length}. `}
+                  «Ver en SPHEREx» abre el visor en esa posición. Si no es uno de nuestros campos, el servidor prepara
+                  uno nuevo, que la primera vez tarda de 1 a 3 minutos.
                 </p>
               </>
             )}

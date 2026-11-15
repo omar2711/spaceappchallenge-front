@@ -16,6 +16,8 @@ type Props = {
   frames: SkyFrame[]
   imageSize: Pair
   detectorLabel: string
+  /** Nombre del objeto o campo, para el pie de figura. */
+  objectName?: string
   mode: ViewMode
   blinkA: number
   blinkB: number
@@ -30,11 +32,11 @@ type Props = {
 }
 
 const CAVEAT_TEXT: Record<DiffCaveat, string> = {
-  moving_target: 'El objetivo se mueve: se espera un par azul (posición anterior) y rojo (posición nueva).',
+  moving_target: 'El objetivo se mueve, así que debería verse una mancha azul donde estaba y una roja donde está ahora.',
   wavelength_mismatch:
-    'Las dos pasadas muestrearon longitudes de onda algo distintas dentro del detector: parte del residuo puede ser espectral, no un cambio real.',
-  saturated_target: 'El núcleo del objetivo está saturado: el residuo en el centro no es fiable.',
-  few_reference_stars: 'Pocas estrellas de referencia en el campo: no se ajustó la escala de brillo entre pasadas.',
+    'Las dos pasadas midieron longitudes de onda un poco distintas dentro del detector. Parte de lo que se ve puede venir de eso y no de un cambio real.',
+  saturated_target: 'El centro del objetivo está saturado, así que lo que queda en el medio no es fiable.',
+  few_reference_stars: 'Hay pocas estrellas de referencia en el campo y no se pudo igualar el brillo entre pasadas.',
 }
 
 const prefersReducedMotion = () =>
@@ -70,6 +72,7 @@ export default function FramePlayer({
   frames,
   imageSize,
   detectorLabel,
+  objectName,
   mode,
   blinkA,
   blinkB,
@@ -229,7 +232,7 @@ export default function FramePlayer({
         {pickedPx && <TargetMarker px={pickedPx} size={imageSize} pick />}
         {mode === 'diff' && index === 0 && (
           <p className="skyviewer-stage-note">
-            Pasada 1: todavía no hay una pasada anterior con la que comparar. Avanza a la pasada 2.
+            Es la primera pasada y no hay otra anterior para comparar. Avanza a la pasada 2.
           </p>
         )}
         {mode === 'diff' && !calibrated && diffError && (
@@ -237,13 +240,14 @@ export default function FramePlayer({
             No se pudo calcular la diferencia con estas imágenes.
           </p>
         )}
-        <span className="skyviewer-badge">SPHEREx · {detectorLabel}</span>
       </div>
 
-      <p className="skyviewer-counter">
-        {mode === 'diff' && prev ? `${frame.epoch} − ${prev.epoch}` : frame.epoch} · {shownIndex + 1}/{count} ·{' '}
-        {formatDate(frame.epochUT)} · {frame.nImages} exposiciones
-        {mode === 'blink' && ` · ${blinkOn ? 'B' : 'A'}`}
+      <p className="fig-caption">
+        Fig. · {objectName ? `${objectName}, ` : ''}SPHEREx <span className="num">{detectorLabel}</span>,{' '}
+        {mode === 'diff' && prev ? `diferencia ${frame.epoch} menos ${prev.epoch}` : `pasada ${frame.epoch}`}{' '}
+        <span className="num">{formatDate(frame.epochUT)}</span> · {shownIndex + 1} de {count} ·{' '}
+        <span className="num">{frame.nImages}</span> exposiciones
+        {mode === 'blink' && ` · imagen ${blinkOn ? 'B' : 'A'}`}
       </p>
 
       {mode === 'diff' && index > 0 && (
@@ -251,11 +255,11 @@ export default function FramePlayer({
           {calibrated ? (
             <>
               <p className="skyviewer-note">
-                <span className="skyviewer-legend skyviewer-legend--neg" /> más débil / posición anterior ·{' '}
+                <span className="skyviewer-legend skyviewer-legend--neg" /> más débil o donde estaba ·{' '}
                 <span className="skyviewer-legend skyviewer-legend--zero" /> sin cambio ·{' '}
-                <span className="skyviewer-legend skyviewer-legend--pos" /> más brillante / posición nueva · rango ±
-                {sig(calibrated.range[1], 3)} MJy/sr. Diferencia calibrada por el backend (escala de brillo
-                ajustada con estrellas del campo).
+                <span className="skyviewer-legend skyviewer-legend--pos" /> más brillante o donde está ahora · escala
+                de <span className="num">±{sig(calibrated.range[1], 3)} MJy/sr</span>. Es una resta calibrada en el
+                servidor: el brillo de las dos pasadas se igualó con las estrellas del campo.
               </p>
               {calibrated.caveats.length > 0 && (
                 <ul className="skyviewer-caveats">
@@ -267,16 +271,17 @@ export default function FramePlayer({
             </>
           ) : (
             <p className="skyviewer-note">
-              Diferencia simple calculada en el navegador (|pasada − anterior| en brillo de pantalla, sin calibrar).
+              Resta simple hecha en el navegador con el brillo de pantalla. No está calibrada.
             </p>
           )}
         </div>
       )}
       {saturated && mode !== 'diff' && (
         <p className="skyviewer-note">
-          {movingTarget ? 'El objetivo' : 'La posición marcada'} está saturada en {frame.saturatedExposures} de{' '}
-          {frame.nImages} exposiciones de esta pasada: su brillo es una cota inferior
-          {movingTarget ? ' (el movimiento sigue siendo válido)' : ''}.
+          {movingTarget ? 'El objetivo está saturado' : 'La posición marcada está saturada'} en{' '}
+          <span className="num">{frame.saturatedExposures}</span> de <span className="num">{frame.nImages}</span>{' '}
+          exposiciones de esta pasada, así que su brillo real es mayor que el medido
+          {movingTarget ? '. El movimiento sí se puede medir' : ''}.
         </p>
       )}
 

@@ -58,8 +58,8 @@ type Props = {
 }
 
 // react-leaflet aplica pathOptions con setStyle (sin className), así que los estilos van explícitos.
-// Mismos valores que --mint, --mint-ink y --sun de styles/index.css.
-const C = { route: '#c1ebdf', ink: '#11271f', perseverance: '#ffb36b', hazard: '#ff6b6b', blocked: '#ff6b6b' }
+// Ruta de Perseverance en blanco, pendientes y tramos bloqueados en el acento (--accent), tu ruta en gris.
+const C = { route: '#9a9a9a', ink: '#0a0a0a', perseverance: '#f2f2f2', hazard: '#ffb36b', blocked: '#ffb36b' }
 
 export default function MarsMapView({ layers, points, blocked, walk, hazards, activeStop, onStop, onMap, onAddPoint }: Props) {
   const blockedIdx = new Set(blocked.map((b) => b.index))
@@ -130,7 +130,7 @@ export default function MarsMapView({ layers, points, blocked, walk, hazards, ac
             center={[s.lat, s.lon]}
             radius={activeStop === s.id ? 10 : 7}
             pathOptions={{
-              color: activeStop === s.id ? '#ffffff' : C.ink,
+              color: activeStop === s.id ? C.hazard : C.ink,
               weight: activeStop === s.id ? 3 : 1.5,
               fillColor: C.perseverance,
               fillOpacity: 1,
@@ -171,12 +171,12 @@ export default function MarsMapView({ layers, points, blocked, walk, hazards, ac
       </MapContainer>
       {tilesDown && (
         <p className="marsmap-badge marsmap-offline" role="status">
-          Sin conexión con Mars Trek: el mapa base no carga. La ruta, las paradas y las pendientes sí (datos de la API).
+          Sin conexión con Mars Trek, así que no se ve el mapa de fondo. El recorrido y sus pendientes funcionan igual.
         </p>
       )}
       <span className="marsmap-badge">
         <span className="marsmap-key marsmap-key--walk" /> Perseverance · <span className="marsmap-key marsmap-key--hazard" />{' '}
-        pendiente &gt; {walk?.hazards.steep_threshold_percent ?? 15} % · <span className="marsmap-key" /> tu ruta
+        pendiente de más del {walk?.hazards.steep_threshold_percent ?? 15} % · <span className="marsmap-key" /> tu ruta
       </span>
     </div>
   )

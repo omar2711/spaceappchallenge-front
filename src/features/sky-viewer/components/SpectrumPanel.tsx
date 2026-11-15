@@ -6,13 +6,13 @@ import { formatDecDms, formatRaHms } from '../lib/angles'
 import { MOLECULE, prettyLabel, translateNote } from '../lib/notes'
 
 const EPOCH_COLORS: Record<string, string> = {
-  S1: '#7fb3ff',
-  S2: '#c1ebdf',
-  S3: '#ffb36b',
-  S4: '#e58fd8',
-  combined: '#eaf2f4',
+  S1: '#f2f2f2',
+  S2: '#ffb36b',
+  S3: '#8a8a8a',
+  S4: '#c9c9c9',
+  combined: '#f2f2f2',
 }
-const colorOf = (epoch: string) => EPOCH_COLORS[epoch] ?? '#eaf2f4'
+const colorOf = (epoch: string) => EPOCH_COLORS[epoch] ?? '#f2f2f2'
 const epochLabel = (e: string) => (e === 'combined' ? 'Combinado' : e)
 
 const OVERLAY = 'overlay'
@@ -30,7 +30,7 @@ function toBands(refs: ReferenceBand[], hits: BandMeasurement[]): PlotBand[] {
       label: prettyLabel(r.label),
       tone: hit ? 'hit' : r.phase === 'ice' ? 'ice' : 'gas',
       dashed: !r.verified,
-      title: `${prettyLabel(r.label)} ${r.wavelength_um} µm${r.phase ? ` (${r.phase})` : ''} — ${r.source ?? ''}${
+      title: `${prettyLabel(r.label)} ${r.wavelength_um} µm${r.phase ? ` (${r.phase})` : ''} · ${r.source ?? ''}${
         r.verified ? '' : ' · posición no verificada'
       }${hit ? ' · absorción medida ≥ 3σ en este espectro' : ''}`,
     }
@@ -117,12 +117,18 @@ export function SpectrumView({ spectra, referenceBands, targetName, variable }: 
 
       {waterAndMethane && (
         <p className="skyviewer-callout skyviewer-callout--hit">
-          <strong>Agua y metano en {targetName}.</strong> SPHEREx mide absorción de{' '}
+          <strong>Agua y metano en {targetName}.</strong> SPHEREx mide absorción en{' '}
           {hits
             .filter((m) => m.molecule === 'H2O' || m.molecule === 'CH4')
-            .map((m) => `${prettyLabel(m.name)} (${m.absorption_sigma?.toFixed(1)}σ)`)
-            .join(', ')}
-          : la firma de la atmósfera de una enana marrón fría, en gas, no en hielo.
+            .map((m, i) => (
+              <span key={m.name}>
+                {i > 0 && ', '}
+                <span className="num">
+                  {prettyLabel(m.name)} {m.absorption_sigma?.toFixed(1)}σ
+                </span>
+              </span>
+            ))}
+          . Es lo que se espera en la atmósfera de una enana marrón fría. Ese agua está en forma de gas, no de hielo.
         </p>
       )}
 
@@ -134,28 +140,29 @@ export function SpectrumView({ spectra, referenceBands, targetName, variable }: 
         yLog={log}
         height={320}
         ariaLabel={`Espectro de ${targetName}`}
+        caption={`Fig. · Espectro de ${targetName}, ${selected ? epochLabel(selected.epoch).toLowerCase() : 'pasadas superpuestas'}, 0.75 a 5 µm`}
         footer={
           <>
             <span className="plot-legend-item">
               <span className="skyviewer-legend plot-band-key plot-band-key--gas" /> banda de referencia
             </span>
             <span className="plot-legend-item">
-              <span className="skyviewer-legend plot-band-key plot-band-key--hit" /> absorción medida ≥ 3σ
+              <span className="skyviewer-legend plot-band-key plot-band-key--hit" /> absorción medida de 3σ o más
             </span>
-            {anyLower && <span className="plot-legend-item">▲ cota inferior (saturado)</span>}
+            {anyLower && <span className="plot-legend-item">▲ saturado: el valor real es mayor</span>}
           </>
         }
       />
       <p className="skyviewer-note">
-        Las franjas marcan <strong>dónde absorben</strong> el agua, el metano, el CO₂ y el CO según la literatura
-        (referencia, no detección). Solo las resaltadas en verde tienen absorción medida ≥ 3σ en este espectro.
-        Franjas punteadas: posición no verificada.
+        Las franjas grises marcan dónde absorben el agua, el metano, el CO₂ y el CO según la literatura. Son una
+        referencia, no una detección. Las naranjas tienen absorción medida de 3σ o más en este espectro. Las
+        punteadas tienen una posición que no pudimos verificar.
         {measured?.note && <> {translateNote(measured.note)}</>}
       </p>
 
       {measurements.length > 0 && (
         <table className="skyviewer-table">
-          <caption>Mediciones de bandas ({epochLabel(measured.epoch)})</caption>
+          <caption>Bandas medidas ({epochLabel(measured.epoch).toLowerCase()})</caption>
           <thead>
             <tr>
               <th scope="col">Banda</th>
@@ -167,13 +174,13 @@ export function SpectrumView({ spectra, referenceBands, targetName, variable }: 
             {measurements.map((m) => (
               <tr key={m.name} className={m.significant ? 'is-hit' : undefined}>
                 <td>{prettyLabel(m.name)}</td>
-                <td>{m.molecule ? (MOLECULE[m.molecule] ?? m.molecule) : '—'}</td>
+                <td className="txt">{m.molecule ? (MOLECULE[m.molecule] ?? m.molecule) : "—"}</td>
                 <td>
                   {m.value === null
                     ? translateNote(m.note) || 'sin datos'
                     : m.significant
-                      ? `absorción detectada · ${m.absorption_sigma?.toFixed(1)}σ`
-                      : `no significativa${m.absorption_sigma != null ? ` · ${m.absorption_sigma.toFixed(1)}σ` : ''}`}
+                      ? `absorción, ${m.absorption_sigma?.toFixed(1)}σ`
+                      : `nada claro${m.absorption_sigma != null ? `, ${m.absorption_sigma.toFixed(1)}σ` : ''}`}
                 </td>
               </tr>
             ))}
@@ -236,20 +243,23 @@ export default function SpectrumPanel({
   return (
     <section className="skyviewer-panel" aria-labelledby="spectrum-title">
       <h2 id="spectrum-title" className="skyviewer-panel-title">
-        ESPECTRO · 0.75–5 µm
+        Espectro
       </h2>
       {picked ? (
         <>
           <p className="skyviewer-job-stage">
-            {picked.label ?? 'Posición elegida'}: {formatRaHms(picked.ra)} {formatDecDms(picked.dec)}{' '}
+            {picked.label ?? 'Posición elegida'}:{' '}
+            <span className="num">
+              {formatRaHms(picked.ra)} {formatDecDms(picked.dec)}
+            </span>{' '}
             <button type="button" className="skyviewer-btn" onClick={onClearPick}>
               {baseSpectra ? `Volver a ${targetName}` : 'Quitar'}
             </button>
           </p>
           {picked.state === 'loading' && (
             <p className="skyviewer-empty" role="status">
-              Calculando el espectro en el servidor… {picked.elapsedS} s (≈1 s en los campos de demo, 3–6 s en los
-              campos grandes)
+              Midiendo el espectro… <span className="num">{picked.elapsedS} s</span>. Suele tardar 1 s en los campos de
+              ejemplo y de 3 a 6 s en los grandes.
             </p>
           )}
           {picked.state === 'error' && (
@@ -260,12 +270,13 @@ export default function SpectrumPanel({
           {picked.state === 'ready' && picked.spectra && (
             <>
               <p className="skyviewer-note">
-                Fotometría forzada (apertura de 12″) en {picked.nExposures} exposiciones
+                Medido en un círculo de <span className="num">12″</span> en <span className="num">{picked.nExposures}</span>{' '}
+                exposiciones
                 {picked.flags &&
                   ` (${Object.entries(picked.flags)
                     .map(([k, v]) => `${v} ${FLAG_TEXT[k] ?? k}`)
                     .join(', ')})`}
-                . Posición fija: no sigue movimiento propio.
+                . La posición queda fija aunque el objeto se mueva.
               </p>
               <SpectrumView
                 key={`${picked.ra},${picked.dec}`}
@@ -281,12 +292,12 @@ export default function SpectrumPanel({
       ) : (
         <p className="skyviewer-note">
           {canPick
-            ? 'Haz clic sobre la imagen para medir el espectro de cualquier fuente del campo.'
-            : 'El espectro por clic está disponible en los objetivos y los campos de demo: el servidor solo guarda en caché sus exposiciones. Este campo nuevo muestra solo imágenes.'}
+            ? 'Haz clic en la imagen para medir el espectro de cualquier punto del campo.'
+            : 'Medir con un clic solo funciona en los campos de la lista, porque el servidor guarda sus exposiciones. En este campo nuevo solo hay imágenes.'}
         </p>
       )}
       {canPick && (!!baseSpectra?.length || !!picked) && (
-        <p className="skyviewer-note">Haz clic sobre la imagen para medir el espectro de otra posición del campo.</p>
+        <p className="skyviewer-note">Haz clic en la imagen para medir el espectro de otro punto.</p>
       )}
       {canPick && shortcuts.length > 0 && (
         <div className="skyviewer-modes">

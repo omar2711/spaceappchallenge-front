@@ -52,12 +52,11 @@ export default function MoonMapFeature() {
   return (
     <section className="moonmap">
       <header className="moonmap-intro">
-        <small className="moonmap-eyebrow">DESAFÍO · LUNAR LANDING SITE NAVIGATOR</small>
         <h1 className="moonmap-title">Mapa de la Luna</h1>
         <p className="moonmap-lead">
-          Un mapa para elegir dónde aterrizar siguiendo el agua: hielo en los cráteres del polo sur
-          que nunca reciben luz solar. Compara las regiones candidatas de Artemis III con los sitios
-          Apollo: cuántas horas de Sol (energía) y de Tierra a la vista (comunicación) tiene cada una.
+          En el polo sur hay cráteres donde nunca llega el Sol y puede haber hielo. Artemis III quiere aterrizar
+          cerca. Aquí puedes comparar esas regiones con los sitios Apollo: cuántas horas tienen Sol para la energía
+          y cuántas ven la Tierra para comunicarse.
         </p>
       </header>
 

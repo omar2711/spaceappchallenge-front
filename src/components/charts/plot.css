@@ -10,7 +10,7 @@
   height: auto;
   background: var(--space);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: visible;
 }
 
@@ -33,18 +33,18 @@
 }
 
 .plot-band rect {
-  fill: #5b8fd61f;
-  stroke: #5b8fd666;
+  fill: #ffffff0d;
+  stroke: #ffffff38;
 }
 
 .plot-band--ice rect {
-  fill: #b48ad61f;
-  stroke: #b48ad666;
+  fill: #ffffff14;
+  stroke: #ffffff5c;
 }
 
 .plot-band--hit rect {
-  fill: #c1ebdf33;
-  stroke: var(--mint);
+  fill: #ffb36b26;
+  stroke: var(--accent);
 }
 
 .plot-band--dashed rect {
@@ -57,7 +57,7 @@
 }
 
 .plot .plot-band--hit text {
-  fill: var(--mint);
+  fill: var(--accent);
   font-weight: 700;
 }
 
@@ -103,4 +103,10 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
+}
+
+.plot-caption {
+  display: block;
+  flex-basis: 100%;
+  margin: 2px 0 0;
 }

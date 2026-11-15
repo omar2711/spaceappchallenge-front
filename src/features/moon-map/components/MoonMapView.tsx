@@ -35,8 +35,8 @@ function FitMinZoom() {
   return null
 }
 
-// Mismos valores que --mint, --sun y --bg de styles/index.css.
-const SITE_COLORS = { apollo: '#c1ebdf', artemis: '#ffb36b', selected: '#ffffff', outline: '#05090e' }
+// Apollo en gris claro y Artemis III en el acento (--accent); el borde usa --bg.
+const SITE_COLORS = { apollo: '#d0d0d0', artemis: '#ffb36b', selected: '#ffffff', outline: '#0a0a0a' }
 
 type Props = {
   layers: Record<string, LayerState>
@@ -108,7 +108,7 @@ export default function MoonMapView({ layers, sites, selected, compare, onMap, o
       </MapContainer>
       {tilesDown && (
         <p className="moonmap-badge moonmap-offline" role="status">
-          Sin conexión con Moon Trek: el mapa base no carga. Los sitios y el Sol y la Tierra sí (datos de la API).
+          Sin conexión con Moon Trek, así que no se ve el mapa de fondo. Los sitios y los cálculos de Sol y Tierra funcionan igual.
         </p>
       )}
       <span className="moonmap-badge">

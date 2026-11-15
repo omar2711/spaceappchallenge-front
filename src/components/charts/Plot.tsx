@@ -40,6 +40,8 @@ type Props = {
   width?: number
   ariaLabel: string
   footer?: ReactNode
+  /** Pie de figura: "Fig. · objeto, detector, fechas". */
+  caption?: string
   onPlotClick?: (x: number, y: number) => void
 }
 
@@ -79,6 +81,7 @@ export default function Plot({
   width = 640,
   ariaLabel,
   footer,
+  caption,
   onPlotClick,
 }: Props) {
   const H = height
@@ -212,6 +215,7 @@ export default function Plot({
           </span>
         ))}
         {footer}
+        {caption && <span className="fig-caption plot-caption">{caption}</span>}
       </figcaption>
     </figure>
   )

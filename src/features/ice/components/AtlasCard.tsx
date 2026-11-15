@@ -13,25 +13,28 @@ export default function AtlasCard({ atlas }: { atlas: AtlasCatalog }) {
   const obs = atlas.spherex_observations
   return (
     <section className="ice-panel" aria-labelledby="atlas-title">
-      <small className="ice-eyebrow">COMETA INTERESTELAR</small>
       <h2 id="atlas-title" className="ice-h2">
-        {atlas.name}: agua que viene de otra estrella
+        {atlas.name}, un cometa de otra estrella
       </h2>
       <p className="ice-lead">
-        El tercer objeto interestelar conocido. SPHEREx vio hielo y vapor de agua y una enorme coma de dióxido de
-        carbono en un cometa que se formó alrededor de otra estrella.
+        Es el tercer objeto que vemos llegar desde fuera del sistema solar. SPHEREx encontró hielo y vapor de agua en
+        él, rodeados de una nube enorme de dióxido de carbono.
       </p>
 
       <dl className="ice-stats">
         {obs.periods.map((p) => (
           <div key={p.label}>
             <dt>{periodEs(p.label)}</dt>
-            <dd>{p.n_spectral_images} imágenes espectrales</dd>
+            <dd>
+              <span className="num">{p.n_spectral_images}</span> imágenes
+            </dd>
           </div>
         ))}
         <div>
           <dt>Total</dt>
-          <dd>{obs.n_spectral_images_total} imágenes</dd>
+          <dd>
+            <span className="num">{obs.n_spectral_images_total}</span> imágenes
+          </dd>
         </div>
       </dl>
 
@@ -52,8 +55,9 @@ export default function AtlasCard({ atlas }: { atlas: AtlasCatalog }) {
       <p className="ice-callout">
         {atlas.processed_by_us ? null : (
           <>
-            <strong>No procesamos estas imágenes nosotros.</strong> Aquí resumimos lo que publicó el equipo de
-            SPHEREx; las cifras se citan tal cual de sus artículos (revisadas el {atlas.sources_checked.slice(0, 10)}).{' '}
+            <strong>Estas imágenes no las procesamos nosotros.</strong> Resumimos lo que publicó el equipo de SPHEREx
+            y copiamos las cifras tal cual de sus artículos (revisados el{' '}
+            <span className="num">{atlas.sources_checked.slice(0, 10)}</span>).{' '}
           </>
         )}
         Las {obs.n_spectral_images_total} imágenes y la posición del cometa en cada una están en{' '}

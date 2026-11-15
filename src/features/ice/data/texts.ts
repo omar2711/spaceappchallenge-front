@@ -2,9 +2,9 @@
 // citan tal cual de las fuentes; si un texto no tiene traducción, se muestra el original.
 
 export const PRIORITY: Record<1 | 2 | 3, { label: string; color: string }> = {
-  1: { label: 'protoestrella embebida', color: '#c1ebdf' },
-  2: { label: 'otro objeto estelar joven', color: '#7fb3ff' },
-  3: { label: 'otra fuente', color: '#8a96a0' },
+  1: { label: 'protoestrella embebida', color: '#ffb36b' },
+  2: { label: 'otro objeto estelar joven', color: '#d0d0d0' },
+  3: { label: 'otra fuente', color: '#6e6e6e' },
 }
 
 export const CLASS_ES: Record<string, string> = {

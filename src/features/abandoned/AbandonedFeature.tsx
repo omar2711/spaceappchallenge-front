@@ -22,11 +22,10 @@ export default function AbandonedFeature() {
   return (
     <section className="abandoned">
       <header className="abandoned-intro">
-        <small className="abandoned-eyebrow">DESAFÍO · ABANDONED BUT NOT FORGOTTEN</small>
-        <h1 className="abandoned-title">Abandonados, pero no olvidados</h1>
+        <h1 className="abandoned-title">Abandonados</h1>
         <p className="abandoned-lead">
-          Aquí hay una selección de naves y equipo que la NASA dejó en la Luna, en Marte y más
-          allá. Mira dónde quedaron y qué pasó con cada uno. Cada ficha enlaza a su fuente.
+          Naves y equipos que la NASA dejó en la Luna, en Marte y más lejos. Cada ficha cuenta dónde quedó y qué le
+          pasó, con un enlace a la fuente.
         </p>
       </header>
 
@@ -43,8 +42,7 @@ export default function AbandonedFeature() {
       <p className="abandoned-credit">
         Datos: NASA (NSSDCA, science.nasa.gov, JPL). Fechas en UT.
         <br />
-        Desafío oficial: Abandoned but not Forgotten: Storytelling about NASA's Discarded Equipment
-        on the Moon and Mars
+        Reto de Space Apps: Abandoned but not Forgotten.
       </p>
     </section>
   )

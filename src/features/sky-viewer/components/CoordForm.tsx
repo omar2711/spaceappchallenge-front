@@ -94,7 +94,7 @@ export default function CoordForm({ values, onChange, onSubmit, busy }: Props) {
 
   return (
     <form className="skyviewer-panel" onSubmit={handleSubmit} noValidate>
-      <h2 className="skyviewer-panel-title">Parche de cielo</h2>
+      <h2 className="skyviewer-panel-title">Coordenadas</h2>
 
       <Field
         id="skyviewer-ra"
@@ -102,7 +102,7 @@ export default function CoordForm({ values, onChange, onSubmit, busy }: Props) {
         value={values.ra}
         result={ra}
         showError={show('ra')}
-        hint="Formatos: 08h55m10.831s · 08 55 10.831 · 133.795. Con h/m/s o espacios = horas; número decimal = grados."
+        hint="Acepta 08h55m10.831s, 08 55 10.831 o 133.795. Con h/m/s o espacios se lee en horas; un número decimal, en grados."
         conversion={ra.ok ? `= ${formatDeg(ra.deg)} (${(ra.deg / 15).toFixed(5)} h)` : undefined}
         placeholder="08h55m10.831s"
         onChange={(v) => onChange({ ra: v })}
@@ -114,7 +114,7 @@ export default function CoordForm({ values, onChange, onSubmit, busy }: Props) {
         value={values.dec}
         result={dec}
         showError={show('dec')}
-        hint="Formatos: -07d14m42.53s · -07 14 42.53 · -7.245. Siempre en grados."
+        hint="Acepta -07d14m42.53s, -07 14 42.53 o -7.245. Siempre en grados."
         conversion={dec.ok ? `= ${formatDeg(dec.deg)}` : undefined}
         placeholder="-07d14m42.53s"
         onChange={(v) => onChange({ dec: v })}
@@ -126,7 +126,7 @@ export default function CoordForm({ values, onChange, onSubmit, busy }: Props) {
         value={values.fov}
         result={fov}
         showError={show('fov')}
-        hint="Entre 1 y 6 arcmin (los objetivos del desafío usan su campo de 4′)."
+        hint="Entre 1 y 6 arcmin. Los objetivos del reto usan 4′."
         placeholder="3"
         onChange={(v) => onChange({ fov: v })}
         onBlur={() => touch('fov')}

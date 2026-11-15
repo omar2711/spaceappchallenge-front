@@ -16,7 +16,7 @@ export default function JobProgress({ status, elapsedS }: Props) {
   const stage = status?.stage ? (STAGES[status.stage] ?? status.stage) : 'Preparando la solicitud'
   return (
     <div className="skyviewer-panel skyviewer-job" role="status" aria-live="polite">
-      <h2 className="skyviewer-panel-title">Generando un campo nuevo</h2>
+      <h2 className="skyviewer-panel-title">Preparando un campo nuevo</h2>
       <p className="skyviewer-job-stage">
         {stage}
         {status?.message && status.stage !== 'done' && <span className="skyviewer-note"> · {status.message}</span>}
@@ -25,8 +25,9 @@ export default function JobProgress({ status, elapsedS }: Props) {
         <div className="skyviewer-progress-bar" style={{ width: `${pct}%` }} />
       </div>
       <p className="skyviewer-note">
-        {pct}% · {elapsedS} s. Estas coordenadas no estaban calculadas: el servidor descarga y combina imágenes
-        reales de SPHEREx (1–3 min la primera vez). Después quedan en caché y cargan al instante.
+        <span className="num">{pct}%</span> · <span className="num">{elapsedS} s</span>. Nadie había pedido estas
+        coordenadas antes, así que el servidor está bajando y sumando las imágenes de SPHEREx. La primera vez tarda
+        de 1 a 3 minutos; después abren al instante.
       </p>
     </div>
   )

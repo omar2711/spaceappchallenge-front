@@ -18,7 +18,7 @@ export default function DetectorBar({ detectors, value, recommended, recommended
           <button
             key={d.id}
             type="button"
-            className="skyviewer-mode skyviewer-det"
+            className={`skyviewer-mode skyviewer-det${d.id === recommended ? ' is-recommended' : ''}`}
             aria-pressed={value === d.id}
             disabled={d.frames.length === 0}
             title={`Detector ${d.id}: ${um(d.wavelengthUm[0])}–${um(d.wavelengthUm[1])} µm`}
@@ -28,13 +28,14 @@ export default function DetectorBar({ detectors, value, recommended, recommended
             <span className="skyviewer-det-range">
               {um(d.wavelengthUm[0])}–{um(d.wavelengthUm[1])} µm
             </span>
-            {d.id === recommended && <span className="skyviewer-det-star" aria-label="recomendado">★</span>}
+            {d.id === recommended && <span className="skyviewer-sr"> (recomendado)</span>}
           </button>
         ))}
       </div>
       <p className="skyviewer-note">
-        El video compara siempre el <strong>mismo detector</strong> entre pasadas: cada detector ve otro rango de
-        longitud de onda. {recommendedReason && <>★ {recommendedReason}</>}
+        Cada detector ve otro rango de longitud de onda, así que el video compara siempre el mismo detector entre
+        pasadas.{' '}
+        {recommendedReason && <>El subrayado naranja marca el recomendado: {recommendedReason}</>}
       </p>
     </div>
   )

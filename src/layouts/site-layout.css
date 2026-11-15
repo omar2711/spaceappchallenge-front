@@ -38,7 +38,7 @@
 
 .site-nav a {
   padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: 4px;
   font-size: 13px;
   color: var(--muted);
   text-decoration: none;
@@ -50,27 +50,27 @@
 }
 
 .site-nav a[aria-current='page'] {
-  background: var(--mint);
-  color: var(--mint-ink);
+  background: transparent;
+  color: var(--text);
+  box-shadow: inset 0 -2px 0 var(--accent);
+  border-radius: 0;
 }
 
 /* ===== Pie ===== */
 .site-footer {
   padding: 20px 5vw;
   border-top: 1px solid var(--line);
-  font: 11px var(--font-mono);
-  letter-spacing: 1px;
-  color: var(--accent);
+  font: 12px var(--font-sans);
+  color: var(--muted);
   text-align: center;
 }
 
 .site-credits {
   margin: 0 auto 8px;
   max-width: 70ch;
-  font-family: system-ui, sans-serif; /* texto legible, no el monoespaciado del resto del pie */
+  /* texto legible, no el monoespaciado del resto del pie */
   font-size: 11px;
   line-height: 1.7;
-  letter-spacing: 0;
   color: var(--muted);
 }
 

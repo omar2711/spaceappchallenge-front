@@ -12,6 +12,7 @@
     "demo": "tsc -b && vite build --mode demo --outDir dist-demo && vite preview --mode demo --outDir dist-demo --port 5173 --strictPort"
   },
   "dependencies": {
+    "@fontsource/jetbrains-mono": "5.2.8",
     "@types/three": "^0.187.0",
     "leaflet": "^1.9.4",
     "react": "^19.3.1",

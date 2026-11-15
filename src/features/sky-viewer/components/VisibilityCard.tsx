@@ -32,7 +32,7 @@ export default function VisibilityCard({ ra, dec, name }: { ra: number; dec: num
   const v = cur?.data
 
   let body
-  if (!cur) body = <p className="skyviewer-note" role="status">Calculando la noche en Cochabamba…</p>
+  if (!cur) body = <p className="skyviewer-note" role="status">Calculando…</p>
   else if (cur.error || !v)
     body = (
       <div className="skyviewer-error-box">
@@ -55,19 +55,22 @@ export default function VisibilityCard({ ra, dec, name }: { ra: number; dec: num
         <p className={`skyviewer-callout${v.observable ? ' skyviewer-callout--hit' : ''}`}>
           {v.observable ? (
             <>
-              <strong>Sí se ve</strong> esta noche: {v.observable_hours.toFixed(1)} h por encima de 20° con el cielo
-              oscuro. Mejor momento: <strong>{when(v.best_time?.time)}</strong>, a {v.best_time?.alt_deg.toFixed(0)}°
-              de altura (acimut {v.best_time?.az_deg.toFixed(0)}°).
+              <strong>Sí se ve.</strong> Pasa <span className="num">{v.observable_hours.toFixed(1)} h</span> a más de{' '}
+              <span className="num">20°</span> de altura con el cielo oscuro. El mejor momento es a las{' '}
+              <strong className="num">{when(v.best_time?.time)}</strong>, a{' '}
+              <span className="num">{v.best_time?.alt_deg.toFixed(0)}°</span> de altura y acimut{' '}
+              <span className="num">{v.best_time?.az_deg.toFixed(0)}°</span>.
             </>
           ) : ev.never_up || ev.culmination_alt_deg < 0 ? (
             <>
-              <strong>No se ve desde Cochabamba</strong>: nunca sube sobre el horizonte (máximo{' '}
-              {ev.culmination_alt_deg.toFixed(0)}°).
+              <strong>No se ve desde Cochabamba.</strong> Nunca sube sobre el horizonte; lo más alto que llega es{' '}
+              <span className="num">{ev.culmination_alt_deg.toFixed(0)}°</span>.
             </>
           ) : (
             <>
-              <strong>No se ve bien esta noche</strong>: no pasa de 20° de altura con el cielo oscuro (culmina a{' '}
-              {ev.culmination_alt_deg.toFixed(0)}° a las {when(ev.culmination)}).
+              <strong>Esta noche no se ve bien.</strong> Con el cielo oscuro no pasa de{' '}
+              <span className="num">20°</span>. Llega a <span className="num">{ev.culmination_alt_deg.toFixed(0)}°</span>{' '}
+              a las <span className="num">{when(ev.culmination)}</span>.
             </>
           )}
         </p>
@@ -76,7 +79,7 @@ export default function VisibilityCard({ ra, dec, name }: { ra: number; dec: num
             {
               id: 'alt',
               label: name,
-              color: '#c1ebdf',
+              color: '#ffb36b',
               line: true,
               size: 0,
               points: xs.map((x, i) => ({ x, y: v.curve.alt_deg[i] })),
@@ -84,7 +87,7 @@ export default function VisibilityCard({ ra, dec, name }: { ra: number; dec: num
             {
               id: 'sun',
               label: 'Sol',
-              color: '#ffb36b',
+              color: '#8a8a8a',
               line: true,
               size: 0,
               points: xs.map((x, i) => ({ x, y: v.curve.sun_alt_deg[i] })),
@@ -101,17 +104,29 @@ export default function VisibilityCard({ ra, dec, name }: { ra: number; dec: num
           }
           height={220}
           ariaLabel={`Altura de ${name} sobre el horizonte de Cochabamba`}
+          caption={`Fig. · Altura de ${name} y del Sol vista desde Cochabamba, noche del ${date}`}
         />
         <p className="skyviewer-note">
-          Sale {when(ev.rise)} · culmina {when(ev.culmination)} a {ev.culmination_alt_deg.toFixed(0)}° · se pone{' '}
-          {when(ev.set)}. Noche (Sol bajo −12°): {when(v.sun.night_start)} → {when(v.sun.night_end)}. Luna iluminada{' '}
-          {(v.moon_illuminated_fraction * 100).toFixed(0)}%
-          {v.best_time && `, a ${v.best_time.moon_alt_deg.toFixed(0)}° de altura en el mejor momento`}.
+          Sale a las <span className="num">{when(ev.rise)}</span>, llega a lo más alto a las{' '}
+          <span className="num">{when(ev.culmination)}</span> y se pone a las <span className="num">{when(ev.set)}</span>.
+          Es de noche cerrada (Sol a más de <span className="num">12°</span> bajo el horizonte) entre las{' '}
+          <span className="num">{when(v.sun.night_start)}</span> y las <span className="num">{when(v.sun.night_end)}</span>.
+          La Luna está iluminada al <span className="num">{(v.moon_illuminated_fraction * 100).toFixed(0)}%</span>
+          {v.best_time && (
+            <>
+              {' '}
+              y en el mejor momento está a <span className="num">{v.best_time.moon_alt_deg.toFixed(0)}°</span> de altura
+            </>
+          )}
+          .
         </p>
         <p className="skyviewer-note">
-          Altura geométrica sin refracción; {v.site.name} ({Math.abs(v.site.lat).toFixed(2)}°S,{' '}
-          {Math.abs(v.site.lon).toFixed(2)}°O, {v.site.elevation_m} m). SPHEREx observa desde el espacio: esto es
-          solo para buscarlo con un telescopio desde casa.
+          Calculado para {v.site.name} (
+          <span className="num">
+            {Math.abs(v.site.lat).toFixed(2)}°S {Math.abs(v.site.lon).toFixed(2)}°O, {v.site.elevation_m} m
+          </span>
+          ) sin contar la refracción. SPHEREx observa desde el espacio; esto sirve para buscarlo con un telescopio
+          desde aquí.
         </p>
       </>
     )
@@ -120,7 +135,7 @@ export default function VisibilityCard({ ra, dec, name }: { ra: number; dec: num
   return (
     <section className="skyviewer-panel" aria-labelledby="cbba-title">
       <h2 id="cbba-title" className="skyviewer-panel-title">
-        ¿SE VE DESDE COCHABAMBA?
+        ¿Se ve desde Cochabamba?
       </h2>
       <label className="skyviewer-inline skyviewer-date">
         Noche del

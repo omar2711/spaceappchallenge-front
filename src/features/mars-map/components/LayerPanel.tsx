@@ -10,7 +10,7 @@ type Props = {
 export default function LayerPanel({ state, onChange }: Props) {
   return (
     <fieldset className="marsmap-panel">
-      <legend className="marsmap-panel-title">Capas de datos</legend>
+      <legend className="marsmap-panel-title">Capas</legend>
       {marsLayers.map((l) => (
         <div key={l.id} className="marsmap-layer">
           <label className="marsmap-check">
@@ -23,7 +23,9 @@ export default function LayerPanel({ state, onChange }: Props) {
           </label>
           <span className="marsmap-tag">{KIND_LABEL[l.kind]}</span>
           <label className="marsmap-range">
-            <span>Opacidad · {Math.round(state[l.id].opacity * 100)}%</span>
+            <span>
+              Opacidad <span className="num">{Math.round(state[l.id].opacity * 100)} %</span>
+            </span>
             <input
               type="range"
               min={0}

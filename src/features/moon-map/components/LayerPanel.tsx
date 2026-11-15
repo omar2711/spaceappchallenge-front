@@ -13,7 +13,7 @@ type Props = {
 export default function LayerPanel({ state, onChange }: Props) {
   return (
     <fieldset className="moonmap-panel">
-      <legend className="moonmap-panel-title">Capas de datos</legend>
+      <legend className="moonmap-panel-title">Capas</legend>
       {moonLayers.map((l) => (
         <div key={l.id} className="moonmap-layer">
           <label className="moonmap-check">
@@ -26,7 +26,9 @@ export default function LayerPanel({ state, onChange }: Props) {
           </label>
           <span className="moonmap-tag">{KIND_LABEL[l.kind]}</span>
           <label className="moonmap-range">
-            <span>Opacidad · {Math.round(state[l.id].opacity * 100)}%</span>
+            <span>
+              Opacidad <span className="num">{Math.round(state[l.id].opacity * 100)} %</span>
+            </span>
             <input
               type="range"
               min={0}

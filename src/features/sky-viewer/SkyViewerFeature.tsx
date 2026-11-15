@@ -51,9 +51,9 @@ function errorMessage(error: unknown): string {
     if (error.status.error === 'no_coverage') return 'SPHEREx todavía no observó esa posición del cielo.'
     return `El servidor no pudo generar el campo: ${error.message}`
   }
-  if (error instanceof TypeError) return 'No se pudo conectar con la API (¿sin internet o servidor despertando?).'
+  if (error instanceof TypeError) return 'No se pudo conectar con el servidor. Revisa la conexión o espera unos segundos si estaba dormido.'
   if (error instanceof ApiError && error.status === 503 && /offline/i.test(error.detail))
-    return 'Modo demo sin internet: solo se abren los campos ya calculados (los de la lista). Una coordenada nueva necesita conexión con IRSA.'
+    return 'Estás en modo demo sin internet. Solo se abren los campos de la lista; una coordenada nueva necesita conexión con IRSA.'
   return error instanceof Error ? error.message : 'Error desconocido.'
 }
 
@@ -218,8 +218,7 @@ export default function SkyViewerFeature() {
   if (fromUrl.kind === 'none') {
     content = (
       <p className="skyviewer-empty">
-        Elige un objetivo de prueba o escribe las coordenadas de un parche de cielo para ver las imágenes reales de
-        SPHEREx.
+        Elige un objeto de la lista o escribe unas coordenadas para ver sus imágenes de SPHEREx.
       </p>
     )
   } else if (fromUrl.kind === 'invalid') {
@@ -233,7 +232,7 @@ export default function SkyViewerFeature() {
       <JobProgress status={jobStatus} elapsedS={elapsed} />
     ) : (
       <p className="skyviewer-empty" role="status">
-        Cargando imágenes de SPHEREx…{elapsed > 4 && ' (el servidor público puede tardar ~30 s en despertar)'}
+        Cargando imágenes de SPHEREx…{elapsed > 4 && ' Si el servidor estaba dormido, tarda unos 30 s en responder.'}
       </p>
     )
   } else if (current?.error) {
@@ -290,6 +289,7 @@ export default function SkyViewerFeature() {
           frames={frames}
           imageSize={series.imageSize}
           detectorLabel={label}
+          objectName={series.field.name}
           mode={mode}
           blinkA={a}
           blinkB={b}
@@ -332,11 +332,10 @@ export default function SkyViewerFeature() {
   return (
     <section className="skyviewer">
       <header className="skyviewer-intro">
-        <small className="skyviewer-eyebrow">DESAFÍO · PLANET X AND SPHEREX</small>
         <h1 className="skyviewer-title">Cielo SPHEREx</h1>
         <p className="skyviewer-lead">
-          Ingresa las coordenadas de un parche de cielo (ascensión recta y declinación) y mira las imágenes reales de
-          SPHEREx de cada pasada como un pequeño video, para detectar objetos que se mueven o cambian de brillo.
+          SPHEREx pasa por el mismo lugar del cielo cada seis meses. Al poner sus fotos una tras otra se nota qué se
+          movió o cambió de brillo. Elige un objeto de la lista o escribe sus coordenadas.
         </p>
       </header>
 

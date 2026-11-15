@@ -32,7 +32,11 @@ function Group({ title, items, activeId, onPick }: GroupProps) {
             {f.description && <span className="skyviewer-note skyviewer-preset-desc">{f.description}</span>}
             {f.id === 'wise0855' && (
               <span className="skyviewer-note skyviewer-preset-desc">
-                Enunciado: {WISE0855_CHALLENGE.display?.ra} {WISE0855_CHALLENGE.display?.dec} (posición de ~2010).
+                En el enunciado:{' '}
+                <span className="num">
+                  {WISE0855_CHALLENGE.display?.ra} {WISE0855_CHALLENGE.display?.dec}
+                </span>
+                , donde estaba hacia 2010.
               </span>
             )}
           </li>
@@ -45,34 +49,34 @@ function Group({ title, items, activeId, onPick }: GroupProps) {
 export default function PresetList({ fields, failed, activeId, onPick, onRetry }: Props) {
   return (
     <div className="skyviewer-panel">
-      <h2 className="skyviewer-panel-title">Objetivos de prueba</h2>
+      <h2 className="skyviewer-panel-title">Objetos</h2>
       {failed ? (
         <div className="skyviewer-error-box">
-          <p className="skyviewer-error">No se pudo cargar la lista de campos desde la API.</p>
+          <p className="skyviewer-error">No se pudo cargar la lista de objetos.</p>
           <button type="button" className="skyviewer-btn" onClick={onRetry}>
             Reintentar
           </button>
         </div>
       ) : !fields ? (
         <p className="skyviewer-note" role="status">
-          Cargando campos de SPHEREx… (si el servidor estaba dormido, puede tardar ~30 s)
+          Cargando la lista… Si el servidor estaba dormido, tarda unos 30 s.
         </p>
       ) : (
         <>
           <Group
-            title="Objetivos del desafío"
+            title="Los cinco del reto"
             items={fields.filter((f) => f.kind === 'target')}
             activeId={activeId}
             onPick={onPick}
           />
           <Group
-            title="Campos de demo (Ruta del Agua)"
+            title="Otros campos"
             items={fields.filter((f) => f.kind === 'preset')}
             activeId={activeId}
             onPick={onPick}
           />
           <p className="skyviewer-note">
-            Coordenadas = centro real de cada campo, ya calculado en el servidor (carga instantánea).
+            Las coordenadas son el centro de cada campo. Ya están calculados, así que abren al instante.
           </p>
         </>
       )}

@@ -4,12 +4,12 @@ import type { MarsStop, MarsWalk } from '../../../api/types'
 import type { Obstacle } from './obstacles'
 
 export const SUMMARY_ES =
-  'Jezero tuvo un lago hace ~3 500 millones de años, alimentado por un río que formó un delta. La caminata sigue al rover Perseverance de la NASA desde su sitio de aterrizaje, cruza el fondo del cráter hasta el frente del delta y un antiguo cauce de río, y se detiene donde el agua dejó su marca en las rocas.'
+  'Hace unos 3500 millones de años Jezero era un lago, y un río formó un delta en su orilla. El recorrido empieza donde aterrizó Perseverance, cruza el fondo del cráter, sube al frente del delta y termina en un antiguo cauce donde el agua dejó marcas en las rocas.'
 
 const STOP_ES: Record<string, { title?: string; date: string; why: string }> = {
   landing: {
     date: '18 feb 2021 (aterrizaje)',
-    why: 'Sitio de aterrizaje en el fondo de un antiguo lago (Jezero, hace ~3 500 millones de años).',
+    why: 'Aterrizó en el fondo de lo que hace unos 3500 millones de años era un lago.',
   },
   rochette: {
     title: 'Rochette (fondo del cráter)',

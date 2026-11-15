@@ -22,10 +22,10 @@ export default function RoutePanel({
 }: Props) {
   return (
     <div className="marsmap-panel">
-      <h2 className="marsmap-panel-title">Ruta</h2>
+      <h2 className="marsmap-panel-title">Tu ruta</h2>
       <p className="marsmap-note">
-        Haz clic en el mapa para marcar inicio, puntos intermedios y destino. Con teclado, mueve el
-        mapa con las flechas y usa «Agregar punto en el centro».
+        Haz clic en el mapa para ir marcando puntos. Con el teclado, mueve el mapa con las flechas y usa «Agregar
+        punto en el centro».
       </p>
       <div className="marsmap-actions">
         <button type="button" className="marsmap-btn" onClick={onAddCenter}>
@@ -39,23 +39,26 @@ export default function RoutePanel({
         </button>
       </div>
       <p className="marsmap-distance" aria-live="polite">
-        Distancia total: {points.length > 1 ? `${distanceKm.toFixed(1)} km` : '—'}
+        Distancia: <span className="num">{points.length > 1 ? `${distanceKm.toFixed(1)} km` : '0 km'}</span>
       </p>
       <p className="marsmap-note">
-        En línea recta entre puntos, sobre una esfera de 3389.5 km de radio; no considera el relieve.
+        Medida en línea recta entre puntos sobre una esfera de 3389.5 km de radio, sin contar el relieve.
       </p>
       {blockedCount > 0 && (
         <p className="marsmap-warning" role="alert">
           {blockedCount === 1
-            ? '⚠ 1 tramo de la ruta pasa por una pendiente fuerte medida en Jezero. Se resalta en rojo.'
-            : `⚠ ${blockedCount} tramos de la ruta pasan por pendientes fuertes medidas en Jezero. Se resaltan en rojo.`}
+            ? 'Un tramo de tu ruta pasa por una pendiente fuerte. Está pintado en naranja.'
+            : `${blockedCount} tramos de tu ruta pasan por pendientes fuertes. Están pintados en naranja.`}
         </p>
       )}
       {points.length > 0 && (
         <ol className="marsmap-points">
           {points.map((p, i) => (
             <li key={i}>
-              {pointName(i, points.length)} · {p[0].toFixed(2)}°, {p[1].toFixed(2)}°
+              {pointName(i, points.length)} ·{' '}
+              <span className="num">
+                {p[0].toFixed(2)}°, {p[1].toFixed(2)}°
+              </span>
             </li>
           ))}
         </ol>

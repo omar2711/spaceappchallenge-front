@@ -10,6 +10,7 @@ export default function FalseColor({ series }: { series: SkySeries }) {
   const bands = CHANNELS.map((id) => series.detectors.find((d) => d.id === id))
   const epoch = bands[0]?.frames.find((f) => bands.every((b) => b?.frames.some((o) => o.epoch === f.epoch)))?.epoch
   const urls = bands.map((b) => b?.frames.find((f) => f.epoch === epoch)?.imageUrl)
+  const date = bands[0]?.frames.find((f) => f.epoch === epoch)?.epochUT.slice(0, 10) ?? ''
   const key = urls.join('|')
   const [width, height] = series.imageSize
   useEffect(() => {
@@ -62,20 +63,22 @@ export default function FalseColor({ series }: { series: SkySeries }) {
   return (
     <section className="skyviewer-panel" aria-labelledby="fc-title">
       <h2 id="fc-title" className="skyviewer-panel-title">
-        FALSO COLOR · {epoch}
+        Falso color
       </h2>
       <figure className="skyviewer-color">
         <canvas ref={canvas} role="img" aria-label="Composición infrarroja en falso color: rojo D6, verde D4 y azul D1" />
         <figcaption>
-          Rojo D6 · verde D4 · azul D1
-          <br />
-          misma pasada ({epoch}) en los tres canales
+          <span className="fig-caption">
+            Fig. · {series.field.name}, SPHEREx <span className="num">D6</span> en rojo,{' '}
+            <span className="num">D4</span> en verde y <span className="num">D1</span> en azul, pasada {epoch}{' '}
+            <span className="num">{date}</span>
+          </span>
+          <span className="skyviewer-note">
+            {error
+              ? 'No se pudo armar la imagen.'
+              : 'Los tres canales son de la misma pasada y cada uno tiene su propia escala de brillo. Los colores no son los que vería el ojo ni indican moléculas.'}
+          </span>
         </figcaption>
-        <p className="skyviewer-note">
-          {error
-            ? 'No se pudo crear la composición.'
-            : 'Composición visual con la escala de cada detector. Los colores no son los que vería el ojo ni identifican moléculas.'}
-        </p>
       </figure>
     </section>
   )
