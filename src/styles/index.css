@@ -72,3 +72,17 @@ a {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
+/* Paneles de misiones y de terreno (Luna y Marte) */
+.marsmap-panel table { width: 100%; margin-block: 12px; border-collapse: collapse; text-align: left; font-size: 13px; }
+.marsmap-panel caption { text-align: left; padding-bottom: 6px; font-weight: 600; }
+.marsmap-panel th, .marsmap-panel td { padding: 6px; border-bottom: 1px solid var(--line); font-weight: 400; }
+.marsmap-panel td { font-family: var(--font-mono); font-size: 12px; }
+.marsmap-panel th small { display: block; margin-top: 2px; font-size: 11px; color: var(--muted); }
+.marsmap-panel select, .moonmap-panel select {
+  display: block; width: 100%; margin-block: 6px 10px; padding: 8px; font: inherit; font-size: 13px;
+  color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 4px;
+}
+.marsmap-panel label, .moonmap-panel label { font-size: 13px; }
+.marsmap-panel p:not([class]), .moonmap-panel p:not([class]) { margin: 8px 0 0; font-size: 13px; line-height: 1.6; color: var(--muted); }
+.marsmap-panel h3, .moonmap-panel h3 { margin: 12px 0 4px; font-size: 15px; font-weight: 600; }
+.marsmap-panel section > a, .marsmap-panel div > a, .moonmap-panel div > a { display: inline-block; margin-top: 8px; font-size: 13px; }

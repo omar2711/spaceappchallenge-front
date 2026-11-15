@@ -7,6 +7,8 @@ import type { MarsWalk, MoonSite } from '../../api/types'
 import { buildMarkers, routeLine, surfacePoint, type SurfaceMarker } from './surfaceMarkers'
 import CochabambaPanel from './CochabambaPanel'
 import { buildSkyMarkers, skyDirection, type SkyMarker } from './skyMarkers'
+import { createStarfield, starCount } from './starfield'
+import { missionSites } from './surfaceScene'
 import { loadFields, type KnownField } from '../../api/fields'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import positions from './data/positions.json'
@@ -40,7 +42,7 @@ export default function SolarSystemPage(){
     getMarsWalk().then(w=>{if(alive)setWalk(w)}).catch(()=>{})
     return ()=>{alive=false}
   },[])
-  const markers = useMemo(()=>buildMarkers(moonSites,walk),[moonSites,walk])
+  const markers = useMemo(()=>buildMarkers(moonSites,walk,missionSites()),[moonSites,walk])
   const skyMarkers = useMemo(()=>buildSkyMarkers(fields),[fields])
   const latest = useRef<{markers:SurfaceMarker[];walk:MarsWalk|null;sky:SkyMarker[]}>({markers,walk,sky:skyMarkers})
   const applyData = useRef<()=>void>(()=>{})
@@ -57,6 +59,9 @@ export default function SolarSystemPage(){
     try { renderer=new T.WebGLRenderer({antialias:true,logarithmicDepthBuffer:true}) }
     catch {setError(true); return}
     const scene=new T.Scene(), camera=new T.PerspectiveCamera(42,1,1,3e10)
+    // Fondo de estrellas (Hipparcos V < 6.5 y fuentes Gaia de los campos locales): siempre centrado en la cámara.
+    const starfield=createStarfield()
+    scene.add(starfield)
     renderer.setPixelRatio(Math.min(devicePixelRatio,2))
     container.append(renderer.domElement)
     const controls=new OrbitControls(camera,renderer.domElement)
@@ -238,7 +243,7 @@ export default function SolarSystemPage(){
         shift.multiplyScalar(camera.position.distanceTo(controls.target)*dt)
         camera.position.add(shift); controls.target.add(shift)
       }
-      controls.update();renderer.render(scene,camera);updatePins()
+      controls.update();starfield.position.copy(camera.position);renderer.render(scene,camera);updatePins()
       const occupied:number[][]=[]
       for(const b of bodies){
         const p=b.mesh.position.clone().project(camera)
@@ -248,7 +253,7 @@ export default function SolarSystemPage(){
         if(visible){occupied.push([x,y]);b.label.style.transform='translate('+x+'px,'+y+'px)'}
       }
     })
-    return ()=>{renderer.setAnimationLoop(null);disposed=true;clearData();applyData.current=()=>{};for(const texture of details.values())texture.dispose();rings.dispose();ringMaterial.dispose();ringMap.dispose();resize.disconnect();controls.dispose();window.removeEventListener('keydown',down);window.removeEventListener('keyup',up);window.removeEventListener('blur',blur);for(const b of bodies){b.mesh.geometry.dispose();b.mesh.material.dispose();b.map?.dispose();b.label.remove()}renderer.dispose();renderer.domElement.remove()}
+    return ()=>{renderer.setAnimationLoop(null);disposed=true;clearData();applyData.current=()=>{};for(const child of starfield.children){const points=child as T.Points<T.BufferGeometry,T.PointsMaterial>;points.geometry.dispose();points.material.dispose()}for(const texture of details.values())texture.dispose();rings.dispose();ringMaterial.dispose();ringMap.dispose();resize.disconnect();controls.dispose();window.removeEventListener('keydown',down);window.removeEventListener('keyup',up);window.removeEventListener('blur',blur);for(const b of bodies){b.mesh.geometry.dispose();b.mesh.material.dispose();b.map?.dispose();b.label.remove()}renderer.dispose();renderer.domElement.remove()}
   },[])
   const body=catalog.find(b=>b[0]===view)
   return <main className="sky"><div className="space" ref={host} aria-label="Mapa tridimensional del sistema solar"/><header><Link to="/" className="brand">Ruta del Agua</Link><select aria-label="Ir a un destino" value="" onChange={e=>navigate.current(e.target.value as View)}><option value="" disabled>Ir a…</option>{catalog.map(([n])=><option key={n}>{n}</option>)}</select></header>
@@ -268,7 +273,7 @@ export default function SolarSystemPage(){
     <ul>{markers.filter(m=>m.body===view&&m.to).map(m=><li key={m.id}><Link to={m.to as string} className={m.accent?'is-accent':undefined}><span className="sky-places-dot"/>{m.name}<small>{m.kind}</small></Link></li>)}</ul>
   </nav>}
   {error&&<aside>Este visor necesita WebGL. Activa la aceleración gráfica del navegador para verlo.</aside>}
-  <footer><nav>{(['Sistema solar','Tierra','Luna','Marte','Vuelo libre'] as View[]).map(n=><button key={n} aria-pressed={view===n} onClick={()=>navigate.current(n)}>{n}</button>)}</nav><div className="meta"><span>Posiciones del <span className="num">2026-11-14 00:00 TDB</span></span><button onClick={()=>setCredits(!credits)}>Datos y créditos {credits?'−':'+'}</button></div>{credits&&<div className="sources">Posiciones heliocéntricas · eclíptica J2000 · <a href="https://ssd.jpl.nasa.gov/horizons/">NASA/JPL Horizons</a>. Texturas: <a href="https://threejs.org/examples/textures/planets/">Tierra / Three.js</a>, <a href="https://svs.gsfc.nasa.gov/4720/">Luna / NASA</a>, <a href="https://www.solarsystemscope.com/textures/">Sol, planetas y anillos / Solar System Scope (CC BY 4.0)</a>. La orientación de las superficies es aproximada.</div>}</footer></main>
+  <footer><nav>{(['Sistema solar','Tierra','Luna','Marte','Vuelo libre'] as View[]).map(n=><button key={n} aria-pressed={view===n} onClick={()=>navigate.current(n)}>{n}</button>)}</nav><div className="meta"><span>Posiciones del <span className="num">2026-11-14 00:00 TDB</span></span><button onClick={()=>setCredits(!credits)}>Datos y créditos {credits?'−':'+'}</button></div>{credits&&<div className="sources">Fondo estelar: <span className="num">{starCount.hipparcos.toLocaleString('es')}</span> estrellas de <a href="https://vizier.cfa.harvard.edu/viz-bin/VizieR?-source=I/239">Hipparcos</a> (V &lt; 6,5) y <span className="num">{starCount.gaia.toLocaleString('es')}</span> fuentes de <a href="https://gea.esac.esa.int/archive/">Gaia DR3</a> de los campos locales, como direcciones en el cielo. Posiciones heliocéntricas · eclíptica J2000 · <a href="https://ssd.jpl.nasa.gov/horizons/">NASA/JPL Horizons</a>. Texturas: <a href="https://threejs.org/examples/textures/planets/">Tierra / Three.js</a>, <a href="https://svs.gsfc.nasa.gov/4720/">Luna / NASA</a>, <a href="https://www.solarsystemscope.com/textures/">Sol, planetas y anillos / Solar System Scope (CC BY 4.0)</a>. La orientación de las superficies es aproximada.</div>}</footer></main>
 }
 
 

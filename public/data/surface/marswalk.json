@@ -1,0 +1,897 @@
+{
+ "title": "Ruta del Agua en Marte: caminata por el cráter Jezero siguiendo a Perseverance",
+ "summary": "Jezero held a lake ~3.5 billion years ago, fed by a river that built a delta. The walk follows NASA's Perseverance rover from its landing site across the crater floor to the delta front and an ancient river channel, stopping where water left its mark in the rocks.",
+ "crater": {
+  "name": "Jezero",
+  "lat": 18.4082,
+  "lon": 77.6873,
+  "diameter_km": 47.5,
+  "source": "http://planetarynames.wr.usgs.gov/Feature/14300"
+ },
+ "frame": "Mars planetocentric, lon east positive (-180..180), elevations relative to the Mars geoid (m)",
+ "route": {
+  "n_points": 101,
+  "length_km": 27.43,
+  "sols": [
+   13,
+   1210
+  ],
+  "points": [
+   {
+    "lat": 18.444627,
+    "lon": 77.450886,
+    "elevation_m": -2569.9,
+    "sol": 13,
+    "odometry_km": 0.0
+   },
+   {
+    "lat": 18.442008,
+    "lon": 77.450697,
+    "elevation_m": -2568.5,
+    "sol": 105,
+    "odometry_km": 0.515
+   },
+   {
+    "lat": 18.439611,
+    "lon": 77.449538,
+    "elevation_m": -2569.1,
+    "sol": 113,
+    "odometry_km": 0.691
+   },
+   {
+    "lat": 18.437044,
+    "lon": 77.450411,
+    "elevation_m": -2569.2,
+    "sol": 129,
+    "odometry_km": 0.968
+   },
+   {
+    "lat": 18.434032,
+    "lon": 77.452047,
+    "elevation_m": -2573.4,
+    "sol": 131,
+    "odometry_km": 1.199
+   },
+   {
+    "lat": 18.431137,
+    "lon": 77.452149,
+    "elevation_m": -2580.2,
+    "sol": 135,
+    "odometry_km": 1.398
+   },
+   {
+    "lat": 18.428372,
+    "lon": 77.452029,
+    "elevation_m": -2585.9,
+    "sol": 153,
+    "odometry_km": 1.571
+   },
+   {
+    "lat": 18.42844,
+    "lon": 77.449202,
+    "elevation_m": -2585.8,
+    "sol": 170,
+    "odometry_km": 1.812
+   },
+   {
+    "lat": 18.429662,
+    "lon": 77.446793,
+    "elevation_m": -2579.6,
+    "sol": 175,
+    "odometry_km": 1.984
+   },
+   {
+    "lat": 18.430826,
+    "lon": 77.444311,
+    "elevation_m": -2574.4,
+    "sol": 178,
+    "odometry_km": 2.159
+   },
+   {
+    "lat": 18.432548,
+    "lon": 77.440687,
+    "elevation_m": -2571.8,
+    "sol": 200,
+    "odometry_km": 2.413
+   },
+   {
+    "lat": 18.433961,
+    "lon": 77.443012,
+    "elevation_m": -2569.2,
+    "sol": 239,
+    "odometry_km": 2.66
+   },
+   {
+    "lat": 18.430713,
+    "lon": 77.443187,
+    "elevation_m": -2574.6,
+    "sol": 340,
+    "odometry_km": 3.079
+   },
+   {
+    "lat": 18.42977,
+    "lon": 77.446748,
+    "elevation_m": -2580.7,
+    "sol": 341,
+    "odometry_km": 3.32
+   },
+   {
+    "lat": 18.430214,
+    "lon": 77.452307,
+    "elevation_m": -2582.0,
+    "sol": 352,
+    "odometry_km": 3.84
+   },
+   {
+    "lat": 18.432853,
+    "lon": 77.452113,
+    "elevation_m": -2575.0,
+    "sol": 353,
+    "odometry_km": 4.052
+   },
+   {
+    "lat": 18.435927,
+    "lon": 77.451776,
+    "elevation_m": -2570.8,
+    "sol": 354,
+    "odometry_km": 4.239
+   },
+   {
+    "lat": 18.440088,
+    "lon": 77.451463,
+    "elevation_m": -2569.8,
+    "sol": 355,
+    "odometry_km": 4.508
+   },
+   {
+    "lat": 18.443856,
+    "lon": 77.452171,
+    "elevation_m": -2569.2,
+    "sol": 360,
+    "odometry_km": 4.757
+   },
+   {
+    "lat": 18.448996,
+    "lon": 77.454325,
+    "elevation_m": -2569.8,
+    "sol": 381,
+    "odometry_km": 5.237
+   },
+   {
+    "lat": 18.4512,
+    "lon": 77.45894,
+    "elevation_m": -2571.2,
+    "sol": 382,
+    "odometry_km": 5.53
+   },
+   {
+    "lat": 18.453671,
+    "lon": 77.461859,
+    "elevation_m": -2570.6,
+    "sol": 383,
+    "odometry_km": 5.764
+   },
+   {
+    "lat": 18.45707,
+    "lon": 77.462005,
+    "elevation_m": -2568.8,
+    "sol": 384,
+    "odometry_km": 5.972
+   },
+   {
+    "lat": 18.460791,
+    "lon": 77.463133,
+    "elevation_m": -2567.9,
+    "sol": 386,
+    "odometry_km": 6.221
+   },
+   {
+    "lat": 18.464476,
+    "lon": 77.461579,
+    "elevation_m": -2567.7,
+    "sol": 387,
+    "odometry_km": 6.48
+   },
+   {
+    "lat": 18.467198,
+    "lon": 77.458351,
+    "elevation_m": -2564.7,
+    "sol": 388,
+    "odometry_km": 6.734
+   },
+   {
+    "lat": 18.468297,
+    "lon": 77.454441,
+    "elevation_m": -2563.2,
+    "sol": 389,
+    "odometry_km": 6.974
+   },
+   {
+    "lat": 18.467845,
+    "lon": 77.448695,
+    "elevation_m": -2556.4,
+    "sol": 395,
+    "odometry_km": 7.3
+   },
+   {
+    "lat": 18.467371,
+    "lon": 77.445952,
+    "elevation_m": -2557.7,
+    "sol": 396,
+    "odometry_km": 7.458
+   },
+   {
+    "lat": 18.465584,
+    "lon": 77.442504,
+    "elevation_m": -2558.5,
+    "sol": 398,
+    "odometry_km": 7.754
+   },
+   {
+    "lat": 18.464058,
+    "lon": 77.439074,
+    "elevation_m": -2557.0,
+    "sol": 399,
+    "odometry_km": 7.968
+   },
+   {
+    "lat": 18.461944,
+    "lon": 77.436105,
+    "elevation_m": -2555.2,
+    "sol": 400,
+    "odometry_km": 8.181
+   },
+   {
+    "lat": 18.461596,
+    "lon": 77.432978,
+    "elevation_m": -2551.9,
+    "sol": 401,
+    "odometry_km": 8.36
+   },
+   {
+    "lat": 18.460616,
+    "lon": 77.429997,
+    "elevation_m": -2552.1,
+    "sol": 402,
+    "odometry_km": 8.541
+   },
+   {
+    "lat": 18.459318,
+    "lon": 77.425757,
+    "elevation_m": -2547.7,
+    "sol": 404,
+    "odometry_km": 8.794
+   },
+   {
+    "lat": 18.457078,
+    "lon": 77.421782,
+    "elevation_m": -2549.9,
+    "sol": 405,
+    "odometry_km": 9.059
+   },
+   {
+    "lat": 18.455395,
+    "lon": 77.418584,
+    "elevation_m": -2551.6,
+    "sol": 407,
+    "odometry_km": 9.265
+   },
+   {
+    "lat": 18.453833,
+    "lon": 77.414136,
+    "elevation_m": -2549.3,
+    "sol": 408,
+    "odometry_km": 9.535
+   },
+   {
+    "lat": 18.453946,
+    "lon": 77.410419,
+    "elevation_m": -2545.6,
+    "sol": 409,
+    "odometry_km": 9.749
+   },
+   {
+    "lat": 18.451942,
+    "lon": 77.40605,
+    "elevation_m": -2544.8,
+    "sol": 414,
+    "odometry_km": 10.056
+   },
+   {
+    "lat": 18.449405,
+    "lon": 77.405186,
+    "elevation_m": -2540.3,
+    "sol": 415,
+    "odometry_km": 10.217
+   },
+   {
+    "lat": 18.44894,
+    "lon": 77.402103,
+    "elevation_m": -2523.9,
+    "sol": 418,
+    "odometry_km": 10.446
+   },
+   {
+    "lat": 18.451531,
+    "lon": 77.405294,
+    "elevation_m": -2544.0,
+    "sol": 428,
+    "odometry_km": 10.95
+   },
+   {
+    "lat": 18.453648,
+    "lon": 77.40842,
+    "elevation_m": -2545.0,
+    "sol": 433,
+    "odometry_km": 11.206
+   },
+   {
+    "lat": 18.457102,
+    "lon": 77.408746,
+    "elevation_m": -2540.0,
+    "sol": 437,
+    "odometry_km": 11.417
+   },
+   {
+    "lat": 18.458514,
+    "lon": 77.406093,
+    "elevation_m": -2524.2,
+    "sol": 460,
+    "odometry_km": 11.695
+   },
+   {
+    "lat": 18.45821,
+    "lon": 77.408849,
+    "elevation_m": -2526.7,
+    "sol": 537,
+    "odometry_km": 11.95
+   },
+   {
+    "lat": 18.455319,
+    "lon": 77.407909,
+    "elevation_m": -2543.6,
+    "sol": 539,
+    "odometry_km": 12.141
+   },
+   {
+    "lat": 18.451925,
+    "lon": 77.405682,
+    "elevation_m": -2544.5,
+    "sol": 542,
+    "odometry_km": 12.381
+   },
+   {
+    "lat": 18.450324,
+    "lon": 77.4018,
+    "elevation_m": -2527.4,
+    "sol": 555,
+    "odometry_km": 12.76
+   },
+   {
+    "lat": 18.453532,
+    "lon": 77.399147,
+    "elevation_m": -2517.5,
+    "sol": 606,
+    "odometry_km": 13.064
+   },
+   {
+    "lat": 18.451625,
+    "lon": 77.401437,
+    "elevation_m": -2523.8,
+    "sol": 629,
+    "odometry_km": 13.282
+   },
+   {
+    "lat": 18.450301,
+    "lon": 77.404738,
+    "elevation_m": -2540.7,
+    "sol": 646,
+    "odometry_km": 13.617
+   },
+   {
+    "lat": 18.452516,
+    "lon": 77.407202,
+    "elevation_m": -2545.2,
+    "sol": 648,
+    "odometry_km": 13.838
+   },
+   {
+    "lat": 18.457224,
+    "lon": 77.408784,
+    "elevation_m": -2539.4,
+    "sol": 694,
+    "odometry_km": 14.228
+   },
+   {
+    "lat": 18.460075,
+    "lon": 77.405842,
+    "elevation_m": -2509.6,
+    "sol": 708,
+    "odometry_km": 14.527
+   },
+   {
+    "lat": 18.461671,
+    "lon": 77.402934,
+    "elevation_m": -2496.8,
+    "sol": 709,
+    "odometry_km": 14.729
+   },
+   {
+    "lat": 18.465519,
+    "lon": 77.400638,
+    "elevation_m": -2490.4,
+    "sol": 714,
+    "odometry_km": 15.062
+   },
+   {
+    "lat": 18.468606,
+    "lon": 77.399879,
+    "elevation_m": -2486.9,
+    "sol": 715,
+    "odometry_km": 15.253
+   },
+   {
+    "lat": 18.471477,
+    "lon": 77.399063,
+    "elevation_m": -2483.1,
+    "sol": 716,
+    "odometry_km": 15.435
+   },
+   {
+    "lat": 18.474369,
+    "lon": 77.397434,
+    "elevation_m": -2478.2,
+    "sol": 717,
+    "odometry_km": 15.651
+   },
+   {
+    "lat": 18.475371,
+    "lon": 77.394098,
+    "elevation_m": -2474.9,
+    "sol": 718,
+    "odometry_km": 15.85
+   },
+   {
+    "lat": 18.475636,
+    "lon": 77.390367,
+    "elevation_m": -2462.9,
+    "sol": 719,
+    "odometry_km": 16.067
+   },
+   {
+    "lat": 18.472929,
+    "lon": 77.386751,
+    "elevation_m": -2455.2,
+    "sol": 731,
+    "odometry_km": 16.489
+   },
+   {
+    "lat": 18.470368,
+    "lon": 77.384292,
+    "elevation_m": -2449.1,
+    "sol": 732,
+    "odometry_km": 16.78
+   },
+   {
+    "lat": 18.470388,
+    "lon": 77.379312,
+    "elevation_m": -2442.6,
+    "sol": 753,
+    "odometry_km": 17.13
+   },
+   {
+    "lat": 18.473682,
+    "lon": 77.379889,
+    "elevation_m": -2441.5,
+    "sol": 759,
+    "odometry_km": 17.48
+   },
+   {
+    "lat": 18.473931,
+    "lon": 77.37705,
+    "elevation_m": -2433.4,
+    "sol": 762,
+    "odometry_km": 17.697
+   },
+   {
+    "lat": 18.475497,
+    "lon": 77.373643,
+    "elevation_m": -2422.2,
+    "sol": 763,
+    "odometry_km": 17.917
+   },
+   {
+    "lat": 18.477013,
+    "lon": 77.371323,
+    "elevation_m": -2420.7,
+    "sol": 764,
+    "odometry_km": 18.083
+   },
+   {
+    "lat": 18.479061,
+    "lon": 77.369507,
+    "elevation_m": -2420.5,
+    "sol": 765,
+    "odometry_km": 18.25
+   },
+   {
+    "lat": 18.482929,
+    "lon": 77.369008,
+    "elevation_m": -2423.8,
+    "sol": 770,
+    "odometry_km": 18.522
+   },
+   {
+    "lat": 18.481268,
+    "lon": 77.36581,
+    "elevation_m": -2415.6,
+    "sol": 838,
+    "odometry_km": 18.931
+   },
+   {
+    "lat": 18.481028,
+    "lon": 77.362993,
+    "elevation_m": -2415.3,
+    "sol": 866,
+    "odometry_km": 19.162
+   },
+   {
+    "lat": 18.482561,
+    "lon": 77.360571,
+    "elevation_m": -2418.5,
+    "sol": 870,
+    "odometry_km": 19.386
+   },
+   {
+    "lat": 18.482603,
+    "lon": 77.35777,
+    "elevation_m": -2414.4,
+    "sol": 905,
+    "odometry_km": 20.042
+   },
+   {
+    "lat": 18.483288,
+    "lon": 77.350704,
+    "elevation_m": -2422.6,
+    "sol": 909,
+    "odometry_km": 20.537
+   },
+   {
+    "lat": 18.488038,
+    "lon": 77.349633,
+    "elevation_m": -2413.1,
+    "sol": 927,
+    "odometry_km": 20.879
+   },
+   {
+    "lat": 18.488701,
+    "lon": 77.346925,
+    "elevation_m": -2407.8,
+    "sol": 932,
+    "odometry_km": 21.228
+   },
+   {
+    "lat": 18.492202,
+    "lon": 77.348353,
+    "elevation_m": -2404.0,
+    "sol": 950,
+    "odometry_km": 21.537
+   },
+   {
+    "lat": 18.495513,
+    "lon": 77.347153,
+    "elevation_m": -2397.2,
+    "sol": 958,
+    "odometry_km": 21.835
+   },
+   {
+    "lat": 18.496502,
+    "lon": 77.351624,
+    "elevation_m": -2408.6,
+    "sol": 959,
+    "odometry_km": 22.127
+   },
+   {
+    "lat": 18.499663,
+    "lon": 77.351307,
+    "elevation_m": -2419.2,
+    "sol": 994,
+    "odometry_km": 22.408
+   },
+   {
+    "lat": 18.498036,
+    "lon": 77.349066,
+    "elevation_m": -2411.3,
+    "sol": 998,
+    "odometry_km": 22.648
+   },
+   {
+    "lat": 18.495486,
+    "lon": 77.346877,
+    "elevation_m": -2396.9,
+    "sol": 999,
+    "odometry_km": 22.875
+   },
+   {
+    "lat": 18.492692,
+    "lon": 77.342179,
+    "elevation_m": -2409.6,
+    "sol": 1007,
+    "odometry_km": 23.418
+   },
+   {
+    "lat": 18.492584,
+    "lon": 77.337284,
+    "elevation_m": -2407.7,
+    "sol": 1041,
+    "odometry_km": 23.957
+   },
+   {
+    "lat": 18.493099,
+    "lon": 77.333158,
+    "elevation_m": -2399.1,
+    "sol": 1045,
+    "odometry_km": 24.336
+   },
+   {
+    "lat": 18.491118,
+    "lon": 77.331012,
+    "elevation_m": -2391.0,
+    "sol": 1046,
+    "odometry_km": 24.542
+   },
+   {
+    "lat": 18.491523,
+    "lon": 77.327034,
+    "elevation_m": -2380.8,
+    "sol": 1052,
+    "odometry_km": 24.822
+   },
+   {
+    "lat": 18.490598,
+    "lon": 77.324074,
+    "elevation_m": -2370.0,
+    "sol": 1108,
+    "odometry_km": 25.197
+   },
+   {
+    "lat": 18.489529,
+    "lon": 77.321502,
+    "elevation_m": -2362.5,
+    "sol": 1117,
+    "odometry_km": 25.462
+   },
+   {
+    "lat": 18.490002,
+    "lon": 77.318482,
+    "elevation_m": -2354.2,
+    "sol": 1137,
+    "odometry_km": 25.826
+   },
+   {
+    "lat": 18.489801,
+    "lon": 77.31551,
+    "elevation_m": -2349.3,
+    "sol": 1143,
+    "odometry_km": 26.013
+   },
+   {
+    "lat": 18.491349,
+    "lon": 77.312746,
+    "elevation_m": -2362.9,
+    "sol": 1158,
+    "odometry_km": 26.228
+   },
+   {
+    "lat": 18.494086,
+    "lon": 77.314026,
+    "elevation_m": -2371.1,
+    "sol": 1162,
+    "odometry_km": 26.45
+   },
+   {
+    "lat": 18.495497,
+    "lon": 77.311731,
+    "elevation_m": -2366.2,
+    "sol": 1170,
+    "odometry_km": 26.708
+   },
+   {
+    "lat": 18.495201,
+    "lon": 77.308325,
+    "elevation_m": -2361.3,
+    "sol": 1171,
+    "odometry_km": 26.902
+   },
+   {
+    "lat": 18.495206,
+    "lon": 77.303913,
+    "elevation_m": -2359.8,
+    "sol": 1175,
+    "odometry_km": 27.161
+   },
+   {
+    "lat": 18.49747,
+    "lon": 77.305188,
+    "elevation_m": -2354.3,
+    "sol": 1185,
+    "odometry_km": 27.366
+   },
+   {
+    "lat": 18.497484,
+    "lon": 77.305191,
+    "elevation_m": -2354.0,
+    "sol": 1210,
+    "odometry_km": 27.432
+   }
+  ],
+  "source": "https://mars.nasa.gov/mmgis-maps/M20/Layers/json/M20_waypoints.json",
+  "simplification": "one waypoint every >= 150 m"
+ },
+ "stops": [
+  {
+   "id": "landing",
+   "title": "Octavia E. Butler Landing",
+   "sol": 13,
+   "date": "2021-02-18 (landing)",
+   "rock_type": null,
+   "lat": 18.444627,
+   "lon": 77.450886,
+   "elevation_m": -2569.9,
+   "odometry_km": 0.0,
+   "why_water": "Landing site on the floor of an ancient lake (Jezero, ~3.5 billion years ago).",
+   "position_source": "rover waypoint at sol 13 (site 3, drive 0)"
+  },
+  {
+   "id": "rochette",
+   "title": "Rochette (crater floor)",
+   "sol": 194,
+   "date": "Sept. 6, 2021",
+   "rock_type": "Igneous",
+   "lat": 18.430739,
+   "lon": 77.444366,
+   "elevation_m": -2574.5,
+   "odometry_km": 2.17,
+   "why_water": "First rock core: igneous rock altered by water after it formed.",
+   "position_source": "rover waypoint at sol 180 (site 7, drive 0)"
+  },
+  {
+   "id": "wildcat_ridge",
+   "title": "Wildcat Ridge (delta front)",
+   "sol": 509,
+   "date": "July 27, 2022",
+   "rock_type": "Sedimentary",
+   "lat": 18.458647,
+   "lon": 77.405925,
+   "elevation_m": -2523.2,
+   "odometry_km": 11.78,
+   "why_water": "Sedimentary rock laid down where a river entered the lake; organic molecules detected.",
+   "position_source": "rover waypoint at sol 502 (site 26, drive 1222)"
+  },
+  {
+   "id": "cheyava_falls",
+   "title": "Cheyava Falls / Sapphire Canyon (Neretva Vallis)",
+   "sol": 1215,
+   "date": "July 21, 2024",
+   "rock_type": "Sedimentary",
+   "lat": 18.497484,
+   "lon": 77.305191,
+   "elevation_m": -2354.0,
+   "odometry_km": 27.43,
+   "why_water": "Rock from an ancient river channel with features NASA called a potential biosignature.",
+   "position_source": "rover waypoint at sol 1210 (site 56, drive 0)"
+  }
+ ],
+ "hazards": {
+  "steep_segments": [
+   {
+    "type": "steep_slope",
+    "lat": 18.45789,
+    "lon": 77.406277,
+    "sol": 455,
+    "grade_percent": 21.1,
+    "segment_m": 22.6,
+    "source": "computed from official waypoint elevations"
+   },
+   {
+    "type": "steep_slope",
+    "lat": 18.491349,
+    "lon": 77.312746,
+    "sol": 1158,
+    "grade_percent": -20.7,
+    "segment_m": 32.7,
+    "source": "computed from official waypoint elevations"
+   },
+   {
+    "type": "steep_slope",
+    "lat": 18.457964,
+    "lon": 77.408643,
+    "sol": 698,
+    "grade_percent": 20.2,
+    "segment_m": 35.1,
+    "source": "computed from official waypoint elevations"
+   },
+   {
+    "type": "steep_slope",
+    "lat": 18.456828,
+    "lon": 77.408651,
+    "sol": 538,
+    "grade_percent": -17.2,
+    "segment_m": 82.5,
+    "source": "computed from official waypoint elevations"
+   }
+  ],
+  "terrain_context": [
+   {
+    "type": "sand",
+    "text": "Séítah ('amidst the sand' in Navajo): ripples and sand between the landing site and the delta; Perseverance drove around it."
+   },
+   {
+    "type": "slopes_boulders",
+    "text": "Delta front and crater rim: steep, boulder-strewn slopes (see steep_segments)."
+   },
+   {
+    "type": "environment",
+    "text": "Thin CO2 atmosphere, cold nights below -80 C, dust storms and surface radiation."
+   }
+  ],
+  "steep_threshold_percent": 15.0
+ },
+ "layers": [
+  {
+   "id": "viking_color",
+   "kind": "imagery",
+   "name": "Viking MDIM 2.1 color mosaic (232 m/px)",
+   "url_template": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0//default/default028mm/{z}/{y}/{x}.jpg",
+   "tile_scheme": "WMTS geographic (EPSG:4326-like), level 0 = 2x1 tiles of 256 px; {z}/{y}/{x} = TileMatrix/TileRow/TileCol",
+   "verified": {
+    "ok": true,
+    "test_tile": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_Viking_MDIM21_ClrMosaic_global_232m/1.0.0//default/default028mm/6/25/91.jpg",
+    "checked_at": "2026-11-15T02:44:17+00:00"
+   }
+  },
+  {
+   "id": "mola_shaded_relief",
+   "kind": "relief",
+   "name": "MGS MOLA colorized shaded relief (463 m/px)",
+   "url_template": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_MGS_MOLA_ClrShade_merge_global_463m/1.0.0//default/default028mm/{z}/{y}/{x}.jpg",
+   "tile_scheme": "WMTS geographic (EPSG:4326-like), level 0 = 2x1 tiles of 256 px; {z}/{y}/{x} = TileMatrix/TileRow/TileCol",
+   "verified": {
+    "ok": true,
+    "test_tile": "https://trek.nasa.gov/tiles/Mars/EQ/Mars_MGS_MOLA_ClrShade_merge_global_463m/1.0.0//default/default028mm/6/25/91.jpg",
+    "checked_at": "2026-11-15T02:44:17+00:00"
+   }
+  },
+  {
+   "id": "themis_day_ir",
+   "kind": "thermal",
+   "name": "Mars Odyssey THEMIS day infrared (100 m/px)",
+   "url_template": "https://trek.nasa.gov/tiles/Mars/EQ/THEMIS_DayIR_ControlledMosaics_100m_v2_oct2018/1.0.0//default/default028mm/{z}/{y}/{x}.png",
+   "tile_scheme": "WMTS geographic (EPSG:4326-like), level 0 = 2x1 tiles of 256 px; {z}/{y}/{x} = TileMatrix/TileRow/TileCol",
+   "verified": {
+    "ok": true,
+    "test_tile": "https://trek.nasa.gov/tiles/Mars/EQ/THEMIS_DayIR_ControlledMosaics_100m_v2_oct2018/1.0.0//default/default028mm/6/25/91.png",
+    "checked_at": "2026-11-15T02:44:17+00:00"
+   }
+  },
+  {
+   "id": "themis_night_ir",
+   "kind": "temperature",
+   "name": "Mars Odyssey THEMIS night infrared (100 m/px): warm = rocky / high thermal inertia",
+   "url_template": "https://trek.nasa.gov/tiles/Mars/EQ/THEMIS_NightIR_ControlledMosaics_100m_v2_oct2018/1.0.0//default/default028mm/{z}/{y}/{x}.png",
+   "tile_scheme": "WMTS geographic (EPSG:4326-like), level 0 = 2x1 tiles of 256 px; {z}/{y}/{x} = TileMatrix/TileRow/TileCol",
+   "verified": {
+    "ok": true,
+    "test_tile": "https://trek.nasa.gov/tiles/Mars/EQ/THEMIS_NightIR_ControlledMosaics_100m_v2_oct2018/1.0.0//default/default028mm/6/25/91.png",
+    "checked_at": "2026-11-15T02:44:17+00:00"
+   }
+  }
+ ],
+ "sources": {
+  "waypoints": "https://mars.nasa.gov/mmgis-maps/M20/Layers/json/M20_waypoints.json",
+  "samples": "https://science.nasa.gov/mission/mars-2020-perseverance/mars-rock-samples/",
+  "gazetteer": "https://asc-planetarynames-data.s3.us-west-2.amazonaws.com/MARS_nomenclature_center_pts.kmz",
+  "mars_trek": "https://trek.nasa.gov/mars/"
+ },
+ "generated_at": "2026-11-15T02:44:17+00:00"
+}

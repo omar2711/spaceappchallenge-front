@@ -1,3 +1,6 @@
+import { MissionPanel } from '../surface/Missions'
+import { focusMission } from '../surface/focusMission'
+import type { Artifact } from '../abandoned/data/artifacts'
 import 'leaflet/dist/leaflet.css'
 import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -14,6 +17,11 @@ import SunEarthPanel from './components/SunEarthPanel'
 
 export default function MoonMapFeature() {
   const [map, setMap] = useState<LeafletMap | null>(null)
+  const [mission, setMission] = useState<Artifact | null>(null)
+  function chooseMission(item: Artifact) {
+    setMission(item)
+    focusMission(map, item)
+  }
   const [layers, setLayers] = useState<Record<string, LayerState>>(() =>
     Object.fromEntries(
       moonLayers.map((l) => [l.id, { on: l.defaultOn, opacity: l.defaultOpacity }]),
@@ -86,6 +94,8 @@ export default function MoonMapFeature() {
 
       <div className="moonmap-body">
         <MoonMapView
+          mission={mission}
+          onMission={chooseMission}
           layers={layers}
           sites={sites ?? []}
           selected={selected}
@@ -102,6 +112,7 @@ export default function MoonMapFeature() {
             onSelect={chooseSite}
             onSouthPole={goSouthPole}
           />
+          <MissionPanel body="moon" selected={mission} onSelect={chooseMission} />
           <LayerPanel
             state={layers}
             onChange={(id, patch) => setLayers((s) => ({ ...s, [id]: { ...s[id], ...patch } }))}

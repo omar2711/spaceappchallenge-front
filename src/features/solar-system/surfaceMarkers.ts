@@ -1,5 +1,6 @@
 import * as T from 'three'
 import type { MarsWalk, MoonSite } from '../../api/types'
+import type { SurfaceSite } from './surfaceScene'
 import { GROUP_LABEL } from '../moon-map/data/sites'
 
 // Marcadores sobre la superficie de la Tierra, la Luna y Marte, con los datos que ya usan /cielo, /luna y /marte.
@@ -24,7 +25,10 @@ const JEZERO = { lat: 18.38, lon: 77.58 }
 // Cochabamba, el mismo lugar que usa /visibility (17.39° S, 66.16° O).
 const COCHABAMBA = { lat: -17.39, lon: -66.16 }
 
-export function buildMarkers(sites: MoonSite[] | null, walk: MarsWalk | null): SurfaceMarker[] {
+// Los módulos lunares de Apollo 12 y 15 ya están como sitios de alunizaje de /luna.
+const SAME_AS_MOON_SITE = new Set(['apollo-12-lm', 'apollo-15-lm'])
+
+export function buildMarkers(sites: MoonSite[] | null, walk: MarsWalk | null, missions: SurfaceSite[] = []): SurfaceMarker[] {
   const out: SurfaceMarker[] = [
     {
       id: 'cochabamba',
@@ -46,6 +50,22 @@ export function buildMarkers(sites: MoonSite[] | null, walk: MarsWalk | null): S
     accent: s.group !== 'apollo',
     to: `/luna?sitio=${encodeURIComponent(s.id)}`,
   })))
+  out.push(
+    ...missions
+      .filter((m) => !SAME_AS_MOON_SITE.has(m.id))
+      .map(
+        (m): SurfaceMarker => ({
+          id: m.id,
+          body: m.body,
+          lat: m.lat,
+          lon: m.lon,
+          name: m.name,
+          kind: 'equipo que quedó en la superficie',
+          accent: false,
+          to: `/abandonados#${m.id}`,
+        }),
+      ),
+  )
   out.push({
     id: 'jezero',
     body: 'Marte',

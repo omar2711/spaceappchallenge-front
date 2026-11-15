@@ -1,3 +1,5 @@
+import { MissionMarkers } from '../../surface/Missions'
+import type { Artifact } from '../../abandoned/data/artifacts'
 import { useEffect, useState } from 'react'
 import { CRS, type Map as LeafletMap } from 'leaflet'
 import {
@@ -39,6 +41,8 @@ function FitMinZoom() {
 const SITE_COLORS = { apollo: '#d0d0d0', artemis: '#ffb36b', selected: '#ffffff', outline: '#0a0a0a' }
 
 type Props = {
+  mission: Artifact | null
+  onMission: (item: Artifact) => void
   layers: Record<string, LayerState>
   sites: MoonSite[]
   selected: MoonSite | null
@@ -47,7 +51,7 @@ type Props = {
   onSelect: (site: MoonSite) => void
 }
 
-export default function MoonMapView({ layers, sites, selected, compare, onMap, onSelect }: Props) {
+export default function MoonMapView({ mission, onMission, layers, sites, selected, compare, onMap, onSelect }: Props) {
   const [tilesDown, setTilesDown] = useState(false)
   return (
     <div className="moonmap-mapwrap">
@@ -105,10 +109,11 @@ export default function MoonMapView({ layers, sites, selected, compare, onMap, o
             </CircleMarker>
           )
         })}
+        <MissionMarkers body="moon" selected={mission} onSelect={onMission} />
       </MapContainer>
       {tilesDown && (
         <p className="moonmap-badge moonmap-offline" role="status">
-          Sin conexión con Moon Trek, así que no se ve el mapa de fondo. Los sitios y los cálculos de Sol y Tierra funcionan igual.
+          Sin conexión con Moon Trek, así que no se ve el mapa de fondo. Los sitios, las misiones y los cálculos de Sol y Tierra funcionan igual.
         </p>
       )}
       <span className="moonmap-badge">

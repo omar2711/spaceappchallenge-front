@@ -1,3 +1,5 @@
+import { MissionMarkers } from '../../surface/Missions'
+import type { Artifact } from '../../abandoned/data/artifacts'
 import { useEffect, useState } from 'react'
 import { CRS, type Map as LeafletMap } from 'leaflet'
 import {
@@ -46,6 +48,8 @@ function FitMinZoom() {
 }
 
 type Props = {
+  mission: Artifact | null
+  onMission: (item: Artifact) => void
   layers: Record<string, LayerState>
   points: LatLng[]
   blocked: BlockedSegment[]
@@ -61,7 +65,7 @@ type Props = {
 // Ruta de Perseverance en blanco, pendientes y tramos bloqueados en el acento (--accent), tu ruta en gris.
 const C = { route: '#9a9a9a', ink: '#0a0a0a', perseverance: '#f2f2f2', hazard: '#ffb36b', blocked: '#ffb36b' }
 
-export default function MarsMapView({ layers, points, blocked, walk, hazards, activeStop, onStop, onMap, onAddPoint }: Props) {
+export default function MarsMapView({ mission, onMission, layers, points, blocked, walk, hazards, activeStop, onStop, onMap, onAddPoint }: Props) {
   const blockedIdx = new Set(blocked.map((b) => b.index))
   const [tilesDown, setTilesDown] = useState(false)
   return (
@@ -168,10 +172,11 @@ export default function MarsMapView({ layers, points, blocked, walk, hazards, ac
           </CircleMarker>
         ))}
         <ClickToAdd onAdd={onAddPoint} />
+        <MissionMarkers body="mars" selected={mission} onSelect={onMission} />
       </MapContainer>
       {tilesDown && (
         <p className="marsmap-badge marsmap-offline" role="status">
-          Sin conexión con Mars Trek, así que no se ve el mapa de fondo. El recorrido y sus pendientes funcionan igual.
+          Sin conexión con Mars Trek, así que no se ve el mapa de fondo. El recorrido, sus pendientes y las misiones funcionan igual.
         </p>
       )}
       <span className="marsmap-badge">
