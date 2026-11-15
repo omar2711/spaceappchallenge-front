@@ -28,6 +28,8 @@ Render duerme la API tras 15 min sin uso: la primera consulta puede tardar ~30�
 2. Frontend: `demo.bat` en esta carpeta (o `npm run demo`). Compila con `.env.demo`
    (`VITE_API_URL=http://localhost:8000`) en `dist-demo/` y lo sirve en `http://localhost:5173`.
    `demo.bat D:\ruta\al\backend` abre además la API en otra ventana. `npm run dev:demo` es la variante con recarga.
+   `demo.bat` usa el Node 22 portátil de `%LOCALAPPDATA%\Programs\node22` (u otra carpeta en `NODE22_DIR`) antes
+   que el del sistema, y se detiene con un aviso si solo encuentra un Node demasiado antiguo para Vite 8.
 
 Sin internet funcionan los 5 objetivos y los campos precalculados (imágenes, espectros, clic para medir, Gaia,
 visibilidad desde Cochabamba), la Luna (sitios, Sol y Tierra), la caminata de Marte, Hielo, Abandonados y el
