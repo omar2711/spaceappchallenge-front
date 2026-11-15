@@ -29,6 +29,7 @@ export default function FramePlayer({ frames, mode, blinkA, blinkB, isMock }: Pr
   const [speed, setSpeed] = useState(1)
   const [loop, setLoop] = useState(true)
   const [blinkOn, setBlinkOn] = useState(false)
+  const [imageError, setImageError] = useState(false)
   const [diffError, setDiffError] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const images = useRef(new Map<string, Promise<HTMLImageElement>>())
@@ -135,6 +136,8 @@ export default function FramePlayer({ frames, mode, blinkA, blinkB, isMock }: Pr
           <img
             className="skyviewer-image"
             src={frame.imageUrl}
+            onLoad={() => setImageError(false)}
+            onError={() => setImageError(true)}
             alt={`Parche de cielo, frame ${shownIndex + 1} de ${count}, ${formatUT(frame.epochUT)}`}
           />
         )}
@@ -148,9 +151,15 @@ export default function FramePlayer({ frames, mode, blinkA, blinkB, isMock }: Pr
             No se pudo calcular la diferencia con estas imágenes.
           </p>
         )}
+        {imageError && <p className="skyviewer-stage-note" role="alert">No se pudo cargar esta imagen.</p>}
         {isMock && <span className="skyviewer-badge">DATOS DE EJEMPLO</span>}
       </div>
 
+      {!isMock && <p className="skyviewer-note">
+        SPHEREx · observaciones reales. {frame.saturated ? 'Objetivo saturado en ' + frame.saturated + ' exposiciones; el núcleo interpolado no permite fotometría fiable. ' : ''}
+        {(frame.contamination ?? 0) > 0.1 ? 'Contaminación elevada en este campo. ' : ''}
+        {mode === 'diff' ? 'Diferencia visual de imágenes WebP, amplificada ×4; consulta las restas calibradas debajo para el análisis científico.' : ''}
+      </p>}
       <p className="skyviewer-counter">
         {shownIndex + 1}/{count} · {formatUT(frame.epochUT)} · {frame.bandLabel}
         {mode === 'blink' && ` · ${blinkOn ? 'B' : 'A'}`}

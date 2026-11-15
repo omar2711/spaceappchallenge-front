@@ -304,3 +304,21 @@
     grid-template-columns: 1fr;
   }
 }
+
+.skyviewer-panorama { margin-bottom: 28px; }
+.skyviewer-panorama-heading { display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; }
+.skyviewer-panorama h2 { margin: 0; font-weight: 450; font-size: clamp(22px, 3vw, 32px); }
+.skyviewer-atlas { width: 100%; height: clamp(320px, 55vw, 560px); background: #070b14; border-radius: 8px; overflow: hidden; margin-bottom: 16px; position: relative; }
+.skyviewer-image, .skyviewer-canvas, .skyviewer-analysis-images img { image-rendering: pixelated; }
+.skyviewer-analysis-images { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 16px; }
+.skyviewer-analysis-images figure { margin: 0; min-width: 0; }
+.skyviewer-analysis-images img { width: 100%; aspect-ratio: 1; object-fit: contain; background: #070b14; }
+.skyviewer-analysis-images figcaption { font-size: 12px; color: var(--muted); margin-top: 8px; }
+.skyviewer-table-wrap { overflow-x: auto; }
+.skyviewer-table { border-collapse: collapse; width: 100%; font-size: 12px; margin: 12px 0; text-align: left; }
+.skyviewer-table th, .skyviewer-table td { padding: 8px; border-bottom: 1px solid var(--border); }
+.skyviewer-panel > a, .skyviewer-panorama a { color: var(--accent); font-size: 13px; }
+.skyviewer-color { display: grid; grid-template-columns: minmax(120px, 200px) 1fr; align-items: center; gap: 12px; margin: 18px 0; }
+.skyviewer-color canvas { width: 100%; aspect-ratio: 1; image-rendering: pixelated; border-radius: 8px; background: #070b14; }
+.skyviewer-color figcaption { font-size: 13px; line-height: 1.6; }
+.skyviewer-color .skyviewer-note { grid-column: 1 / -1; }

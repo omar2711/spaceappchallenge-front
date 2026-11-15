@@ -1,6 +1,6 @@
 // Valores de la interfaz para el campo de visión (FOV). NO son datos científicos:
 // solo el valor inicial y los límites del formulario.
-export const FOV_DEFAULT_ARCMIN = 10
+export const FOV_DEFAULT_ARCMIN = 4
 export const FOV_MIN_ARCMIN = 1
 export const FOV_MAX_ARCMIN = 60
 

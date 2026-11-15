@@ -1,0 +1,111 @@
+{
+  "generated_at": "2026-11-14T21:37:25+00:00",
+  "targets": [
+    {
+      "target_id": "barnard",
+      "name": "Barnard's Star",
+      "kind": "high_proper_motion_star",
+      "ra_deg": 269.4485025,
+      "dec_deg": 4.7394201,
+      "manifest": "barnard/manifest.json",
+      "epochs": [
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "detectors": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "target_id": "eps_ind_b",
+      "name": "Epsilon Indi B",
+      "kind": "brown_dwarf",
+      "ra_deg": 331.0441466,
+      "dec_deg": -56.7828442,
+      "manifest": "eps_ind_b/manifest.json",
+      "epochs": [
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "detectors": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "target_id": "r_dra",
+      "name": "R Draconis",
+      "kind": "variable_star",
+      "ra_deg": 248.1676108,
+      "dec_deg": 66.7549794,
+      "manifest": "r_dra/manifest.json",
+      "epochs": [
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "detectors": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "target_id": "rw_aur",
+      "name": "RW Aurigae",
+      "kind": "variable_star",
+      "ra_deg": 76.956526,
+      "dec_deg": 30.4014382,
+      "manifest": "rw_aur/manifest.json",
+      "epochs": [
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "detectors": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "target_id": "wise0855",
+      "name": "WISE 0855-0714",
+      "kind": "brown_dwarf",
+      "ra_deg": 133.8189082,
+      "dec_deg": -7.247048,
+      "manifest": "wise0855/manifest.json",
+      "epochs": [
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "detectors": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  ]
+}

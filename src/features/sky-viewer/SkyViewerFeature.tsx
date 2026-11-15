@@ -1,16 +1,17 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { getSkySeries, type SkyRequest, type SkySeries } from '../../api/sky'
+import { getSkySeries, detectorFrames, type SkyTarget, type SkyRequest, type SkySeries } from '../../api/sky'
 import './sky-viewer.css'
 import CoordForm, { type FormValues } from './components/CoordForm'
 import FramePlayer from './components/FramePlayer'
 import PresetList from './components/PresetList'
 import ViewModeBar, { type ViewMode } from './components/ViewModeBar'
-import type { Preset } from './data/presets'
+import SkyPanorama from './components/SkyPanorama'
+import SciencePanel from './components/SciencePanel'
 import { FOV_DEFAULT_ARCMIN } from './lib/parseCoords'
 import { paramsFromRequest, requestFromParams, requestKey, type ParamsState } from './lib/skyParams'
 
-type Result = { key: string; series?: SkySeries; failed?: boolean }
+type Result = { key: string; series?: SkySeries; failed?: string }
 
 const formFromUrl = (s: ParamsState): FormValues =>
   s.kind === 'ok'
@@ -44,14 +45,15 @@ export default function SkyViewerFeature() {
       .then((series) => {
         if (!cancelled) setResult({ key: queryKey, series })
       })
-      .catch(() => {
-        if (!cancelled) setResult({ key: queryKey, failed: true })
+      .catch((error: unknown) => {
+        if (!cancelled) setResult({ key: queryKey, failed: error instanceof Error ? error.message : 'No se pudieron cargar las imágenes.' })
       })
     return () => {
       cancelled = true
     }
   }, [request, queryKey])
 
+  const [detector, setDetector] = useState(1)
   const [mode, setMode] = useState<ViewMode>('normal')
   const [blink, setBlink] = useState({ a: 0, b: 1 })
 
@@ -64,19 +66,23 @@ export default function SkyViewerFeature() {
     setParams(next)
   }
 
-  const pickPreset = (p: Preset) => setForm((f) => ({ ...f, ra: p.ra, dec: p.dec }))
+  const pickPreset = (p: SkyTarget) => {
+    setForm({ ra: String(p.ra), dec: String(p.dec), fov: String(p.fov) })
+    handleSubmit({ raDeg: p.ra, decDeg: p.dec, fovArcmin: p.fov })
+  }
 
   // Estado derivado de la consulta.
   const current = result && result.key === queryKey ? result : null
   const series = current?.series
   const loading = fromUrl.kind === 'ok' && !current
-  const frameCount = series?.frames.length ?? 0
+  const frames = series ? detectorFrames(series.manifest, series.directory, detector) : []
+  const frameCount = frames.length
 
   let content
   if (fromUrl.kind === 'none') {
     content = (
       <p className="skyviewer-empty">
-        Escribe las coordenadas de un parche de cielo o elige un objetivo de prueba para empezar.
+        Escribe las coordenadas de un parche de cielo o elige un objetivo del catálogo para empezar.
       </p>
     )
   } else if (fromUrl.kind === 'invalid') {
@@ -94,7 +100,7 @@ export default function SkyViewerFeature() {
   } else if (current?.failed) {
     content = (
       <div role="alert" className="skyviewer-error-box">
-        <p className="skyviewer-error">No se pudieron cargar las imágenes.</p>
+        <p className="skyviewer-error">{current.failed}</p>
         <button type="button" className="skyviewer-btn" onClick={() => setAttempt((a) => a + 1)}>
           Reintentar
         </button>
@@ -107,6 +113,15 @@ export default function SkyViewerFeature() {
     const b = Math.min(blink.b, frameCount - 1)
     content = (
       <>
+        <div className="skyviewer-panel">
+          <h2>{series.manifest.name}</h2>
+          <label className="skyviewer-field"><span>Rango infrarrojo</span>
+            <select className="skyviewer-select" value={detector} onChange={e => setDetector(Number(e.target.value))}>
+              {series.manifest.detectors.map(d => <option key={d.id} value={d.id}>Detector {d.id} · {d.wavelength_um.join('–')} µm</option>)}
+            </select>
+          </label>
+          <p className="skyviewer-note">Comparamos únicamente pasadas del mismo detector, con la misma escala de brillo.</p>
+        </div>
         <ViewModeBar
           mode={mode}
           onModeChange={setMode}
@@ -116,13 +131,14 @@ export default function SkyViewerFeature() {
           onBlinkChange={(na, nb) => setBlink({ a: na, b: nb })}
         />
         <FramePlayer
-          key={current?.key}
-          frames={series.frames}
+          key={current?.key + ':' + detector}
+          frames={frames}
           mode={mode}
           blinkA={a}
           blinkB={b}
           isMock={series.source === 'mock'}
         />
+        <SciencePanel series={series} detector={detector} />
       </>
     )
   }
@@ -133,11 +149,12 @@ export default function SkyViewerFeature() {
         <small className="skyviewer-eyebrow">DESAFÍO · PLANET X AND SPHEREX</small>
         <h1 className="skyviewer-title">Cielo SPHEREx</h1>
         <p className="skyviewer-lead">
-          Ingresa las coordenadas de un parche de cielo (Ascensión Recta y declinación) y mira una
-          serie de imágenes como un pequeño video para detectar objetos en movimiento.
+          Explora el cielo infrarrojo y compara observaciones reales entre fechas. Sigue estrellas en
+          movimiento y regiones donde nacen sistemas planetarios.
         </p>
       </header>
 
+      <SkyPanorama request={request} />
       <div className="skyviewer-body">
         <div className="skyviewer-side">
           <PresetList onPick={pickPreset} />

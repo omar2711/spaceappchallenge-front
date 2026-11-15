@@ -1,0 +1,462 @@
+{
+  "target_id": "c849cdb29dee1",
+  "name": "RA 83.8186, Dec -5.3897",
+  "kind": "custom",
+  "ref_coord": {
+    "ra_deg": 83.8186,
+    "dec_deg": -5.3897,
+    "epoch": "J2000.0",
+    "source": "user coordinates (ICRS), no proper motion"
+  },
+  "proper_motion_mas_yr": {
+    "pmra": 0.0,
+    "pmdec": 0.0
+  },
+  "fov_arcmin": 2.973,
+  "pixel_scale_arcsec": 6.15,
+  "image_size_px": [
+    29,
+    29
+  ],
+  "grid_wcs": {
+    "CTYPE1": "RA---TAN",
+    "CTYPE2": "DEC--TAN",
+    "CRVAL1": 83.8186,
+    "CRVAL2": -5.3897,
+    "CRPIX1": 15.0,
+    "CRPIX2": 15.0,
+    "CDELT1": -0.0017083333333333,
+    "CDELT2": 0.0017083333333333,
+    "CUNIT1": "deg",
+    "CUNIT2": "deg",
+    "NAXIS1": 29,
+    "NAXIS2": 29
+  },
+  "epochs": [
+    {
+      "id": "S1",
+      "date_start": "2025-09-06T03:59:40",
+      "date_end": "2025-09-13T13:44:13",
+      "date_mid": "2025-09-09T20:51:57"
+    },
+    {
+      "id": "S2",
+      "date_start": "2026-03-03T17:24:40",
+      "date_end": "2026-03-09T10:17:39",
+      "date_mid": "2026-03-06T13:51:10"
+    },
+    {
+      "id": "S3",
+      "date_start": "2026-09-04T07:56:37",
+      "date_end": "2026-09-25T22:06:44",
+      "date_mid": "2026-09-15T03:01:41"
+    }
+  ],
+  "detectors": [
+    {
+      "id": 1,
+      "wavelength_um": [
+        0.746,
+        1.117
+      ],
+      "frames": [
+        {
+          "epoch": "S1",
+          "file": "S1_D1.webp",
+          "fits": "S1_D1.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.955,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            1.0603,
+            1.086
+          ],
+          "date_mid": "2025-09-06T04:00:45.454"
+        },
+        {
+          "epoch": "S2",
+          "file": "S2_D1.webp",
+          "fits": "S2_D1.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.8281,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            0.7761,
+            0.7948
+          ],
+          "date_mid": "2026-03-09T10:16:35.400"
+        },
+        {
+          "epoch": "S3",
+          "file": "S3_D1.webp",
+          "fits": "S3_D1.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.6524,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            0.7688,
+            0.7867
+          ],
+          "date_mid": "2026-09-04T07:57:42.422"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "wavelength_um": [
+        1.103,
+        1.65
+      ],
+      "frames": [
+        {
+          "epoch": "S1",
+          "file": "S1_D2.webp",
+          "fits": "S1_D2.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.0677,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            1.5603,
+            1.5979
+          ],
+          "date_mid": "2025-09-09T20:01:59.009"
+        },
+        {
+          "epoch": "S2",
+          "file": "S2_D2.webp",
+          "fits": "S2_D2.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.0039,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            1.1574,
+            1.1849
+          ],
+          "date_mid": "2026-03-06T13:50:45.478"
+        },
+        {
+          "epoch": "S3",
+          "file": "S3_D2.webp",
+          "fits": "S3_D2.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.0089,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            1.1014,
+            1.1271
+          ],
+          "date_mid": "2026-09-11T20:51:41.234"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "wavelength_um": [
+        1.63,
+        2.435
+      ],
+      "frames": [
+        {
+          "epoch": "S1",
+          "file": "S1_D3.webp",
+          "fits": "S1_D3.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.0043,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            2.3389,
+            2.3913
+          ],
+          "date_mid": "2025-09-13T12:55:59.038"
+        },
+        {
+          "epoch": "S2",
+          "file": "S2_D3.webp",
+          "fits": "S2_D3.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.0339,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            1.7395,
+            1.7796
+          ],
+          "date_mid": "2026-03-03T17:25:44.695"
+        },
+        {
+          "epoch": "S3",
+          "file": "S3_D3.webp",
+          "fits": "S3_D3.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.5039,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            2.3633,
+            2.4264
+          ],
+          "date_mid": "2026-09-21T17:53:51.396"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "wavelength_um": [
+        2.403,
+        3.847
+      ],
+      "frames": [
+        {
+          "epoch": "S1",
+          "file": "S1_D4.webp",
+          "fits": "S1_D4.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.0493,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            3.618,
+            3.7156
+          ],
+          "date_mid": "2025-09-06T04:00:45.454"
+        },
+        {
+          "epoch": "S2",
+          "file": "S2_D4.webp",
+          "fits": "S2_D4.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.1545,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            2.5315,
+            2.6001
+          ],
+          "date_mid": "2026-03-09T10:16:35.400"
+        },
+        {
+          "epoch": "S3",
+          "file": "S3_D4.webp",
+          "fits": "S3_D4.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.0386,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            2.5039,
+            2.5724
+          ],
+          "date_mid": "2026-09-04T07:57:42.422"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "wavelength_um": [
+        3.811,
+        4.43
+      ],
+      "frames": [
+        {
+          "epoch": "S1",
+          "file": "S1_D5.webp",
+          "fits": "S1_D5.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.0404,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            4.3396,
+            4.3767
+          ],
+          "date_mid": "2025-09-09T20:01:59.009"
+        },
+        {
+          "epoch": "S2",
+          "file": "S2_D5.webp",
+          "fits": "S2_D5.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.0076,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            3.8926,
+            3.9263
+          ],
+          "date_mid": "2026-03-06T13:50:45.478"
+        },
+        {
+          "epoch": "S3",
+          "file": "S3_D5.webp",
+          "fits": "S3_D5.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.0224,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            3.8217,
+            3.8547
+          ],
+          "date_mid": "2026-09-11T20:51:41.234"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "wavelength_um": [
+        4.412,
+        5.01
+      ],
+      "frames": [
+        {
+          "epoch": "S1",
+          "file": "S1_D6.webp",
+          "fits": "S1_D6.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.003,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            4.9507,
+            4.9871
+          ],
+          "date_mid": "2025-09-13T12:55:59.038"
+        },
+        {
+          "epoch": "S2",
+          "file": "S2_D6.webp",
+          "fits": "S2_D6.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.0158,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            4.5079,
+            4.5405
+          ],
+          "date_mid": "2026-03-03T17:25:44.695"
+        },
+        {
+          "epoch": "S3",
+          "file": "S3_D6.webp",
+          "fits": "S3_D6.fits",
+          "n_images": 2,
+          "target_px": [
+            14.0,
+            14.0
+          ],
+          "flags_fraction": 0.0021,
+          "saturated_exposures": 2,
+          "wavelength_at_target_um": [
+            4.9676,
+            5.017
+          ],
+          "date_mid": "2026-09-21T17:53:51.396"
+        }
+      ]
+    }
+  ],
+  "stretch": {
+    "method": "asinh",
+    "a": 0.002,
+    "percentiles": [
+      2.0,
+      99.5
+    ],
+    "per_detector_limits": {
+      "1": [
+        -26.7352,
+        2324.3336
+      ],
+      "2": [
+        -23.4714,
+        1488.2491
+      ],
+      "3": [
+        -26.9105,
+        1505.6524
+      ],
+      "4": [
+        -38.018,
+        1457.5769
+      ],
+      "5": [
+        -51.1729,
+        6742.9852
+      ],
+      "6": [
+        -78.5498,
+        10067.5541
+      ]
+    },
+    "units": "MJy/sr"
+  },
+  "source": {
+    "collections": [
+      "spherex_dr1",
+      "spherex_qr3"
+    ],
+    "n_images_available": 377,
+    "generated_at": "2026-11-15T00:25:35+00:00",
+    "max_exposures_per_group": 2
+  },
+  "notes": "Each frame is the inverse-variance weighted mean (MJy/sr) of all exposures of one detector in one survey pass, aligned on grid_wcs. Compare frames of the SAME detector across epochs: each detector covers a different wavelength range. target_px is in WebP pixel coordinates (0-based, origin top-left, y down, pixel centres at integers); grid_wcs follows the FITS convention (1-based, y up). Bright targets saturate: see frames[].saturated_exposures; do not use FILLED pixels for photometry. Custom field from user coordinates; target_px marks the requested position."
+}

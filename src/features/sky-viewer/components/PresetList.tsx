@@ -1,30 +1,19 @@
-import { isVerified, presets, type Preset } from '../data/presets'
+import { useEffect, useState } from 'react'
+import { getSkyTargets, type SkyTarget } from '../../../api/sky'
 
-type Props = { onPick: (p: Preset) => void }
-
-export default function PresetList({ onPick }: Props) {
-  return (
-    <div className="skyviewer-panel">
-      <h2 className="skyviewer-panel-title">Objetivos de prueba</h2>
-      <ul className="skyviewer-presets">
-        {presets.map((p) => {
-          const verified = isVerified(p)
-          return (
-            <li key={p.id} className="skyviewer-preset">
-              <button
-                type="button"
-                className="skyviewer-btn"
-                disabled={!verified}
-                onClick={() => onPick(p)}
-              >
-                {p.name}
-              </button>
-              {!verified && <span className="skyviewer-note">coordenadas por verificar</span>}
-            </li>
-          )
-        })}
-      </ul>
-      <p className="skyviewer-note">Las coordenadas de WISE 0855 son las del desafío.</p>
-    </div>
-  )
+export default function PresetList({ onPick }: { onPick: (p: SkyTarget) => void }) {
+  const [targets, setTargets] = useState<SkyTarget[]>([])
+  const [error, setError] = useState(false)
+  useEffect(() => {
+    let active = true
+    getSkyTargets().then(t => { if (active) setTargets(t) }).catch(() => { if (active) setError(true) })
+    return () => { active = false }
+  }, [])
+  return <div className="skyviewer-panel">
+    <h2 className="skyviewer-panel-title">OBSERVACIONES REALES</h2>
+    <ul className="skyviewer-presets">{targets.map(p => <li key={p.id}>
+      <button type="button" className="skyviewer-btn" onClick={() => onPick(p)}>{p.name}</button>
+    </li>)}</ul>
+    <p className="skyviewer-note" role="status">{error ? 'No se pudo cargar el catálogo. Recarga la página para reintentar.' : targets.length ? 'Selecciona un objetivo para abrir sus pasadas SPHEREx.' : 'Cargando catálogo…'}</p>
+  </div>
 }

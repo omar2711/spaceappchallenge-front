@@ -1,0 +1,39 @@
+{
+ "generated_at": "2026-11-15T00:29:42+00:00",
+ "note": "Precomputed custom fields for the demo. Request them with exactly these ra/dec/fov_arcmin/max_exposures_per_group to hit the cache.",
+ "presets": [
+  {
+   "id": "hl_tau",
+   "name": "HL Tau",
+   "description": "Young star with a protoplanetary disk (Taurus); XZ Tau is the companion to the east",
+   "job_id": "cd2f34edd4880",
+   "ra": 67.9105,
+   "dec": 18.2327,
+   "fov_arcmin": 3.0,
+   "max_exposures_per_group": 2,
+   "manifest": "custom/cd2f34edd4880/manifest.json"
+  },
+  {
+   "id": "trapezium",
+   "name": "Trapecio de Orión (θ¹ Ori C)",
+   "description": "Young cluster lighting up the Orion Nebula; BN/KL infrared source appears at 2.5-5 µm (D4-D6)",
+   "job_id": "c849cdb29dee1",
+   "ra": 83.8186,
+   "dec": -5.3897,
+   "fov_arcmin": 3.0,
+   "max_exposures_per_group": 2,
+   "manifest": "custom/c849cdb29dee1/manifest.json"
+  },
+  {
+   "id": "m42",
+   "name": "Nebulosa de Orión (M42)",
+   "description": "Star-forming region; nebular emission and the embedded BN/KL object",
+   "job_id": "c2d9e7410cce7",
+   "ra": 83.8201,
+   "dec": -5.3876,
+   "fov_arcmin": 4.0,
+   "max_exposures_per_group": 2,
+   "manifest": "custom/c2d9e7410cce7/manifest.json"
+  }
+ ]
+}

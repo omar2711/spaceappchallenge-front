@@ -1,0 +1,1818 @@
+{
+ "target_id": "r_dra",
+ "difference_images": [
+  {
+   "detector": 1,
+   "from": "S1",
+   "to": "S2",
+   "file": "analysis/diff_S1_S2_D1.webp",
+   "range": [
+    -1385.45716,
+    1385.45716
+   ],
+   "units": "MJy/sr",
+   "flux_scale": 1.0,
+   "n_ref_stars": 0,
+   "scale_method": "none (k=1)",
+   "mean_wavelength_um": [
+    1.0103,
+    0.8088
+   ],
+   "target_residual": {
+    "flux": -21859.8184,
+    "err": 12.3534,
+    "fraction_of_target": -0.8466,
+    "significance_sigma": 1769.5,
+    "significant": true
+   },
+   "caveats": [
+    "wavelength_mismatch",
+    "saturated_target",
+    "few_reference_stars"
+   ]
+  },
+  {
+   "detector": 1,
+   "from": "S2",
+   "to": "S3",
+   "file": "analysis/diff_S2_S3_D1.webp",
+   "range": [
+    -1385.45716,
+    1385.45716
+   ],
+   "units": "MJy/sr",
+   "flux_scale": 1.0,
+   "n_ref_stars": 1,
+   "scale_method": "none (k=1)",
+   "mean_wavelength_um": [
+    0.8088,
+    1.0417
+   ],
+   "target_residual": {
+    "flux": 13783.561,
+    "err": 7.1882,
+    "fraction_of_target": 3.4804,
+    "significance_sigma": 1917.5,
+    "significant": true
+   },
+   "caveats": [
+    "wavelength_mismatch",
+    "saturated_target",
+    "few_reference_stars"
+   ]
+  },
+  {
+   "detector": 2,
+   "from": "S1",
+   "to": "S2",
+   "file": "analysis/diff_S1_S2_D2.webp",
+   "range": [
+    -348.94664,
+    348.94664
+   ],
+   "units": "MJy/sr",
+   "flux_scale": 1.0,
+   "n_ref_stars": 0,
+   "scale_method": "none (k=1)",
+   "mean_wavelength_um": [
+    1.4924,
+    1.4976
+   ],
+   "target_residual": {
+    "flux": 2865.4203,
+    "err": 5.2223,
+    "fraction_of_target": 0.1738,
+    "significance_sigma": 548.7,
+    "significant": true
+   },
+   "dipole": {
+    "separation_px": 1.586,
+    "position_angle_deg": 40.4,
+    "expected_shift_px": 0.002,
+    "expected_position_angle_deg": 286.6,
+    "note": "Negative lobe = old position, positive = new. For shifts below the PSF size the lobe separation reflects the PSF width; the direction is what validates motion."
+   },
+   "caveats": [
+    "saturated_target",
+    "few_reference_stars"
+   ]
+  },
+  {
+   "detector": 2,
+   "from": "S2",
+   "to": "S3",
+   "file": "analysis/diff_S2_S3_D2.webp",
+   "range": [
+    -348.94664,
+    348.94664
+   ],
+   "units": "MJy/sr",
+   "flux_scale": 1.0,
+   "n_ref_stars": 0,
+   "scale_method": "none (k=1)",
+   "mean_wavelength_um": [
+    1.4976,
+    1.4666
+   ],
+   "target_residual": {
+    "flux": -4030.8173,
+    "err": 3.1097,
+    "fraction_of_target": -0.2083,
+    "significance_sigma": 1296.2,
+    "significant": true
+   },
+   "dipole": {
+    "separation_px": 1.875,
+    "position_angle_deg": 287.1,
+    "expected_shift_px": 0.002,
+    "expected_position_angle_deg": 286.6,
+    "note": "Negative lobe = old position, positive = new. For shifts below the PSF size the lobe separation reflects the PSF width; the direction is what validates motion."
+   },
+   "caveats": [
+    "wavelength_mismatch",
+    "saturated_target",
+    "few_reference_stars"
+   ]
+  },
+  {
+   "detector": 3,
+   "from": "S1",
+   "to": "S2",
+   "file": "analysis/diff_S1_S2_D3.webp",
+   "range": [
+    -783.92875,
+    783.92875
+   ],
+   "units": "MJy/sr",
+   "flux_scale": 1.0,
+   "n_ref_stars": 0,
+   "scale_method": "none (k=1)",
+   "mean_wavelength_um": [
+    1.7533,
+    1.7398
+   ],
+   "target_residual": {
+    "flux": -7680.6758,
+    "err": 15.2129,
+    "fraction_of_target": -0.2192,
+    "significance_sigma": 504.9,
+    "significant": true
+   },
+   "dipole": {
+    "separation_px": 3.267,
+    "position_angle_deg": 142.1,
+    "expected_shift_px": 0.002,
+    "expected_position_angle_deg": 286.6,
+    "note": "Negative lobe = old position, positive = new. For shifts below the PSF size the lobe separation reflects the PSF width; the direction is what validates motion."
+   },
+   "caveats": [
+    "saturated_target",
+    "few_reference_stars"
+   ]
+  },
+  {
+   "detector": 3,
+   "from": "S2",
+   "to": "S3",
+   "file": "analysis/diff_S2_S3_D3.webp",
+   "range": [
+    -783.92875,
+    783.92875
+   ],
+   "units": "MJy/sr",
+   "flux_scale": 1.0,
+   "n_ref_stars": 0,
+   "scale_method": "none (k=1)",
+   "mean_wavelength_um": [
+    1.7398,
+    1.8067
+   ],
+   "target_residual": {
+    "flux": -2160.9538,
+    "err": 7.8136,
+    "fraction_of_target": -0.0789,
+    "significance_sigma": 276.6,
+    "significant": true
+   },
+   "dipole": {
+    "separation_px": 1.623,
+    "position_angle_deg": 294.5,
+    "expected_shift_px": 0.001,
+    "expected_position_angle_deg": 286.6,
+    "note": "Negative lobe = old position, positive = new. For shifts below the PSF size the lobe separation reflects the PSF width; the direction is what validates motion."
+   },
+   "caveats": [
+    "wavelength_mismatch",
+    "saturated_target",
+    "few_reference_stars"
+   ]
+  },
+  {
+   "detector": 4,
+   "from": "S1",
+   "to": "S2",
+   "file": "analysis/diff_S1_S2_D4.webp",
+   "range": [
+    -916.27925,
+    916.27925
+   ],
+   "units": "MJy/sr",
+   "flux_scale": 1.0,
+   "n_ref_stars": 0,
+   "scale_method": "none (k=1)",
+   "mean_wavelength_um": [
+    3.3923,
+    2.6553
+   ],
+   "target_residual": {
+    "flux": -743.8123,
+    "err": 16.8951,
+    "fraction_of_target": -0.033,
+    "significance_sigma": 44.0,
+    "significant": true
+   },
+   "dipole": {
+    "separation_px": 0.275,
+    "position_angle_deg": 208.6,
+    "expected_shift_px": 0.001,
+    "expected_position_angle_deg": 286.6,
+    "note": "Negative lobe = old position, positive = new. For shifts below the PSF size the lobe separation reflects the PSF width; the direction is what validates motion."
+   },
+   "caveats": [
+    "wavelength_mismatch",
+    "saturated_target",
+    "few_reference_stars"
+   ]
+  },
+  {
+   "detector": 4,
+   "from": "S2",
+   "to": "S3",
+   "file": "analysis/diff_S2_S3_D4.webp",
+   "range": [
+    -916.27925,
+    916.27925
+   ],
+   "units": "MJy/sr",
+   "flux_scale": 1.0,
+   "n_ref_stars": 0,
+   "scale_method": "none (k=1)",
+   "mean_wavelength_um": [
+    2.6553,
+    3.5464
+   ],
+   "target_residual": {
+    "flux": 856.5891,
+    "err": 7.5509,
+    "fraction_of_target": 0.0394,
+    "significance_sigma": 113.4,
+    "significant": true
+   },
+   "dipole": {
+    "separation_px": 0.633,
+    "position_angle_deg": 187.6,
+    "expected_shift_px": 0.003,
+    "expected_position_angle_deg": 286.6,
+    "note": "Negative lobe = old position, positive = new. For shifts below the PSF size the lobe separation reflects the PSF width; the direction is what validates motion."
+   },
+   "caveats": [
+    "wavelength_mismatch",
+    "saturated_target",
+    "few_reference_stars"
+   ]
+  },
+  {
+   "detector": 5,
+   "from": "S1",
+   "to": "S2",
+   "file": "analysis/diff_S1_S2_D5.webp",
+   "range": [
+    -1130.1704,
+    1130.1704
+   ],
+   "units": "MJy/sr",
+   "flux_scale": 1.0,
+   "n_ref_stars": 0,
+   "scale_method": "none (k=1)",
+   "mean_wavelength_um": [
+    4.2706,
+    4.276
+   ],
+   "target_residual": {
+    "flux": -19748.8628,
+    "err": 20.0803,
+    "fraction_of_target": -0.3328,
+    "significance_sigma": 983.5,
+    "significant": true
+   },
+   "dipole": {
+    "separation_px": 3.256,
+    "position_angle_deg": 82.3,
+    "expected_shift_px": 0.002,
+    "expected_position_angle_deg": 286.6,
+    "note": "Negative lobe = old position, positive = new. For shifts below the PSF size the lobe separation reflects the PSF width; the direction is what validates motion."
+   },
+   "caveats": [
+    "saturated_target",
+    "few_reference_stars"
+   ]
+  },
+  {
+   "detector": 5,
+   "from": "S2",
+   "to": "S3",
+   "file": "analysis/diff_S2_S3_D5.webp",
+   "range": [
+    -1130.1704,
+    1130.1704
+   ],
+   "units": "MJy/sr",
+   "flux_scale": 1.0,
+   "n_ref_stars": 0,
+   "scale_method": "none (k=1)",
+   "mean_wavelength_um": [
+    4.276,
+    4.2401
+   ],
+   "target_residual": {
+    "flux": -6088.7864,
+    "err": 4.7277,
+    "fraction_of_target": -0.1541,
+    "significance_sigma": 1287.9,
+    "significant": true
+   },
+   "dipole": {
+    "separation_px": 2.027,
+    "position_angle_deg": 285.6,
+    "expected_shift_px": 0.002,
+    "expected_position_angle_deg": 286.6,
+    "note": "Negative lobe = old position, positive = new. For shifts below the PSF size the lobe separation reflects the PSF width; the direction is what validates motion."
+   },
+   "caveats": [
+    "saturated_target",
+    "few_reference_stars"
+   ]
+  },
+  {
+   "detector": 6,
+   "from": "S1",
+   "to": "S2",
+   "file": "analysis/diff_S1_S2_D6.webp",
+   "range": [
+    -857.07855,
+    857.07855
+   ],
+   "units": "MJy/sr",
+   "flux_scale": 1.0,
+   "n_ref_stars": 1,
+   "scale_method": "none (k=1)",
+   "mean_wavelength_um": [
+    4.5175,
+    4.5072
+   ],
+   "target_residual": {
+    "flux": -5953.2835,
+    "err": 14.9229,
+    "fraction_of_target": -0.1143,
+    "significance_sigma": 398.9,
+    "significant": true
+   },
+   "dipole": {
+    "separation_px": 1.784,
+    "position_angle_deg": 60.1,
+    "expected_shift_px": 0.002,
+    "expected_position_angle_deg": 286.6,
+    "note": "Negative lobe = old position, positive = new. For shifts below the PSF size the lobe separation reflects the PSF width; the direction is what validates motion."
+   },
+   "caveats": [
+    "saturated_target",
+    "few_reference_stars"
+   ]
+  },
+  {
+   "detector": 6,
+   "from": "S2",
+   "to": "S3",
+   "file": "analysis/diff_S2_S3_D6.webp",
+   "range": [
+    -857.07855,
+    857.07855
+   ],
+   "units": "MJy/sr",
+   "flux_scale": 1.0,
+   "n_ref_stars": 0,
+   "scale_method": "none (k=1)",
+   "mean_wavelength_um": [
+    4.5072,
+    4.5592
+   ],
+   "target_residual": {
+    "flux": -12382.4128,
+    "err": 6.4113,
+    "fraction_of_target": -0.2679,
+    "significance_sigma": 1931.4,
+    "significant": true
+   },
+   "dipole": {
+    "separation_px": 0.925,
+    "position_angle_deg": 59.3,
+    "expected_shift_px": 0.001,
+    "expected_position_angle_deg": 286.6,
+    "note": "Negative lobe = old position, positive = new. For shifts below the PSF size the lobe separation reflects the PSF width; the direction is what validates motion."
+   },
+   "caveats": [
+    "wavelength_mismatch",
+    "saturated_target",
+    "few_reference_stars"
+   ]
+  }
+ ],
+ "deep_images": [
+  {
+   "detector": 1,
+   "file": "analysis/deep_D1.webp",
+   "epochs": [
+    "S1",
+    "S2",
+    "S3"
+   ],
+   "stretch": {
+    "method": "asinh",
+    "a": 0.002,
+    "limits": [
+     -0.11395,
+     195.00043
+    ]
+   },
+   "note": "Fixed-sky mean of all epochs: a moving target appears elongated along its track."
+  },
+  {
+   "detector": 2,
+   "file": "analysis/deep_D2.webp",
+   "epochs": [
+    "S1",
+    "S2",
+    "S3"
+   ],
+   "stretch": {
+    "method": "asinh",
+    "a": 0.002,
+    "limits": [
+     -0.26343,
+     1357.67606
+    ]
+   },
+   "note": "Fixed-sky mean of all epochs: a moving target appears elongated along its track."
+  },
+  {
+   "detector": 3,
+   "file": "analysis/deep_D3.webp",
+   "epochs": [
+    "S1",
+    "S2",
+    "S3"
+   ],
+   "stretch": {
+    "method": "asinh",
+    "a": 0.002,
+    "limits": [
+     -0.38561,
+     2275.23228
+    ]
+   },
+   "note": "Fixed-sky mean of all epochs: a moving target appears elongated along its track."
+  },
+  {
+   "detector": 4,
+   "file": "analysis/deep_D4.webp",
+   "epochs": [
+    "S1",
+    "S2",
+    "S3"
+   ],
+   "stretch": {
+    "method": "asinh",
+    "a": 0.002,
+    "limits": [
+     -0.21684,
+     1784.54639
+    ]
+   },
+   "note": "Fixed-sky mean of all epochs: a moving target appears elongated along its track."
+  },
+  {
+   "detector": 5,
+   "file": "analysis/deep_D5.webp",
+   "epochs": [
+    "S1",
+    "S2",
+    "S3"
+   ],
+   "stretch": {
+    "method": "asinh",
+    "a": 0.002,
+    "limits": [
+     -0.25764,
+     3384.09296
+    ]
+   },
+   "note": "Fixed-sky mean of all epochs: a moving target appears elongated along its track."
+  },
+  {
+   "detector": 6,
+   "file": "analysis/deep_D6.webp",
+   "epochs": [
+    "S1",
+    "S2",
+    "S3"
+   ],
+   "stretch": {
+    "method": "asinh",
+    "a": 0.002,
+    "limits": [
+     -0.21331,
+     3318.35922
+    ]
+   },
+   "note": "Fixed-sky mean of all epochs: a moving target appears elongated along its track."
+  }
+ ],
+ "light_curves": [
+  {
+   "detector": 1,
+   "wavelength_um": [
+    0.746,
+    1.117
+   ],
+   "units": "mJy",
+   "usable": true,
+   "combined_snr": 1421.3,
+   "reference_wavelength_um": 0.9777,
+   "spectral_shape_bins": 3,
+   "points": [
+    {
+     "mjd": 60832.47455,
+     "epoch": "S1",
+     "wavelength_um": 0.9436,
+     "flux": 25183.51001,
+     "err": 48.07512,
+     "flux_corrected": 27955.62293,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60832.47605,
+     "epoch": "S1",
+     "wavelength_um": 0.9662,
+     "flux": 29613.10589,
+     "err": 53.20961,
+     "flux_corrected": 30637.69743,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60832.47754,
+     "epoch": "S1",
+     "wavelength_um": 0.9892,
+     "flux": 22907.56253,
+     "err": 41.35467,
+     "flux_corrected": 22931.68301,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60832.47903,
+     "epoch": "S1",
+     "wavelength_um": 1.0127,
+     "flux": 35853.20262,
+     "err": 55.97817,
+     "flux_corrected": 36870.82942,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60860.54086,
+     "epoch": "S1",
+     "wavelength_um": 1.0373,
+     "flux": 31305.05005,
+     "err": 50.61056,
+     "flux_corrected": 33140.72789,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60860.94729,
+     "epoch": "S1",
+     "wavelength_um": 1.1129,
+     "flux": 17309.58115,
+     "err": 35.89999,
+     "flux_corrected": 19308.52086,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60965.61517,
+     "epoch": "S2",
+     "wavelength_um": 0.7808,
+     "flux": 3030.46878,
+     "err": 12.02737,
+     "flux_corrected": 6246.54064,
+     "flag": "ok"
+    },
+    {
+     "mjd": 60965.61668,
+     "epoch": "S2",
+     "wavelength_um": 0.7996,
+     "flux": 4104.96478,
+     "err": 14.87102,
+     "flux_corrected": 8461.34087,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60965.61818,
+     "epoch": "S2",
+     "wavelength_um": 0.8184,
+     "flux": 8203.22887,
+     "err": 22.75599,
+     "flux_corrected": 15282.65863,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60965.61967,
+     "epoch": "S2",
+     "wavelength_um": 0.8378,
+     "flux": 5070.02573,
+     "err": 16.68238,
+     "flux_corrected": 8547.18455,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60966.90501,
+     "epoch": "S2",
+     "wavelength_um": 0.7591,
+     "flux": 4155.07119,
+     "err": 15.81671,
+     "flux_corrected": 8564.62249,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60966.97064,
+     "epoch": "S2",
+     "wavelength_um": 0.8574,
+     "flux": 7128.48659,
+     "err": 20.10858,
+     "flux_corrected": 10963.93305,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61227.48519,
+     "epoch": "S3",
+     "wavelength_um": 1.0082,
+     "flux": 15795.64773,
+     "err": 36.8614,
+     "flux_corrected": 16159.49711,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61227.4867,
+     "epoch": "S3",
+     "wavelength_um": 1.0326,
+     "flux": 23490.13638,
+     "err": 46.90356,
+     "flux_corrected": 24728.56263,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61227.4882,
+     "epoch": "S3",
+     "wavelength_um": 1.0569,
+     "flux": 15498.759,
+     "err": 38.47435,
+     "flux_corrected": 16801.41471,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61227.48969,
+     "epoch": "S3",
+     "wavelength_um": 1.0825,
+     "flux": 13632.5231,
+     "err": 32.16866,
+     "flux_corrected": 15206.82993,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61227.96023,
+     "epoch": "S3",
+     "wavelength_um": 1.108,
+     "flux": 21995.58559,
+     "err": 41.76523,
+     "flux_corrected": 24535.67302,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61229.72629,
+     "epoch": "S3",
+     "wavelength_um": 0.9619,
+     "flux": 19348.42132,
+     "err": 47.7282,
+     "flux_corrected": 20280.22131,
+     "flag": "saturated"
+    }
+   ],
+   "per_epoch": [
+    {
+     "epoch": "S1",
+     "mjd": 60841.8992,
+     "flux": 26796.53648,
+     "err": 2658.0612,
+     "n": 6,
+     "lower_limit": true
+    },
+    {
+     "epoch": "S2",
+     "mjd": 60966.0576,
+     "flux": 8925.11688,
+     "err": 1275.92251,
+     "n": 6,
+     "lower_limit": true
+    },
+    {
+     "epoch": "S3",
+     "mjd": 61227.9394,
+     "flux": 18760.76338,
+     "err": 1732.94267,
+     "n": 6,
+     "lower_limit": true
+    }
+   ],
+   "sub_epochs": [],
+   "variability": {
+    "amplitude_mag": 1.194,
+    "chi2_reduced": 21.6,
+    "p_value": 4.16e-10,
+    "systematic_floor": 0.03,
+    "significant": true,
+    "lower_limit": true,
+    "note": "significant variability; based on saturated (lower-limit) fluxes, amplitude unreliable"
+   }
+  },
+  {
+   "detector": 2,
+   "wavelength_um": [
+    1.103,
+    1.65
+   ],
+   "units": "mJy",
+   "usable": true,
+   "combined_snr": 2071.0,
+   "reference_wavelength_um": 1.4841,
+   "spectral_shape_bins": 3,
+   "points": [
+    {
+     "mjd": 60834.78842,
+     "epoch": "S1",
+     "wavelength_um": 1.4047,
+     "flux": 20939.20354,
+     "err": 37.64976,
+     "flux_corrected": 18948.45837,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60834.78991,
+     "epoch": "S1",
+     "wavelength_um": 1.4386,
+     "flux": 21211.76475,
+     "err": 40.24511,
+     "flux_corrected": 20007.03067,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60834.7914,
+     "epoch": "S1",
+     "wavelength_um": 1.4734,
+     "flux": 16016.52433,
+     "err": 42.81393,
+     "flux_corrected": 15792.59448,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60834.79289,
+     "epoch": "S1",
+     "wavelength_um": 1.5091,
+     "flux": 11412.68283,
+     "err": 17.39305,
+     "flux_corrected": 10481.83202,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60835.53579,
+     "epoch": "S1",
+     "wavelength_um": 1.5457,
+     "flux": 16926.14831,
+     "err": 34.11863,
+     "flux_corrected": 12881.78162,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60835.53728,
+     "epoch": "S1",
+     "wavelength_um": 1.5829,
+     "flux": 34043.12082,
+     "err": 49.07779,
+     "flux_corrected": 22518.24855,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60997.7334,
+     "epoch": "S2",
+     "wavelength_um": 1.4096,
+     "flux": 15740.86965,
+     "err": 34.21735,
+     "flux_corrected": 14328.39162,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60997.7349,
+     "epoch": "S2",
+     "wavelength_um": 1.4434,
+     "flux": 15566.77661,
+     "err": 34.39103,
+     "flux_corrected": 14771.11951,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60997.73639,
+     "epoch": "S2",
+     "wavelength_um": 1.4784,
+     "flux": 23276.91964,
+     "err": 41.81105,
+     "flux_corrected": 23102.15102,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60997.73788,
+     "epoch": "S2",
+     "wavelength_um": 1.5143,
+     "flux": 24568.6177,
+     "err": 43.29898,
+     "flux_corrected": 21920.70167,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61007.58268,
+     "epoch": "S2",
+     "wavelength_um": 1.5512,
+     "flux": 21678.67314,
+     "err": 43.588,
+     "flux_corrected": 16084.54991,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61007.58417,
+     "epoch": "S2",
+     "wavelength_um": 1.5886,
+     "flux": 18396.86049,
+     "err": 37.83851,
+     "flux_corrected": 12168.83373,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61212.14458,
+     "epoch": "S3",
+     "wavelength_um": 1.2928,
+     "flux": 10555.75109,
+     "err": 30.75446,
+     "flux_corrected": 9334.94619,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61212.14607,
+     "epoch": "S3",
+     "wavelength_um": 1.3236,
+     "flux": 19887.15848,
+     "err": 38.002,
+     "flux_corrected": 17587.14777,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61212.61894,
+     "epoch": "S3",
+     "wavelength_um": 1.4542,
+     "flux": 11415.05967,
+     "err": 28.76631,
+     "flux_corrected": 10980.46751,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61212.62043,
+     "epoch": "S3",
+     "wavelength_um": 1.4898,
+     "flux": 13810.77475,
+     "err": 30.78052,
+     "flux_corrected": 13915.35925,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61212.68645,
+     "epoch": "S3",
+     "wavelength_um": 1.6006,
+     "flux": 22947.22391,
+     "err": 43.85973,
+     "flux_corrected": 15178.72859,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61212.68796,
+     "epoch": "S3",
+     "wavelength_um": 1.6389,
+     "flux": 29586.58498,
+     "err": 50.77355,
+     "flux_corrected": 19570.41711,
+     "flag": "saturated"
+    }
+   ],
+   "per_epoch": [
+    {
+     "epoch": "S1",
+     "mjd": 60835.0393,
+     "flux": 14245.10328,
+     "err": 1860.83327,
+     "n": 6,
+     "lower_limit": true
+    },
+    {
+     "epoch": "S2",
+     "mjd": 61001.0182,
+     "flux": 15857.86088,
+     "err": 1804.71269,
+     "n": 6,
+     "lower_limit": true
+    },
+    {
+     "epoch": "S3",
+     "mjd": 61212.4841,
+     "flux": 13876.38069,
+     "err": 1581.93699,
+     "n": 6,
+     "lower_limit": true
+    }
+   ],
+   "sub_epochs": [],
+   "variability": {
+    "amplitude_mag": 0.145,
+    "chi2_reduced": 0.34,
+    "p_value": 0.71,
+    "systematic_floor": 0.03,
+    "significant": false,
+    "lower_limit": true,
+    "note": "constant within errors; based on saturated (lower-limit) fluxes, amplitude unreliable"
+   }
+  },
+  {
+   "detector": 3,
+   "wavelength_um": [
+    1.63,
+    2.435
+   ],
+   "units": "mJy",
+   "usable": true,
+   "combined_snr": 2375.7,
+   "reference_wavelength_um": 1.7451,
+   "spectral_shape_bins": 3,
+   "points": [
+    {
+     "mjd": 60811.9565,
+     "epoch": "S1",
+     "wavelength_um": 1.6553,
+     "flux": 35117.20321,
+     "err": 56.17817,
+     "flux_corrected": 32577.14773,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60811.95799,
+     "epoch": "S1",
+     "wavelength_um": 1.6932,
+     "flux": 30780.60108,
+     "err": 53.79718,
+     "flux_corrected": 29282.77592,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60811.95948,
+     "epoch": "S1",
+     "wavelength_um": 1.7321,
+     "flux": 29329.70453,
+     "err": 49.81153,
+     "flux_corrected": 28958.54538,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60811.96097,
+     "epoch": "S1",
+     "wavelength_um": 1.7718,
+     "flux": 38055.49765,
+     "err": 56.92193,
+     "flux_corrected": 38695.79949,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60815.69335,
+     "epoch": "S1",
+     "wavelength_um": 1.8124,
+     "flux": 28693.50542,
+     "err": 50.16835,
+     "flux_corrected": 29910.49002,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60815.69484,
+     "epoch": "S1",
+     "wavelength_um": 1.8549,
+     "flux": 27689.24013,
+     "err": 46.29528,
+     "flux_corrected": 29644.52692,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61035.21872,
+     "epoch": "S2",
+     "wavelength_um": 1.6419,
+     "flux": 24795.68996,
+     "err": 46.91953,
+     "flux_corrected": 23002.19781,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61035.22021,
+     "epoch": "S2",
+     "wavelength_um": 1.6797,
+     "flux": 28027.04525,
+     "err": 47.2545,
+     "flux_corrected": 26329.97884,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61035.2217,
+     "epoch": "S2",
+     "wavelength_um": 1.7186,
+     "flux": 21431.54116,
+     "err": 44.00544,
+     "flux_corrected": 20885.99273,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61035.55666,
+     "epoch": "S2",
+     "wavelength_um": 1.7581,
+     "flux": 25951.53722,
+     "err": 45.54043,
+     "flux_corrected": 26171.40674,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61035.55815,
+     "epoch": "S2",
+     "wavelength_um": 1.7991,
+     "flux": 26544.82716,
+     "err": 51.04556,
+     "flux_corrected": 27444.44113,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61035.55965,
+     "epoch": "S2",
+     "wavelength_um": 1.8414,
+     "flux": 22932.62319,
+     "err": 45.75806,
+     "flux_corrected": 24342.82126,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61176.36441,
+     "epoch": "S3",
+     "wavelength_um": 1.6454,
+     "flux": 23071.59537,
+     "err": 42.97096,
+     "flux_corrected": 21402.80837,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61176.3659,
+     "epoch": "S3",
+     "wavelength_um": 1.683,
+     "flux": 34095.93077,
+     "err": 52.23819,
+     "flux_corrected": 32129.54386,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61176.36739,
+     "epoch": "S3",
+     "wavelength_um": 1.7215,
+     "flux": 21852.35005,
+     "err": 42.89686,
+     "flux_corrected": 21355.56543,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61182.1377,
+     "epoch": "S3",
+     "wavelength_um": 1.8864,
+     "flux": 27860.81826,
+     "err": 44.47408,
+     "flux_corrected": 30341.46181,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61183.49117,
+     "epoch": "S3",
+     "wavelength_um": 1.93,
+     "flux": 17077.09268,
+     "err": 35.94918,
+     "flux_corrected": 18597.5857,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61183.49266,
+     "epoch": "S3",
+     "wavelength_um": 1.974,
+     "flux": 27208.21267,
+     "err": 46.12555,
+     "flux_corrected": 29630.75017,
+     "flag": "saturated"
+    }
+   ],
+   "per_epoch": [
+    {
+     "epoch": "S1",
+     "mjd": 60813.2039,
+     "flux": 31191.61351,
+     "err": 1530.61397,
+     "n": 6,
+     "lower_limit": true
+    },
+    {
+     "epoch": "S2",
+     "mjd": 61035.3892,
+     "flux": 24484.43997,
+     "err": 998.50717,
+     "n": 6,
+     "lower_limit": true
+    },
+    {
+     "epoch": "S3",
+     "mjd": 61179.7032,
+     "flux": 24526.84185,
+     "err": 2352.48397,
+     "n": 6,
+     "lower_limit": true
+    }
+   ],
+   "sub_epochs": [],
+   "variability": {
+    "amplitude_mag": 0.263,
+    "chi2_reduced": 5.05,
+    "p_value": 0.00642,
+    "systematic_floor": 0.03,
+    "significant": false,
+    "lower_limit": true,
+    "note": "constant within errors; based on saturated (lower-limit) fluxes, amplitude unreliable"
+   }
+  },
+  {
+   "detector": 4,
+   "wavelength_um": [
+    2.403,
+    3.847
+   ],
+   "units": "mJy",
+   "usable": true,
+   "combined_snr": 2283.9,
+   "reference_wavelength_um": 3.2995,
+   "spectral_shape_bins": 3,
+   "points": [
+    {
+     "mjd": 60832.47455,
+     "epoch": "S1",
+     "wavelength_um": 3.1691,
+     "flux": 22588.63592,
+     "err": 38.59927,
+     "flux_corrected": 22493.09298,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60832.47605,
+     "epoch": "S1",
+     "wavelength_um": 3.2557,
+     "flux": 19975.75224,
+     "err": 34.92187,
+     "flux_corrected": 19947.30784,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60832.47754,
+     "epoch": "S1",
+     "wavelength_um": 3.3432,
+     "flux": 24482.39459,
+     "err": 39.14002,
+     "flux_corrected": 24490.98981,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60832.47903,
+     "epoch": "S1",
+     "wavelength_um": 3.4345,
+     "flux": 17694.37325,
+     "err": 32.57521,
+     "flux_corrected": 17693.4993,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60860.54086,
+     "epoch": "S1",
+     "wavelength_um": 3.5281,
+     "flux": 21302.60028,
+     "err": 37.5669,
+     "flux_corrected": 21292.80925,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60861.96285,
+     "epoch": "S1",
+     "wavelength_um": 3.6233,
+     "flux": 18396.41281,
+     "err": 70.27535,
+     "flux_corrected": 18380.2882,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60965.61517,
+     "epoch": "S2",
+     "wavelength_um": 2.5512,
+     "flux": 20894.75693,
+     "err": 37.42163,
+     "flux_corrected": 20457.5613,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60965.61668,
+     "epoch": "S2",
+     "wavelength_um": 2.6198,
+     "flux": 20865.0651,
+     "err": 34.81447,
+     "flux_corrected": 20428.49073,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60965.61818,
+     "epoch": "S2",
+     "wavelength_um": 2.6905,
+     "flux": 24177.6798,
+     "err": 37.04823,
+     "flux_corrected": 23707.28368,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60965.61967,
+     "epoch": "S2",
+     "wavelength_um": 2.7634,
+     "flux": 14667.2694,
+     "err": 220.57431,
+     "flux_corrected": 14415.48076,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60966.90501,
+     "epoch": "S2",
+     "wavelength_um": 2.4683,
+     "flux": 22329.60166,
+     "err": 41.08958,
+     "flux_corrected": 21862.38377,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60966.97064,
+     "epoch": "S2",
+     "wavelength_um": 2.8385,
+     "flux": 17741.27961,
+     "err": 35.7228,
+     "flux_corrected": 17478.75624,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61227.48519,
+     "epoch": "S3",
+     "wavelength_um": 3.4182,
+     "flux": 20972.20937,
+     "err": 35.47541,
+     "flux_corrected": 20972.67247,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61227.4867,
+     "epoch": "S3",
+     "wavelength_um": 3.5108,
+     "flux": 20949.63449,
+     "err": 39.08135,
+     "flux_corrected": 20941.59359,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61227.4882,
+     "epoch": "S3",
+     "wavelength_um": 3.6056,
+     "flux": 16924.90503,
+     "err": 32.68216,
+     "flux_corrected": 16911.38162,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61227.48969,
+     "epoch": "S3",
+     "wavelength_um": 3.7027,
+     "flux": 25480.8743,
+     "err": 40.69266,
+     "flux_corrected": 25457.58178,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61227.96023,
+     "epoch": "S3",
+     "wavelength_um": 3.8013,
+     "flux": 18332.75881,
+     "err": 34.33182,
+     "flux_corrected": 18316.00051,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61229.72629,
+     "epoch": "S3",
+     "wavelength_um": 3.2397,
+     "flux": 18645.19404,
+     "err": 32.9543,
+     "flux_corrected": 18608.95676,
+     "flag": "saturated"
+    }
+   ],
+   "per_epoch": [
+    {
+     "epoch": "S1",
+     "mjd": 60842.0685,
+     "flux": 20745.94131,
+     "err": 1047.58872,
+     "n": 6,
+     "lower_limit": true
+    },
+    {
+     "epoch": "S2",
+     "mjd": 60966.0576,
+     "flux": 20660.19566,
+     "err": 1350.24866,
+     "n": 6,
+     "lower_limit": true
+    },
+    {
+     "epoch": "S3",
+     "mjd": 61227.9394,
+     "flux": 19806.62507,
+     "err": 1234.03164,
+     "n": 6,
+     "lower_limit": true
+    }
+   ],
+   "sub_epochs": [],
+   "variability": {
+    "amplitude_mag": 0.05,
+    "chi2_reduced": 0.15,
+    "p_value": 0.861,
+    "systematic_floor": 0.03,
+    "significant": false,
+    "lower_limit": true,
+    "note": "constant within errors; based on saturated (lower-limit) fluxes, amplitude unreliable"
+   }
+  },
+  {
+   "detector": 5,
+   "wavelength_um": [
+    3.811,
+    4.43
+   ],
+   "units": "mJy",
+   "usable": true,
+   "combined_snr": 1791.9,
+   "reference_wavelength_um": 4.2633,
+   "spectral_shape_bins": 3,
+   "points": [
+    {
+     "mjd": 60834.78842,
+     "epoch": "S1",
+     "wavelength_um": 4.1797,
+     "flux": 58980.57894,
+     "err": 113.89919,
+     "flux_corrected": 50410.97427,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60834.78991,
+     "epoch": "S1",
+     "wavelength_um": 4.2158,
+     "flux": 54942.69333,
+     "err": 120.25905,
+     "flux_corrected": 50105.13068,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60834.7914,
+     "epoch": "S1",
+     "wavelength_um": 4.2521,
+     "flux": 55250.74977,
+     "err": 108.16068,
+     "flux_corrected": 54024.67232,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60834.79289,
+     "epoch": "S1",
+     "wavelength_um": 4.2887,
+     "flux": 59077.83848,
+     "err": 123.73282,
+     "flux_corrected": 58665.8151,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60835.53579,
+     "epoch": "S1",
+     "wavelength_um": 4.3252,
+     "flux": 57097.16374,
+     "err": 110.86065,
+     "flux_corrected": 55727.64527,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60835.53728,
+     "epoch": "S1",
+     "wavelength_um": 4.3622,
+     "flux": 65246.36544,
+     "err": 127.01843,
+     "flux_corrected": 62699.98315,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60997.7334,
+     "epoch": "S2",
+     "wavelength_um": 4.1851,
+     "flux": 41173.7168,
+     "err": 159.27615,
+     "flux_corrected": 35524.95252,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60997.7349,
+     "epoch": "S2",
+     "wavelength_um": 4.2212,
+     "flux": 57823.50314,
+     "err": 108.72097,
+     "flux_corrected": 53265.97173,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60997.73639,
+     "epoch": "S2",
+     "wavelength_um": 4.2575,
+     "flux": 35818.58454,
+     "err": 83.397,
+     "flux_corrected": 35404.06312,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60997.73788,
+     "epoch": "S2",
+     "wavelength_um": 4.2939,
+     "flux": 37426.36353,
+     "err": 87.85934,
+     "flux_corrected": 37073.28557,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61007.58268,
+     "epoch": "S2",
+     "wavelength_um": 4.3307,
+     "flux": 35303.52072,
+     "err": 81.99342,
+     "flux_corrected": 34368.02223,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61007.58417,
+     "epoch": "S2",
+     "wavelength_um": 4.3676,
+     "flux": 42693.58801,
+     "err": 96.54482,
+     "flux_corrected": 41027.37725,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61212.14458,
+     "epoch": "S3",
+     "wavelength_um": 4.054,
+     "flux": 41932.76928,
+     "err": 87.04631,
+     "flux_corrected": 35603.00374,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61212.14607,
+     "epoch": "S3",
+     "wavelength_um": 4.0893,
+     "flux": 36722.72651,
+     "err": 573.8987,
+     "flux_corrected": 31179.41866,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61212.61894,
+     "epoch": "S3",
+     "wavelength_um": 4.2325,
+     "flux": 29631.27328,
+     "err": 74.49454,
+     "flux_corrected": 27886.37854,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61212.62043,
+     "epoch": "S3",
+     "wavelength_um": 4.269,
+     "flux": 31650.81772,
+     "err": 82.55974,
+     "flux_corrected": 31728.55372,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61212.68645,
+     "epoch": "S3",
+     "wavelength_um": 4.3794,
+     "flux": 29898.08707,
+     "err": 75.54754,
+     "flux_corrected": 28731.24875,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61212.68796,
+     "epoch": "S3",
+     "wavelength_um": 4.4167,
+     "flux": 31876.33411,
+     "err": 79.28595,
+     "flux_corrected": 30632.29037,
+     "flag": "saturated"
+    }
+   ],
+   "per_epoch": [
+    {
+     "epoch": "S1",
+     "mjd": 60835.0393,
+     "flux": 54684.78811,
+     "err": 1989.82799,
+     "n": 6,
+     "lower_limit": true
+    },
+    {
+     "epoch": "S2",
+     "mjd": 61001.0182,
+     "flux": 38947.83439,
+     "err": 2924.72133,
+     "n": 6,
+     "lower_limit": true
+    },
+    {
+     "epoch": "S3",
+     "mjd": 61212.4841,
+     "flux": 30802.55255,
+     "err": 1106.31788,
+     "n": 6,
+     "lower_limit": true
+    }
+   ],
+   "sub_epochs": [],
+   "variability": {
+    "amplitude_mag": 0.623,
+    "chi2_reduced": 32.93,
+    "p_value": 4.97e-15,
+    "systematic_floor": 0.03,
+    "significant": true,
+    "lower_limit": true,
+    "note": "significant variability; based on saturated (lower-limit) fluxes, amplitude unreliable"
+   }
+  },
+  {
+   "detector": 6,
+   "wavelength_um": [
+    4.412,
+    5.01
+   ],
+   "units": "mJy",
+   "usable": true,
+   "combined_snr": 1795.1,
+   "reference_wavelength_um": 4.5119,
+   "spectral_shape_bins": 3,
+   "points": [
+    {
+     "mjd": 60811.9565,
+     "epoch": "S1",
+     "wavelength_um": 4.4377,
+     "flux": 52059.1618,
+     "err": 123.84336,
+     "flux_corrected": 52681.95517,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60811.95799,
+     "epoch": "S1",
+     "wavelength_um": 4.469,
+     "flux": 51774.04928,
+     "err": 116.1659,
+     "flux_corrected": 52183.44649,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60811.95948,
+     "epoch": "S1",
+     "wavelength_um": 4.5009,
+     "flux": 55353.75795,
+     "err": 115.20608,
+     "flux_corrected": 55465.56812,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60811.96097,
+     "epoch": "S1",
+     "wavelength_um": 4.5333,
+     "flux": 58710.94576,
+     "err": 122.56349,
+     "flux_corrected": 60159.15582,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60815.69335,
+     "epoch": "S1",
+     "wavelength_um": 4.5655,
+     "flux": 46771.75142,
+     "err": 106.48056,
+     "flux_corrected": 50190.54839,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 60815.69484,
+     "epoch": "S1",
+     "wavelength_um": 4.5989,
+     "flux": 55831.81008,
+     "err": 121.58739,
+     "flux_corrected": 63001.44295,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61035.21872,
+     "epoch": "S2",
+     "wavelength_um": 4.4267,
+     "flux": 43836.08904,
+     "err": 102.54636,
+     "flux_corrected": 44360.50827,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61035.22021,
+     "epoch": "S2",
+     "wavelength_um": 4.4582,
+     "flux": 51629.71283,
+     "err": 111.72838,
+     "flux_corrected": 52141.6905,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61035.2217,
+     "epoch": "S2",
+     "wavelength_um": 4.4904,
+     "flux": 43395.51202,
+     "err": 102.66662,
+     "flux_corrected": 43566.93259,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61035.55666,
+     "epoch": "S2",
+     "wavelength_um": 4.523,
+     "flux": 48217.05984,
+     "err": 107.45285,
+     "flux_corrected": 48703.3418,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61035.55815,
+     "epoch": "S2",
+     "wavelength_um": 4.5559,
+     "flux": 51670.19182,
+     "err": 112.92376,
+     "flux_corrected": 54676.60733,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61035.55965,
+     "epoch": "S2",
+     "wavelength_um": 4.5892,
+     "flux": 38808.0791,
+     "err": 94.52207,
+     "flux_corrected": 43145.65726,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61176.36441,
+     "epoch": "S3",
+     "wavelength_um": 4.4295,
+     "flux": 36339.45566,
+     "err": 92.5088,
+     "flux_corrected": 36774.19128,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61176.3659,
+     "epoch": "S3",
+     "wavelength_um": 4.4607,
+     "flux": 37491.74528,
+     "err": 92.15373,
+     "flux_corrected": 37846.06439,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61176.36739,
+     "epoch": "S3",
+     "wavelength_um": 4.4924,
+     "flux": 32957.09205,
+     "err": 86.20747,
+     "flux_corrected": 33075.14262,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61182.1377,
+     "epoch": "S3",
+     "wavelength_um": 4.6236,
+     "flux": 42908.18643,
+     "err": 101.4055,
+     "flux_corrected": 50277.76553,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61183.49117,
+     "epoch": "S3",
+     "wavelength_um": 4.6575,
+     "flux": 23257.06243,
+     "err": 46.55562,
+     "flux_corrected": 27251.51606,
+     "flag": "saturated"
+    },
+    {
+     "mjd": 61183.49266,
+     "epoch": "S3",
+     "wavelength_um": 4.6915,
+     "flux": 40435.7111,
+     "err": 94.01584,
+     "flux_corrected": 47380.63691,
+     "flag": "saturated"
+    }
+   ],
+   "per_epoch": [
+    {
+     "epoch": "S1",
+     "mjd": 60813.2039,
+     "flux": 55162.31285,
+     "err": 2041.52066,
+     "n": 6,
+     "lower_limit": true
+    },
+    {
+     "epoch": "S2",
+     "mjd": 61035.3892,
+     "flux": 47330.28953,
+     "err": 1986.27691,
+     "n": 6,
+     "lower_limit": true
+    },
+    {
+     "epoch": "S3",
+     "mjd": 61179.7032,
+     "flux": 34733.34543,
+     "err": 3542.67075,
+     "n": 6,
+     "lower_limit": true
+    }
+   ],
+   "sub_epochs": [],
+   "variability": {
+    "amplitude_mag": 0.502,
+    "chi2_reduced": 10.2,
+    "p_value": 3.71e-05,
+    "systematic_floor": 0.03,
+    "significant": true,
+    "lower_limit": true,
+    "note": "significant variability; based on saturated (lower-limit) fluxes, amplitude unreliable"
+   }
+  }
+ ],
+ "spectra": [],
+ "reference_bands": [],
+ "notes": "B2 analysis on top of B1's stacks (data/processed) and cached exposures (data/raw). Difference images: k*B - A on B1's common grid; colour range shared per detector (blue = fainter/old position, red = brighter/new position). Their target residual is NOT a variability measurement: each epoch samples different wavelengths inside a detector (see caveats). Light curves: forced aperture photometry (r = 2 px) on every exposure, corrected for the spectral shape inside each detector; fluxes in mJy; variability significance uses a 3% systematic floor. Flags: saturated = core lost, flux is a lower limit; contaminated = >20% of the aperture masked or flagged; blended = another source in the aperture.",
+ "generated_at": "2026-11-14T23:43:58+00:00"
+}
