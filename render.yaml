@@ -1,0 +1,21 @@
+# Blueprint de Render para el frontend como sitio estático.
+# Las rutas del SPA (/cielo, /luna, …) se reescriben a index.html; los archivos que existen se sirven tal cual.
+services:
+  - type: web
+    name: ruta-del-agua-web
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: NODE_VERSION
+        value: 22.12.0
+      - key: VITE_API_URL
+        value: https://ruta-del-agua-api.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
