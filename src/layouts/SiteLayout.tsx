@@ -5,6 +5,7 @@ const links = [
   { to: '/cielo', label: 'Cielo' },
   { to: '/luna', label: 'Luna' },
   { to: '/marte', label: 'Marte' },
+  { to: '/hielo', label: 'Hielo' },
   { to: '/abandonados', label: 'Abandonados' },
   { to: '/sistema-solar', label: 'Sistema solar' },
 ]

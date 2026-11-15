@@ -7,6 +7,7 @@ const SkyPage = lazy(() => import('../pages/sky/SkyPage'))
 const MoonPage = lazy(() => import('../pages/moon/MoonPage'))
 const MarsPage = lazy(() => import('../pages/mars/MarsPage'))
 const AbandonedPage = lazy(() => import('../pages/abandoned/AbandonedPage'))
+const IcePage = lazy(() => import('../pages/ice/IcePage'))
 const SolarSystemPage = lazy(() => import('../features/solar-system/SolarSystemPage'))
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="/cielo" element={<SkyPage />} />
           <Route path="/luna" element={<MoonPage />} />
           <Route path="/marte" element={<MarsPage />} />
+          <Route path="/hielo" element={<IcePage />} />
           <Route path="/abandonados" element={<AbandonedPage />} />
         </Route>
         {/* Pantalla completa: fuera del layout */}
