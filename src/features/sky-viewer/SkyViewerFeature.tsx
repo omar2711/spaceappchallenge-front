@@ -9,12 +9,14 @@ import type { CustomStatus, GaiaField, Pair } from '../../api/types'
 import './sky-viewer.css'
 import CoordForm, { type FormValues } from './components/CoordForm'
 import DetectorBar from './components/DetectorBar'
+import FalseColor from './components/FalseColor'
 import FieldInfo from './components/FieldInfo'
 import FramePlayer, { type CalibratedDiff } from './components/FramePlayer'
 import GaiaPanel from './components/GaiaPanel'
 import JobProgress from './components/JobProgress'
 import LightCurvePanel from './components/LightCurvePanel'
 import PresetList from './components/PresetList'
+import SkyPanorama from './components/SkyPanorama'
 import SpectrumPanel, { type PickedSpectrum } from './components/SpectrumPanel'
 import ViewModeBar, { type ViewMode } from './components/ViewModeBar'
 import VisibilityCard from './components/VisibilityCard'
@@ -321,6 +323,7 @@ export default function SkyViewerFeature() {
         {analysis && analysis.light_curves.length > 0 && (
           <LightCurvePanel curves={analysis.light_curves} detector={detector} onDetector={setDetector} />
         )}
+        <FalseColor key={current?.key} series={series} />
         <VisibilityCard ra={series.manifest.grid_wcs.CRVAL1} dec={series.manifest.grid_wcs.CRVAL2} name={series.field.name} />
       </>
     )
@@ -355,6 +358,8 @@ export default function SkyViewerFeature() {
         </div>
         <div className="skyviewer-main">{content}</div>
       </div>
+
+      <SkyPanorama request={request} />
     </section>
   )
 }
