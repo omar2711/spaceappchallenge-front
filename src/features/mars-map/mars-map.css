@@ -1,0 +1,255 @@
+/* ===== Página ===== */
+.marsmap {
+  padding: 40px 5vw 64px;
+}
+
+.marsmap-eyebrow {
+  display: block;
+  font: 11px var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+
+.marsmap-title {
+  font-size: clamp(34px, 5vw, 64px);
+  font-weight: 450;
+  letter-spacing: -0.06em;
+  line-height: 1.02;
+  margin: 12px 0 18px;
+}
+
+.marsmap-lead {
+  max-width: 60ch;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0 0 28px;
+}
+
+/* ===== Mapa + panel (en móvil el panel va debajo) ===== */
+.marsmap-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 20px;
+  align-items: start;
+}
+
+.marsmap-mapwrap {
+  position: relative;
+  min-height: 560px;
+  height: 70vh;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.marsmap-map {
+  position: absolute;
+  inset: 0;
+  background: var(--space);
+}
+
+.marsmap-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  max-width: calc(100% - 20px);
+  z-index: 1000;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--marker-bg);
+  font: 11px var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--accent);
+  pointer-events: none;
+}
+
+.marsmap-side {
+  display: grid;
+  gap: 16px;
+}
+
+/* ===== Paneles ===== */
+.marsmap-panel {
+  margin: 0;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-width: 0;
+}
+
+.marsmap-panel-title {
+  display: block;
+  padding: 0;
+  margin: 0 0 10px;
+  font: 11px var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+
+.marsmap-subtitle {
+  margin: 12px 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.marsmap-note {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.marsmap-tag {
+  font: 11px var(--font-mono);
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+
+/* ===== Controles ===== */
+.marsmap-layer {
+  display: grid;
+  gap: 6px;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+.marsmap-check {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+}
+
+.marsmap-range {
+  display: grid;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.marsmap-range input {
+  width: 100%;
+}
+
+.marsmap-select {
+  width: 100%;
+  padding: 8px;
+  font: inherit;
+  color: inherit;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.marsmap-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.marsmap-btn {
+  padding: 8px 12px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.marsmap-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.marsmap-distance {
+  margin: 8px 0 0;
+  font-size: 16px;
+}
+
+.marsmap-warning {
+  margin: 10px 0 0;
+  padding: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #ffd9d9;
+  background: #3a1a1a;
+  border: 1px solid #ff6b6b;
+  border-radius: 8px;
+}
+
+.marsmap-points {
+  margin: 10px 0 0;
+  padding-left: 20px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* ===== Capas de Leaflet (las clases llegan por pathOptions.className) ===== */
+/* Evita las líneas finas (costuras) entre teselas */
+.marsmap .leaflet-tile {
+  outline: 1px solid transparent;
+}
+
+.marsmap-obstacle {
+  stroke: #e8a35a;
+  fill: #e8a35a;
+  fill-opacity: 0.25;
+}
+
+.marsmap-route {
+  stroke: var(--mint);
+  stroke-width: 3;
+}
+
+.marsmap-route--blocked {
+  stroke: #ff6b6b;
+  stroke-width: 5;
+  stroke-dasharray: 8 6;
+}
+
+.marsmap-waypoint {
+  stroke: var(--mint-ink);
+  fill: var(--mint);
+  fill-opacity: 1;
+}
+
+.marsmap .leaflet-container {
+  font-family: var(--font-sans);
+  background: var(--space);
+}
+
+.marsmap .leaflet-control-attribution {
+  background: var(--panel-glass);
+  color: var(--muted);
+}
+
+.marsmap .leaflet-control-attribution a {
+  color: var(--link);
+}
+
+/* ===== Escritorio: el mapa queda fijo mientras se desplaza el panel lateral ===== */
+@media (min-width: 901px) {
+  .marsmap-mapwrap {
+    position: sticky;
+    top: 16px;
+    height: min(70vh, calc(100vh - 32px));
+  }
+}
+
+/* ===== Móvil ===== */
+@media (max-width: 900px) {
+  .marsmap-body {
+    grid-template-columns: 1fr;
+  }
+
+  .marsmap-mapwrap {
+    min-height: 380px;
+    height: 60vh;
+  }
+}
